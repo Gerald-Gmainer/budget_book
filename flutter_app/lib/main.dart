@@ -1,9 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/utils/utils.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'presentation/presentation.dart';
+import 'utils/utils.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
+
+  await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL'] ?? "",
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? "",
+  );
+
   runApp(MyApp());
 }
 
@@ -11,7 +23,11 @@ class MyApp extends StatelessWidget {
   final AppRouter _appRouter = AppRouter();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
-  MyApp({super.key});
+  MyApp({Key? key}) : super(key: key) {
+    if (!kReleaseMode) {
+      KeepScreenOn.turnOn();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +39,6 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         navigatorKey: _navigatorKey,
         onGenerateRoute: _appRouter.onGenerateRoute,
-        home: Container(),
       ),
     );
   }

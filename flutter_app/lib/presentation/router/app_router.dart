@@ -4,6 +4,7 @@ import 'package:flutter_app/presentation/presentation.dart';
 class AppRouter {
   Route onGenerateRoute(RouteSettings settings) {
     // _logger.d("AppRouter, go to ${settings.name}");
+    print("AppRouter, go to ${settings.name}");
 
     switch (settings.name) {
       case LoginPage.route:
