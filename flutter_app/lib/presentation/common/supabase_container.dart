@@ -9,6 +9,7 @@ import 'package:uni_links/uni_links.dart';
 
 class SupabaseContainer extends StatefulWidget {
   final Widget child;
+
   const SupabaseContainer({super.key, required this.child});
 
   @override
@@ -22,6 +23,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
   @override
   void initState() {
     _authSubscription = supabase.auth.onAuthStateChange.listen(_onAuthStateChange);
+    startDeeplinkObserver();
     super.initState();
   }
 
@@ -45,7 +47,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
         break;
 
       default:
-      // _logger.d("unhandled AuthChangeEvent: $event");
+        BudgetLogger.instance.d("unhandled AuthChangeEvent: $event");
     }
   }
 
@@ -55,7 +57,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
     }
     _isLoggedIn = false;
     if (mounted) {
-      // _logger.d("onUnauthenticated");
+      BudgetLogger.instance.d("onUnauthenticated");
       // BlocProvider.of<LoggedInCubit>(context).logOut();
       // BlocProvider.of<ResultBloc>(context).add(DeleteAllLocalResultsEvent());
       // BlocProvider.of<ResumeBloc>(context).add(ClearResumeEvent());
@@ -69,7 +71,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
     }
     _isLoggedIn = true;
     if (mounted) {
-      // _logger.d("onAuthenticated: ${session.user.id}");
+      BudgetLogger.instance.d("onAuthenticated: ${session.user.id}");
       // BlocProvider.of<LoggedInCubit>(context).logIn();
       // BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent(userId: session.user.id));
       // BlocProvider.of<ApiCheckCubit>(context).checkApi();
@@ -78,7 +80,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
   }
 
   _onPasswordRecovery(Session session) {
-    // _logger.d("onPasswordRecovery: ${session.user}");
+    BudgetLogger.instance.d("onPasswordRecovery: ${session.user}");
     // Navigator.of(context).pushNamedAndRemoveUntil(ResetPasswordPage.route, (route) => false, arguments: false);
   }
 
@@ -109,13 +111,13 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
 
   @override
   void handleDeeplink(Uri uri) {
-    // _logger.d('onReceivedAuthDeeplink: $uri');
+    BudgetLogger.instance.d('onReceivedAuthDeeplink: $uri');
     final uriParameters = _parseUriParameters(uri);
     _recoverSessionFromDeeplink(uri, uriParameters['type']);
   }
 
   _recoverSessionFromDeeplink(Uri uri, String? deepLinkType) async {
-    // _logger.d("_recoverSessionFromDeeplink  / type: $deepLinkType");
+    BudgetLogger.instance.d("_recoverSessionFromDeeplink  / type: $deepLinkType");
     try {
       final AuthSessionUrlResponse response = await Supabase.instance.client.auth.getSessionFromUrl(uri);
       if (deepLinkType == 'recovery') {
@@ -154,7 +156,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
 
   @override
   void onErrorReceivingDeeplink(String message) {
-    // _logger.e('onErrorReceivingDeeplink: $message');
+    BudgetLogger.instance.e('onErrorReceivingDeeplink: $message');
     _onErrorAuthenticating(message);
   }
 }

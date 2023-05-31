@@ -1,9 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
+import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import 'presentation/presentation.dart';
 import 'utils/utils.dart';
 
@@ -22,6 +26,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   final AppRouter _appRouter = AppRouter();
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  final UserRepository _userRepo = UserRepository();
 
   MyApp({Key? key}) : super(key: key) {
     if (!kReleaseMode) {
@@ -32,13 +37,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SupabaseContainer(
-      child: MaterialApp(
-        title: 'Budget book',
-        theme: _createTheme(context),
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        navigatorKey: _navigatorKey,
-        onGenerateRoute: _appRouter.onGenerateRoute,
+      child: InternetConnectivity(
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => LoginBloc(_userRepo),
+            ),
+          ],
+          child: MaterialApp(
+            title: 'Budget book',
+            theme: _createTheme(context),
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/',
+            navigatorKey: _navigatorKey,
+            onGenerateRoute: _appRouter.onGenerateRoute,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+            ],
+          ),
+        ),
       ),
     );
   }

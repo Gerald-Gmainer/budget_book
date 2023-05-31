@@ -1,0 +1,16 @@
+{
+  "@_ERRORS": {
+
+  },
+
+  "@_LOGIN_PAGE": {
+  },
+  "login_sign_in_button": "Sign in",
+  "login_sign_up_button": "Don't have an account yet? Sign up",
+  "login_email_input": "Email",
+  "login_password_input": "Password",
+  "login_login_button": "Login",
+  "login_forgot_password_button": "Forgot your password?",
+  "login_continue_label" : "or continue with",
+  "login_sign_in_label": "Sign in with"
+}
