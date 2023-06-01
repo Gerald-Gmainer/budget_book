@@ -19,6 +19,10 @@ class AppRouter {
         return MyCustomRoute(
           builder: (context) => const ForgotPasswordPage(),
         );
+      case ResetPasswordPage.route:
+        return MyCustomRoute(
+          builder: (context) => const ResetPasswordPage(),
+        );
       case MainPage.route:
         return MyCustomRoute(
           builder: (context) => const MainPage(),

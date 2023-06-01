@@ -5,8 +5,8 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'presentation/presentation.dart';
 import 'utils/utils.dart';
@@ -20,7 +20,12 @@ Future<void> main() async {
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? "",
   );
 
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ScaffoldProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -37,12 +42,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SupabaseContainer(
+      navigatorKey: _navigatorKey,
       child: InternetConnectivity(
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(
-              create: (context) => LoginBloc(_userRepo),
-            ),
+            BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
+            BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
           ],
           child: MaterialApp(
             title: 'Budget book',

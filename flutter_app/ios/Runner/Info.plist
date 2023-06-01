@@ -54,7 +54,7 @@
           <string>Editor</string>
           <key>CFBundleURLSchemes</key>
           <array>
-            <string>com.gerald.gmainer</string>
+            <string>com.gmainer.budgetbook</string>
           </array>
         </dict>
       </array>

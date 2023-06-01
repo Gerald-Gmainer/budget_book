@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
@@ -5,10 +6,10 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:form_validator/form_validator.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
-  static const String route = "loginPage";
+  static const String route = "LoginPage";
 
   const LoginPage({super.key});
 
@@ -17,12 +18,18 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   initState() {
     super.initState();
+    BlocProvider.of<LoginBloc>(context).add(InitLoginEvent());
+    if (!kReleaseMode) {
+      _emailController.text = "gerald_gmainer@designium.jp";
+      _passwordController.text = "aaaaaaA1";
+    }
   }
 
   _googleLogin() {
@@ -30,6 +37,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _credentialsLogin() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     BlocProvider.of<LoginBloc>(context).add(CredentialsLoginEvent(_emailController.text, _passwordController.text));
   }
 
@@ -52,51 +62,61 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
+
     return Scaffold(
-      body: BlocConsumer<LoginBloc, LoginState>(
-        listener: (context, state) {
-          if (state is LoginSuccessState) {
-            _onSuccess();
-          } else if (state is LoginErrorState) {
-            _onError(state.message);
-          }
-        },
-        builder: (context, state) {
-          return Center(
-            child: SingleChildScrollView(
-              child: Container(
-                width: 400,
-                padding: const EdgeInsets.all(40.0),
-                child: _buildForm(state is LoginLoadingState),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).app_title)),
+      body: Builder(builder: (ctx) {
+        scaffoldProvider.setScaffoldContext((ctx));
+
+        return BlocConsumer<LoginBloc, LoginState>(
+          listener: (context, state) {
+            if (state is LoginSuccessState) {
+              _onSuccess();
+            } else if (state is LoginErrorState) {
+              _onError(state.message);
+            }
+          },
+          builder: (context, state) {
+            return Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: AppDimensions.formWidth,
+                  padding: AppDimensions.formPadding,
+                  child: _buildForm(state is LoginLoadingState),
+                ),
               ),
-            ),
-          );
-        },
-      ),
+            );
+          },
+        );
+      }),
     );
   }
 
   Widget _buildForm(bool isLoading) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(height: AppDimensions.verticalPadding),
-        Text(AppLocalizations.of(context).login_sign_in_label),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildGoogleLogin(isLoading),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildDivider(),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildEmail(isLoading),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildPassword(isLoading),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildForgotPassword(isLoading),
-        _buildLoginButton(isLoading),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        _buildSignUp(isLoading),
-        const SizedBox(height: AppDimensions.verticalPadding),
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(height: AppDimensions.verticalPadding),
+          Text(AppLocalizations.of(context).login_sign_in_label),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildGoogleLogin(isLoading),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildDivider(),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildEmail(isLoading),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildPassword(isLoading),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildForgotPassword(isLoading),
+          _buildLoginButton(isLoading),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          _buildSignUp(isLoading),
+          const SizedBox(height: AppDimensions.verticalPadding),
+        ],
+      ),
     );
   }
 
@@ -126,37 +146,31 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildEmail(bool isLoading) {
-    return TextFormField(
+    return FormInputText(
       controller: _emailController,
-      readOnly: isLoading,
+      label: AppLocalizations.of(context).login_password_input,
       validator: ValidationBuilder().email().build(),
-      decoration: InputDecoration(
-        labelText: AppLocalizations.of(context).login_email_input,
-      ),
+      isLoading: isLoading,
     );
   }
 
   Widget _buildPassword(bool isLoading) {
-    return TextFormField(
+    return FormInputText(
       controller: _passwordController,
-      readOnly: isLoading,
-      decoration: InputDecoration(
-        labelText: AppLocalizations.of(context).login_password_input,
-      ),
+      label: AppLocalizations.of(context).login_password_input,
       validator: ValidationBuilder().required().build(),
+      isLoading: isLoading,
+      obscureText: true,
     );
   }
 
   Widget _buildLoginButton(bool isLoading) {
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isLoading ? null : _credentialsLogin,
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8),
-          elevation: 3,
-        ),
-        child: Text(AppLocalizations.of(context).login_login_button),
+      child: FormButton(
+        text: AppLocalizations.of(context).login_login_button,
+        onPressed: _credentialsLogin,
+        isLoading: isLoading,
       ),
     );
   }

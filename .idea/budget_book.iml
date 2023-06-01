@@ -3,8 +3,14 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/.dart_tool/flutter_gen/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/.dart_tool/flutter_gen/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/linux/flutter/ephemeral/.plugin_symlinks/path_provider_linux/example/.pub" />
@@ -21,6 +27,10 @@
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/app_links/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/app_links/example/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/app_links/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/connectivity_plus/example/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/build" />
       <excludeFolder url="file://$MODULE_DIR$/flutter_app/windows/flutter/ephemeral/.plugin_symlinks/path_provider_windows/example/.pub" />

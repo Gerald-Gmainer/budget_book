@@ -1,4 +1,6 @@
 {
+  "app_title": "Budget Book",
+
   "@_ERRORS": {
 
   },
@@ -12,5 +14,12 @@
   "login_login_button": "Login",
   "login_forgot_password_button": "Forgot your password?",
   "login_continue_label" : "or continue with",
-  "login_sign_in_label": "Sign in with"
+  "login_sign_in_label": "Sign in with",
+
+  "@_SIGNUP_PAGE": {
+  },
+  "signup_email_input": "Email",
+  "signup_password_input": "Password",
+  "signup_confirm_password_input": "Confirm Password",
+  "signup_signup_button": "Sign Up"
 }

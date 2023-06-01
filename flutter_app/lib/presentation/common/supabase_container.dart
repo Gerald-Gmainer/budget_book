@@ -3,14 +3,17 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:provider/provider.dart' as prov;
 
 class SupabaseContainer extends StatefulWidget {
+  final GlobalKey<NavigatorState> navigatorKey;
   final Widget child;
 
-  const SupabaseContainer({super.key, required this.child});
+  const SupabaseContainer({super.key, required this.child, required this.navigatorKey});
 
   @override
   State<SupabaseContainer> createState() => _SupabaseContainerState();
@@ -18,7 +21,6 @@ class SupabaseContainer extends StatefulWidget {
 
 class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeepLinkingMixin {
   late final StreamSubscription<AuthState> _authSubscription;
-  bool? _isLoggedIn;
 
   @override
   void initState() {
@@ -52,50 +54,41 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
   }
 
   void _onUnauthenticated() {
-    if (_isLoggedIn == false) {
-      return;
-    }
-    _isLoggedIn = false;
     if (mounted) {
       BudgetLogger.instance.d("onUnauthenticated");
-      // BlocProvider.of<LoggedInCubit>(context).logOut();
-      // BlocProvider.of<ResultBloc>(context).add(DeleteAllLocalResultsEvent());
-      // BlocProvider.of<ResumeBloc>(context).add(ClearResumeEvent());
-      // BlocProvider.of<TrackingBloc>(context).add(TrackingCancelEvent());
     }
   }
 
   void _onAuthenticated(Session session) {
-    if (_isLoggedIn == true) {
-      return;
-    }
-    _isLoggedIn = true;
     if (mounted) {
       BudgetLogger.instance.d("onAuthenticated: ${session.user.id}");
-      // BlocProvider.of<LoggedInCubit>(context).logIn();
-      // BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent(userId: session.user.id));
-      // BlocProvider.of<ApiCheckCubit>(context).checkApi();
-      // BlocProvider.of<AutoLogoutCubit>(context).onTap();
     }
   }
 
   _onPasswordRecovery(Session session) {
     BudgetLogger.instance.d("onPasswordRecovery: ${session.user}");
-    // Navigator.of(context).pushNamedAndRemoveUntil(ResetPasswordPage.route, (route) => false, arguments: false);
+    widget.navigatorKey.currentState?.pushNamedAndRemoveUntil(ResetPasswordPage.route, (route) => false, arguments: false);
   }
 
   _onErrorAuthenticating(String message) {
+    BudgetLogger.instance.e(message);
     String text = message;
-    // if (message == "Confirmation Token not found") {
-    //   text = AppStrings.errorTokenNotFound;
-    // } else if (message.contains("signature is invalid")) {
-    //   text = AppStrings.errorSignatureInvalid;
-    // }
+    if (message == "Confirmation Token not found") {
+      text = "token not found";
+    } else if (message.contains("signature is invalid")) {
+      text = "Signature Invalid";
+    }
+    _showErrorMessage(text);
+  }
 
-    // BlocProvider.of<SupabaseMessageCubit>(context).showDialog(AppStrings.labelError, text);
-    // BlocProvider.of<LoggedInCubit>(context).logOut();
-    // BlocProvider.of<ResultBloc>(context).add(DeleteAllLocalResultsEvent());
-    // BlocProvider.of<ProfileBloc>(context).add(RemoveProfileEvent());
+  _showMessage(String message) {
+    final scaffoldContext = prov.Provider.of<ScaffoldProvider>(context, listen: false).scaffoldContext;
+    showSnackBar(scaffoldContext, message);
+  }
+
+  _showErrorMessage(String message) {
+    final scaffoldContext = prov.Provider.of<ScaffoldProvider>(context, listen: false).scaffoldContext;
+    showErrorSnackBar(scaffoldContext, message);
   }
 
   @override
@@ -124,8 +117,13 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
         _onPasswordRecovery(response.session);
       } else {
         _onAuthenticated(response.session);
-        if (!mounted) return;
-        // BlocProvider.of<SupabaseMessageCubit>(context).showSnack(AppStrings.successSnackLoginMessage);
+        if (!mounted) {
+          BudgetLogger.instance.d("_recoverSessionFromDeeplink not mounted anymore");
+          return;
+        }
+        BudgetLogger.instance.d("_recoverSessionFromDeeplink success!");
+        _showMessage("Sign Up success!");
+        widget.navigatorKey.currentState?.pushNamedAndRemoveUntil(MainPage.route, (route) => false, arguments: false);
       }
     } on Exception catch (e) {
       _onErrorAuthenticating(e.toString());
