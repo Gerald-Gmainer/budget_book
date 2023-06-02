@@ -7,6 +7,7 @@ export 'page/main/main_page.dart';
 export 'page/sign_up/sign_up_page.dart';
 export 'page/forgot_password/forgot_password_page.dart';
 export 'page/reset_password/reset_password_page.dart';
+export 'page/settings/settings_page.dart';
 
 export 'router/app_router.dart';
 

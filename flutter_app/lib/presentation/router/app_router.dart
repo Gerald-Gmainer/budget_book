@@ -27,6 +27,10 @@ class AppRouter {
         return MyCustomRoute(
           builder: (context) => const MainPage(),
         );
+      case SettingsPage.route:
+        return MyCustomRoute(
+          builder: (context) => const SettingsPage(),
+        );
       default:
         return MaterialPageRoute(
           builder: (context) => const SplashScreen(),
