@@ -20,14 +20,15 @@ class _LeftDrawerState extends State<LeftDrawer> {
 
     return Stack(
       children: [
-        GestureDetector(
-          onTap: () {
-            if (menuState.isMenuOpen) {
+        IgnorePointer(
+          ignoring: !menuState.isMenuOpen,
+          child: GestureDetector(
+            onTap: () {
               menuState.toggleMenu();
-            }
-          },
-          child: Container(
-            color: menuState.isMenuOpen ? Colors.black12 : Colors.transparent,
+            },
+            child: Container(
+              color: menuState.isMenuOpen ? Colors.black12 : Colors.transparent,
+            ),
           ),
         ),
         AnimatedPositioned(

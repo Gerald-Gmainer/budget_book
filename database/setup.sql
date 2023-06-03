@@ -70,6 +70,7 @@ CREATE TABLE bookings (
   amount numeric(12, 3) DEFAULT 0 NOT NULL,
   category_id int references categories(id) NOT NULL,
   account_id int references accounts(id) NOT NULL,
+  is_deleted boolean DEFAULT FALSE,
   updated_at timestamp DEFAULT now()
 );
 
