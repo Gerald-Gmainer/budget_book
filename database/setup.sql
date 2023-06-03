@@ -5,39 +5,50 @@ CREATE TABLE migrations (
 );
 
 CREATE TYPE category_type AS ENUM
-  ('INCOME', 'OUTCOME');
+  ('income', 'outcome');
 
-CREATE TABLE category_icons (
-  id SERIAL PRIMARY KEY,
-  icon_path text NOT NULL,
-  color text DEFAULT '#FFFFFF'
-);
+CREATE TYPE currencies AS ENUM 
+  ('eur', 'yen');
 
-CREATE TABLE account_icons (
-  id SERIAL PRIMARY KEY,
-  icon_path text NOT NULL,
-  color text DEFAULT '#FFFFFF'
-);
 
-CREATE TABLE currencies (
-  id SERIAL PRIMARY KEY,
-  name text  NOT NULL,
-  precesion int default 2
-);
-
+-- TODO create type for icons
 --
 
 CREATE TABLE profiles (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
-  name text
+  name text,
+  avatar_url text
 );
+
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Owners can view their profile" ON profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Nobody can insert profiles" ON profiles FOR INSERT WITH CHECK (false);
+CREATE POLICY "Nody can update profiles" ON profiles FOR UPDATE USING (false);
+CREATE POLICY "Owners can delete their profile" ON profiles FOR DELETE USING (auth.uid() = user_id);
+
+CREATE FUNCTION handle_new_user()
+RETURNS TRIGGER AS $$
+BEGIN
+  INSERT INTO profiles (id, email, username, full_name, avatar_url)
+  VALUES (new.id);
+
+  RETURN new;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+CREATE TRIGGER on_auth_user_created
+  AFTER INSERT ON auth.users
+  FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
+
+--
 
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
-  profile_id INT REFERENCES profiles(id) ON DELETE CASCADE,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   name text NOT NULL,
-  icon int references account_icons(id) NOT NULL,
+   currency currencies NOT NULL,
+  -- icon int references account_icons(id) NOT NULL,
   init_balance_amount numeric(12, 3) DEFAULT 0,
   init_balance_date timestamp  NOT NULL,
   include_in_balance boolean DEFAULT TRUE
@@ -45,25 +56,24 @@ CREATE TABLE accounts (
 
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
-  profile_id INT REFERENCES profiles(id) ON DELETE CASCADE,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   name text  NOT NULL,
-  icon int references category_icons(id)  NOT NULL,
+  -- icon int references category_icons(id)  NOT NULL,
   type category_type  NOT NULL
 );
 
 CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
-  profile_id INT REFERENCES profiles(id) ON DELETE CASCADE,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   booking_date date NOT NULL,
   description text,
   amount numeric(12, 3) DEFAULT 0 NOT NULL,
   category_id int references categories(id) NOT NULL,
   account_id int references accounts(id) NOT NULL,
-  currency_id int references currencies(id) NOT NULL
+  updated_at timestamp DEFAULT now()
 );
 
-
---
+-- 
 
 -- functions
 -- create_profile
@@ -100,3 +110,12 @@ CREATE TABLE bookings (
 -- CREATE TABLE settings (
 --   id SERIAL PRIMARY KEY
 -- );
+
+drop table bookings;
+drop table categories;
+drop table accounts;
+drop trigger on_auth_user_created on auth.users;
+drop function handle_new_user;
+drop table profiles;
+drop type category_type;
+drop type currencies;
