@@ -76,6 +76,11 @@ CREATE TABLE bookings (
 
 -- 
 
+CREATE OR REPLACE VIEW view_bookings AS
+  SELECT b.id, b.booking_date, b.description, b.amount, b.category_id, b.account_id, b.is_deleted
+  FROM bookings b
+  WHERE b.user_id = auth.uid();
+
 -- functions
 -- create_profile
 -- create_account

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'date_row.dart';
 import 'detail_row.dart';
 import 'graph_row.dart';
