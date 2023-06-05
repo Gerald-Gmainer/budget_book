@@ -18,29 +18,13 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   MainPaginatorBloc(this.bookingRepo) : super(MainPaginatorInitState()) {
     on<InitMainPaginatorEvent>(_onInitMainPaginatorEvent);
     on<ChangePeriodMainPaginatorEvent>(_onChangePeriodMainPaginatorEvent);
-    on<PaginateMainPaginatorEvent>(_onPaginateMainPaginatorEvent);
     on<RefreshMainPaginatorEvent>(_onRefreshMainPaginatorEvent);
   }
 
   _onInitMainPaginatorEvent(InitMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
-    // try {
-    emit(MainPaginatorLoadingState());
-    _bookModel = await _calculateBookModel(BudgetPeriod.month, 0);
-    emit(MainPaginatorLoadedState(_bookModel));
-    // } catch (e) {
-    //   if (!ConnectivitySingleton.instance.isConnected()) {
-    //     emit(MainPaginatorErrorState("TODO internet error message"));
-    //   } else {
-    //     BudgetLogger.instance.e(e);
-    //     emit(MainPaginatorErrorState(e.toString()));
-    //   }
-    // }
-  }
-
-  _onChangePeriodMainPaginatorEvent(ChangePeriodMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
     try {
       emit(MainPaginatorLoadingState());
-      _bookModel = await _calculateBookModel(event.period, 0);
+      _bookModel = await _calculateBookModel(BudgetPeriod.month);
       emit(MainPaginatorLoadedState(_bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
@@ -52,11 +36,10 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
     }
   }
 
-  _onPaginateMainPaginatorEvent(PaginateMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
+  _onChangePeriodMainPaginatorEvent(ChangePeriodMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
     try {
       emit(MainPaginatorLoadingState());
-      final newIndex = (_bookModel.currentPeriodIndex + event.direction).clamp(0, _bookModel.periodModels.length);
-      _bookModel = await _calculateBookModel(_bookModel.currentPeriod, newIndex);
+      _bookModel = await _calculateBookModel(event.period);
       emit(MainPaginatorLoadedState(_bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
@@ -75,7 +58,7 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
     }
     try {
       emit(MainPaginatorLoadingState());
-      _bookModel = await _calculateBookModel(_bookModel.currentPeriod, _bookModel.currentPeriodIndex);
+      _bookModel = await _calculateBookModel(_bookModel.currentPeriod);
       emit(MainPaginatorLoadedState(_bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
@@ -87,7 +70,7 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
     }
   }
 
-  _calculateBookModel(BudgetPeriod period, int currentIndex) async {
+  _calculateBookModel(BudgetPeriod period) async {
     final currentPeriod = period;
     // final accounts = [] as List<AccountModel>;
     final bookings = await bookingRepo.getAllBookings();
@@ -95,7 +78,6 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
     return BudgetBookModel(
       currentPeriod: currentPeriod,
       periodModels: periodModels,
-      currentPeriodIndex: currentIndex,
       accounts: [],
     );
   }

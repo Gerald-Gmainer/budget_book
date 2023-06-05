@@ -11,11 +11,5 @@ class ChangePeriodMainPaginatorEvent extends MainPaginatorEvent {
   ChangePeriodMainPaginatorEvent(this.period);
 }
 
-class PaginateMainPaginatorEvent extends MainPaginatorEvent {
-  final int direction;
-
-  PaginateMainPaginatorEvent(this.direction);
-}
-
 class RefreshMainPaginatorEvent extends MainPaginatorEvent {
 }

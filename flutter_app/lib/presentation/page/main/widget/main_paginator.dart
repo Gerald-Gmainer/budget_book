@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
+import 'package:flutter_app/data/data.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'date_row.dart';
 import 'detail_row.dart';
 import 'graph_row.dart';
@@ -12,13 +15,13 @@ class MainPaginator extends StatefulWidget {
 
 class _MainPaginatorState extends State<MainPaginator> {
   late PageController _pageController;
-  late DateTime _currentMonth;
+  late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
-    _currentMonth = DateTime.now();
-    _pageController = PageController(initialPage: _currentMonth.month - 1);
+    _currentIndex = 0;
+    _pageController = PageController(initialPage: 0);
   }
 
   @override
@@ -27,25 +30,42 @@ class _MainPaginatorState extends State<MainPaginator> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MainPaginatorBloc, MainPaginatorState>(
+      builder: (context, state) {
+        // TODO build error text with reload button
+        if (state is MainPaginatorLoadedState) {
+          return _buildView(state.bookModel);
+        }
+        return _buildLoading();
+      },
+    );
+  }
+
+  Widget _buildLoading() {
+    return const Center(child: CircularProgressIndicator());
+  }
+
+
   void _onPageChanged(int pageIndex) {
     setState(() {
-      _currentMonth = DateTime(_currentMonth.year, pageIndex + 1);
+      _currentIndex = pageIndex;
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildView(BudgetBookModel bookModel) {
     return PageView.builder(
       controller: _pageController,
-      itemCount: 12,
+      itemCount: bookModel.periodModels.length,
       onPageChanged: _onPageChanged,
+      reverse: true,
       itemBuilder: (context, index) {
-        final month = DateTime(_currentMonth.year, index + 1);
         return Column(
           children: [
-            DateRow(currentMonth: month),
+            DateRow(periodModel: bookModel.periodModels[index]),
             const GraphRow(),
-            const DetailRow(),
+            DetailRow(periodModel: bookModel.periodModels[index]),
           ],
         );
       },

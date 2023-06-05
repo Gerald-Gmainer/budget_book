@@ -7,7 +7,7 @@ class BookingClient {
     var response = await supabase
         .from('view_bookings')
         .select('id, booking_date, description, amount, category_id, account_id, is_deleted')
-        .order('booking_date', ascending: false);
+        .order('booking_date', ascending: true);
     BudgetLogger.instance.d("view_bookings took ${stopwatch.elapsed.inMilliseconds} ms");
     return List.from(response).map((item) => BookingModel.fromJson(item)).toList();
   }

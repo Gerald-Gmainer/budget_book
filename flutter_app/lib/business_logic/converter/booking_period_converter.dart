@@ -1,4 +1,5 @@
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/utils/logger.dart';
 
 class BookingPeriodConverter {
   List<BudgetPeriodModel> convertBookings(BudgetPeriod period, List<BookingModel> bookings) {
@@ -22,7 +23,36 @@ class BookingPeriodConverter {
   }
 
   List<BudgetPeriodModel> _convertToMonth(List<BookingModel> bookings) {
-    return _convertToAll(bookings);
+    Map<int, List<BookingModel>> bookingsByMonth = {};
+
+    for (var booking in bookings) {
+      final monthKey = DateTime(booking.bookingDate.year, booking.bookingDate.month);
+      if (bookingsByMonth.containsKey(monthKey.millisecondsSinceEpoch)) {
+        bookingsByMonth[monthKey.millisecondsSinceEpoch]!.add(booking);
+      } else {
+        bookingsByMonth[monthKey.millisecondsSinceEpoch] = [booking];
+      }
+    }
+
+    List<BudgetPeriodModel> models = [];
+    bookingsByMonth.forEach((monthKey, bookings) {
+      final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
+
+      models.insert(
+        0,
+        BudgetPeriodModel(
+          period: BudgetPeriod.month,
+          dateTime: month,
+          dateTimeFrom: null,
+          dateTimeTo: null,
+          bookings: bookings,
+        ),
+      );
+    });
+
+    return models;
+
+    return models;
   }
 
   List<BudgetPeriodModel> _convertToYear(List<BookingModel> bookings) {
