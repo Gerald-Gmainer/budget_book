@@ -11,4 +11,14 @@ class BookingClient {
     BudgetLogger.instance.d("view_bookings took ${stopwatch.elapsed.inMilliseconds} ms");
     return List.from(response).map((item) => BookingModel.fromJson(item)).toList();
   }
+
+  Future<List<CategoryModel>> getAllCategories() async {
+    Stopwatch stopwatch = Stopwatch()..start();
+    var response = await supabase
+        .from('view_categories')
+        .select('id, name, type')
+        .order('name', ascending: true);
+    BudgetLogger.instance.d("view_categories took ${stopwatch.elapsed.inMilliseconds} ms");
+    return List.from(response).map((item) => CategoryModel.fromJson(item)).toList();
+  }
 }

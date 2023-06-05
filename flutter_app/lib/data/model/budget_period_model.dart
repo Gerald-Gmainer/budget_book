@@ -5,13 +5,13 @@ class BudgetPeriodModel {
   final DateTime? dateTime;
   final DateTime? dateTimeFrom;
   final DateTime? dateTimeTo;
-  final List<BookingModel> bookings;
+  final List<CategoryBookingGroupModel> categoryBookingGroupModels;
 
   BudgetPeriodModel({
     required this.period,
     required this.dateTime,
     required this.dateTimeFrom,
     required this.dateTimeTo,
-    required this.bookings,
+    required this.categoryBookingGroupModels,
   });
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'date_row.dart';
-import 'detail_row.dart';
-import 'graph_row.dart';
+import 'widget/date_row.dart';
+import 'widget/detail_row.dart';
+import 'widget/graph_row.dart';
 
 class MainPaginator extends StatefulWidget {
   const MainPaginator({super.key});
@@ -65,7 +66,7 @@ class _MainPaginatorState extends State<MainPaginator> {
           children: [
             DateRow(periodModel: bookModel.periodModels[index]),
             const GraphRow(),
-            DetailRow(periodModel: bookModel.periodModels[index]),
+            DetailRow(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
           ],
         );
       },

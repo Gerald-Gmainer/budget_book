@@ -4,12 +4,9 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'widget/balance_button_row.dart';
-import 'widget/date_row.dart';
-import 'widget/detail_row.dart';
-import 'widget/graph_row.dart';
 import 'widget/left_drawer.dart';
 import 'widget/left_drawer_button.dart';
-import 'widget/main_paginator.dart';
+import 'main_paginator.dart';
 import 'widget/refresh_button.dart';
 import 'widget/right_drawer.dart';
 

@@ -13,7 +13,7 @@ part 'main_paginator_state.dart';
 class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   final BookingRepository bookingRepo;
   final BookingPeriodConverter _converter = BookingPeriodConverter();
-  late BudgetBookModel _bookModel;
+  BudgetPeriod _currentBudgetPeriod = BudgetPeriod.month;
 
   MainPaginatorBloc(this.bookingRepo) : super(MainPaginatorInitState()) {
     on<InitMainPaginatorEvent>(_onInitMainPaginatorEvent);
@@ -22,25 +22,26 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   }
 
   _onInitMainPaginatorEvent(InitMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
-    try {
+    // try {
       emit(MainPaginatorLoadingState());
-      _bookModel = await _calculateBookModel(BudgetPeriod.month);
-      emit(MainPaginatorLoadedState(_bookModel));
-    } catch (e) {
-      if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(MainPaginatorErrorState("TODO internet error message"));
-      } else {
-        BudgetLogger.instance.e(e);
-        emit(MainPaginatorErrorState(e.toString()));
-      }
-    }
+      final bookModel = await _calculateBookModel(_currentBudgetPeriod);
+      emit(MainPaginatorLoadedState(bookModel));
+    // } catch (e) {
+    //   if (!ConnectivitySingleton.instance.isConnected()) {
+    //     emit(MainPaginatorErrorState("TODO internet error message"));
+    //   } else {
+    //     BudgetLogger.instance.e(e);
+    //     emit(MainPaginatorErrorState(e.toString()));
+    //   }
+    // }
   }
 
   _onChangePeriodMainPaginatorEvent(ChangePeriodMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
     try {
       emit(MainPaginatorLoadingState());
-      _bookModel = await _calculateBookModel(event.period);
-      emit(MainPaginatorLoadedState(_bookModel));
+      _currentBudgetPeriod = event.period;
+      final bookModel = await _calculateBookModel(event.period);
+      emit(MainPaginatorLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(MainPaginatorErrorState("TODO internet error message"));
@@ -52,33 +53,34 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   }
 
   _onRefreshMainPaginatorEvent(RefreshMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
-    if (_bookModel == null) {
-      add(InitMainPaginatorEvent());
-      return;
-    }
-    try {
+    // try {
       emit(MainPaginatorLoadingState());
-      _bookModel = await _calculateBookModel(_bookModel.currentPeriod);
-      emit(MainPaginatorLoadedState(_bookModel));
-    } catch (e) {
-      if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(MainPaginatorErrorState("TODO internet error message"));
-      } else {
-        BudgetLogger.instance.e(e);
-        emit(MainPaginatorErrorState(e.toString()));
+      final bookModel = await _calculateBookModel(_currentBudgetPeriod);
+      for(var asdf in bookModel.periodModels) {
+        BudgetLogger.instance.d(asdf.categoryBookingGroupModels);
       }
-    }
+      emit(MainPaginatorLoadedState(bookModel));
+    // } catch (e) {
+    //   if (!ConnectivitySingleton.instance.isConnected()) {
+    //     emit(MainPaginatorErrorState("TODO internet error message"));
+    //   } else {
+    //     BudgetLogger.instance.e(e);
+    //     emit(MainPaginatorErrorState(e.toString()));
+    //   }
+    // }
   }
 
   _calculateBookModel(BudgetPeriod period) async {
     final currentPeriod = period;
     // final accounts = [] as List<AccountModel>;
     final bookings = await bookingRepo.getAllBookings();
-    final periodModels = _converter.convertBookings(currentPeriod, bookings);
+    final categories = await bookingRepo.getAllCategories();
+    final periodModels = _converter.convertBookings(currentPeriod, bookings, categories);
     return BudgetBookModel(
       currentPeriod: currentPeriod,
       periodModels: periodModels,
       accounts: [],
+      categories: categories,
     );
   }
 }

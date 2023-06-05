@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/presentation/page/main/widget/main_paginator.dart';
+import 'package:flutter_app/presentation/page/main/main_paginator.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
