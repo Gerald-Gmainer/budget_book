@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LeftDrawerButton extends StatefulWidget {
-  const LeftDrawerButton({super.key});
-
   @override
   State<LeftDrawerButton> createState() => _LeftDrawerButtonState();
 }

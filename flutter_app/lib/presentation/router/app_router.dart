@@ -9,31 +9,31 @@ class AppRouter {
     switch (settings.name) {
       case LoginPage.route:
         return MyCustomRoute(
-          builder: (context) => const LoginPage(),
+          builder: (context) => LoginPage(),
         );
       case SignUpPage.route:
         return MyCustomRoute(
-          builder: (context) => const SignUpPage(),
+          builder: (context) => SignUpPage(),
         );
       case ForgotPasswordPage.route:
         return MyCustomRoute(
-          builder: (context) => const ForgotPasswordPage(),
+          builder: (context) => ForgotPasswordPage(),
         );
       case ResetPasswordPage.route:
         return MyCustomRoute(
-          builder: (context) => const ResetPasswordPage(),
+          builder: (context) => ResetPasswordPage(),
         );
       case MainPage.route:
         return MyCustomRoute(
-          builder: (context) => const MainPage(),
+          builder: (context) => MainPage(),
         );
       case SettingsPage.route:
         return MyCustomRoute(
-          builder: (context) => const SettingsPage(),
+          builder: (context) => SettingsPage(),
         );
       default:
         return MaterialPageRoute(
-          builder: (context) => const SplashScreen(),
+          builder: (context) => SplashScreen(),
         );
     }
   }

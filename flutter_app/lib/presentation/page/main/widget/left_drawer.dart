@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'left_drawer_button.dart';
 
 class LeftDrawer extends StatefulWidget {
-  const LeftDrawer({super.key});
-
   @override
   State<LeftDrawer> createState() => _LeftDrawerState();
 }

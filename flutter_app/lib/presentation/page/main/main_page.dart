@@ -13,8 +13,6 @@ import 'widget/right_drawer.dart';
 class MainPage extends StatefulWidget {
   static const String route = "MainPage";
 
-  const MainPage({super.key});
-
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -35,23 +33,23 @@ class _MainPageState extends State<MainPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(AppLocalizations.of(context).app_title),
-          leading: const LeftDrawerButton(),
-          actions: const [RefreshButton()],
+          leading: LeftDrawerButton(),
+          actions: [RefreshButton()],
         ),
         primary: true,
-        endDrawer: const RightDrawer(),
+        endDrawer: RightDrawer(),
         body: Builder(builder: (ctx) {
           scaffoldProvider.setScaffoldContext((ctx));
           return Stack(
             fit: StackFit.expand,
             children: [
               Column(
-                children: const [
+                children: [
                   Expanded(child: MainPaginator()),
                   BalanceButtonRow(),
                 ],
               ),
-              const LeftDrawer(),
+              LeftDrawer(),
             ],
           );
         }),

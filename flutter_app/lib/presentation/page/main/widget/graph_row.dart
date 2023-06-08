@@ -4,8 +4,6 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class GraphRow extends StatelessWidget {
-  const GraphRow({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainPaginatorBloc, MainPaginatorState>(

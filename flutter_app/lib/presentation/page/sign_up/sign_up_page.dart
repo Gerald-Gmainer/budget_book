@@ -10,8 +10,6 @@ import 'package:provider/provider.dart';
 class SignUpPage extends StatefulWidget {
   static const String route = "SignUpPage";
 
-  const SignUpPage({super.key});
-
   @override
   State<SignUpPage> createState() => _SignUpPageState();
 }

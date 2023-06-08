@@ -8,8 +8,6 @@ import 'widget/detail_row.dart';
 import 'widget/graph_row.dart';
 
 class MainPaginator extends StatefulWidget {
-  const MainPaginator({super.key});
-
   @override
   State<MainPaginator> createState() => _MainPaginatorState();
 }
@@ -48,7 +46,6 @@ class _MainPaginatorState extends State<MainPaginator> {
     return const Center(child: CircularProgressIndicator());
   }
 
-
   void _onPageChanged(int pageIndex) {
     setState(() {
       _currentIndex = pageIndex;
@@ -65,7 +62,7 @@ class _MainPaginatorState extends State<MainPaginator> {
         return Column(
           children: [
             DateRow(periodModel: bookModel.periodModels[index]),
-            const GraphRow(),
+            GraphRow(),
             DetailRow(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
           ],
         );
