@@ -25,14 +25,6 @@ class BookingPeriodConverter {
   List<BudgetPeriodModel> _convertToMonth(List<BookingModel> bookings, List<CategoryModel> categories) {
     Map<int, Map<int, List<BookingModel>>> bookingsByCategory = {};
 
-    // for (var booking in bookings) {
-    //   final monthKey = DateTime(booking.bookingDate.year, booking.bookingDate.month);
-    //   if (bookingsByMonth.containsKey(monthKey.millisecondsSinceEpoch)) {
-    //     bookingsByMonth[monthKey.millisecondsSinceEpoch]!.add(booking);
-    //   } else {
-    //     bookingsByMonth[monthKey.millisecondsSinceEpoch] = [booking];
-    //   }
-    // }
     for (var booking in bookings) {
       final monthKey = DateTime(booking.bookingDate.year, booking.bookingDate.month).millisecondsSinceEpoch;
       int categoryId = booking.categoryId;
@@ -48,24 +40,6 @@ class BookingPeriodConverter {
       bookingsByCategory[monthKey]![categoryId]!.add(booking);
     }
 
-    // Map<int, Map<int, List<BookingModel>>> bookingsByCategory = {};
-
-    // for (var monthMap in bookingsByMonth.values.toList()) {
-    // bookingsByMonth.forEach((monthKey, bookings) {
-    //   bookingsByCategory[monthKey].add(monthMap);
-    //
-    //   for (var booking in monthMap) {
-    //     final categoryId = booking.categoryId;
-    //     if (bookingsByCategory.containsKey(categoryId)) {
-    //       bookingsByMonth[categoryId]!.add(booking);
-    //     } else {
-    //       // final categoryBookingGroup = CategoryBookingGroupModel(category, booking);
-    //       // bookingsByCategory[categoryId] = {booking.bookingDate.month: categoryBookingGroup};
-    //       bookingsByMonth[categoryId] = [booking];
-    //     }
-    //   }
-    // });
-
     List<BudgetPeriodModel> models = [];
     bookingsByCategory.forEach((monthKey, groupedBookings) {
       final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
@@ -76,10 +50,15 @@ class BookingPeriodConverter {
         groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings));
       });
 
-      // final groupmodel = CategoryBookingGroupModel(
-      //   final CategoryModel category;
-      //   List<BookingModel> bookings = [];
-      // );
+      groupModels.sort((a, b) {
+        final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
+
+        if (typeComparison == 0) {
+          return a.category.name.compareTo(b.category.name);
+        } else {
+          return typeComparison;
+        }
+      });
 
       models.insert(
         0,

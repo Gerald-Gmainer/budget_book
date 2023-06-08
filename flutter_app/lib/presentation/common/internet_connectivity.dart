@@ -7,7 +7,7 @@ import 'package:flutter_app/utils/utils.dart';
 class InternetConnectivity extends StatefulWidget {
   final Widget child;
 
-  const InternetConnectivity({super.key, required this.child});
+  const InternetConnectivity({required this.child});
 
   @override
   State<InternetConnectivity> createState() => _InternetConnectivityState();

@@ -43,11 +43,14 @@ class _MainPageState extends State<MainPage> {
           return Stack(
             fit: StackFit.expand,
             children: [
-              Column(
-                children: [
-                  Expanded(child: MainPaginator()),
-                  BalanceButtonRow(),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding, horizontal: AppDimensions.horizontalPadding),
+                child: Column(
+                  children: [
+                    Expanded(child: MainPaginator()),
+                    BalanceButtonRow(),
+                  ],
+                ),
               ),
               LeftDrawer(),
             ],

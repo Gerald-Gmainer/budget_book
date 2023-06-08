@@ -13,7 +13,7 @@ class SupabaseContainer extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
   final Widget child;
 
-  const SupabaseContainer({super.key, required this.child, required this.navigatorKey});
+  const SupabaseContainer({required this.child, required this.navigatorKey});
 
   @override
   State<SupabaseContainer> createState() => _SupabaseContainerState();

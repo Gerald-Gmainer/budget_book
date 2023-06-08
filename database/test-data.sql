@@ -10,6 +10,9 @@ insert into categories(user_id, name, type)
 select u.id, 'work', 'income'::category_type
 from auth.users u where u.email='gerald_gmainer@designium.jp';
 insert into categories(user_id, name, type)
+select u.id, 'saving', 'income'::category_type
+from auth.users u where u.email='gerald_gmainer@designium.jp';
+insert into categories(user_id, name, type)
 select u.id, 'house', 'outcome'::category_type
 from auth.users u where u.email='gerald_gmainer@designium.jp';
 insert into categories(user_id, name, type)
@@ -20,6 +23,15 @@ select u.id, 'food', 'outcome'::category_type
 from auth.users u where u.email='gerald_gmainer@designium.jp';
 
 -- 
+
+-- april 2023
+
+
+insert into bookings(user_id, booking_date, amount, category_id, account_id)
+    select u.id, TO_TIMESTAMP('2023-04-14', 'YYYY-MM-DD'), 65999, 
+    (select c.id from categories c where c.name = 'house'), 
+    (select a.id from accounts a where a.name = 'cash')
+    from auth.users u where u.email='gerald_gmainer@designium.jp';
 
 -- may 2023
 
@@ -76,5 +88,11 @@ insert into bookings(user_id, booking_date, amount, category_id, account_id)
 insert into bookings(user_id, booking_date, amount, category_id, account_id)
     select u.id, TO_TIMESTAMP('2023-06-02', 'YYYY-MM-DD'), 100, 
     (select c.id from categories c where c.name = 'food'), 
+    (select a.id from accounts a where a.name = 'cash')
+    from auth.users u where u.email='gerald_gmainer@designium.jp';
+
+insert into bookings(user_id, booking_date, amount, category_id, account_id)
+    select u.id, TO_TIMESTAMP('2023-06-1', 'YYYY-MM-DD'), 1234, 
+    (select c.id from categories c where c.name = 'saving'), 
     (select a.id from accounts a where a.name = 'cash')
     from auth.users u where u.email='gerald_gmainer@designium.jp';

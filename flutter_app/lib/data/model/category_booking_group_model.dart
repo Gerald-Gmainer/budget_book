@@ -6,15 +6,6 @@ class CategoryBookingGroupModel {
 
   CategoryBookingGroupModel({required this.category, required this.bookings});
 
-  //
-  // CategoryBookingGroupModel(this.category, BookingModel booking) {
-  //   addBooking(booking);
-  // }
-  //
-  // addBooking(BookingModel booking) {
-  //   bookings.add(booking);
-  // }
-
   @override
   String toString() {
     return [

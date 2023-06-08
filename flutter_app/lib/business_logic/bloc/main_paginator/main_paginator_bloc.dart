@@ -23,9 +23,9 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
 
   _onInitMainPaginatorEvent(InitMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
     // try {
-      emit(MainPaginatorLoadingState());
-      final bookModel = await _calculateBookModel(_currentBudgetPeriod);
-      emit(MainPaginatorLoadedState(bookModel));
+    emit(MainPaginatorLoadingState());
+    final bookModel = await _calculateBookModel(_currentBudgetPeriod);
+    emit(MainPaginatorLoadedState(bookModel));
     // } catch (e) {
     //   if (!ConnectivitySingleton.instance.isConnected()) {
     //     emit(MainPaginatorErrorState("TODO internet error message"));
@@ -53,21 +53,18 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   }
 
   _onRefreshMainPaginatorEvent(RefreshMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
-    // try {
+    try {
       emit(MainPaginatorLoadingState());
       final bookModel = await _calculateBookModel(_currentBudgetPeriod);
-      for(var asdf in bookModel.periodModels) {
-        BudgetLogger.instance.d(asdf.categoryBookingGroupModels);
-      }
       emit(MainPaginatorLoadedState(bookModel));
-    // } catch (e) {
-    //   if (!ConnectivitySingleton.instance.isConnected()) {
-    //     emit(MainPaginatorErrorState("TODO internet error message"));
-    //   } else {
-    //     BudgetLogger.instance.e(e);
-    //     emit(MainPaginatorErrorState(e.toString()));
-    //   }
-    // }
+    } catch (e) {
+      if (!ConnectivitySingleton.instance.isConnected()) {
+        emit(MainPaginatorErrorState("TODO internet error message"));
+      } else {
+        BudgetLogger.instance.e(e);
+        emit(MainPaginatorErrorState(e.toString()));
+      }
+    }
   }
 
   _calculateBookModel(BudgetPeriod period) async {

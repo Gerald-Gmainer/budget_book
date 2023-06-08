@@ -60,6 +60,7 @@ class _MainPaginatorState extends State<MainPaginator> {
       reverse: true,
       itemBuilder: (context, index) {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DateRow(periodModel: bookModel.periodModels[index]),
             GraphRow(),
