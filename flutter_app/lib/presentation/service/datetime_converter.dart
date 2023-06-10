@@ -1,12 +1,31 @@
 import 'package:intl/intl.dart';
 
 class DateTimeConverter {
-  static final _dateFormat = DateFormat('yyyy-MM-dd');
-
-  static String toDateString(DateTime? date) {
+  static String toYYYYMMdd(DateTime? date) {
     if (date == null) {
       return "";
     }
-    return _dateFormat.format(date);
+    return  DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  static String toMMMMdd(DateTime? date) {
+    if (date == null) {
+      return "";
+    }
+    return DateFormat('MMMM dd').format(date);
+  }
+
+  static String toMMMM(DateTime? date) {
+    if (date == null) {
+      return "";
+    }
+    return DateFormat('MMMM').format(date);
+  }
+
+  static String toMMMMYYYY(DateTime? date) {
+    if (date == null) {
+      return "";
+    }
+    return DateFormat('MMMM yyyy').format(date);
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GraphRow extends StatelessWidget {
+class GraphPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainPaginatorBloc, MainPaginatorState>(

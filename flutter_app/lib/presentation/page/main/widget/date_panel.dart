@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:intl/intl.dart';
 
-class DateRow extends StatelessWidget {
+class DatePanel extends StatelessWidget {
   final BudgetPeriodModel periodModel;
   static final DateTime now = DateTime.now();
 
-  const DateRow({required this.periodModel});
+  const DatePanel({required this.periodModel});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +31,8 @@ class DateRow extends StatelessWidget {
 
   String _determineMonthText() {
     if (periodModel.dateTime?.year == now.year) {
-      return DateFormat('MMMM').format(periodModel.dateTime!);
+      return DateTimeConverter.toMMMM(periodModel.dateTime);
     }
-    return DateFormat('MMMM yyyy').format(periodModel.dateTime!);
+    return DateTimeConverter.toMMMMYYYY(periodModel.dateTime);
   }
 }

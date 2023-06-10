@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BalanceButtonRow extends StatelessWidget {
@@ -19,7 +20,7 @@ class BalanceButtonRow extends StatelessWidget {
           iconSize: size,
           icon: CustomPaint(
             size: const Size(size, size),
-            painter: _CustomRemoveIconPainter(color: Colors.red),
+            painter: _CustomRemoveIconPainter(color: AppColors.outcomeColor),
           ),
         ),
         IconButton(
@@ -27,7 +28,7 @@ class BalanceButtonRow extends StatelessWidget {
           iconSize: size,
           icon: CustomPaint(
             size: const Size(size, size),
-            painter: _CustomPlusIconPainter(color: Colors.green),
+            painter: _CustomPlusIconPainter(color: AppColors.incomeColor),
           ),
         ),
       ],

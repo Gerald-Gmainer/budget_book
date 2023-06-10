@@ -3,9 +3,10 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'widget/date_row.dart';
-import 'widget/detail_row.dart';
-import 'widget/graph_row.dart';
+
+import 'widget/date_panel.dart';
+import 'widget/detail_panel.dart';
+import 'widget/graph_panel.dart';
 
 class MainPaginator extends StatefulWidget {
   @override
@@ -62,9 +63,9 @@ class _MainPaginatorState extends State<MainPaginator> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DateRow(periodModel: bookModel.periodModels[index]),
-            GraphRow(),
-            DetailRow(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
+            DatePanel(periodModel: bookModel.periodModels[index]),
+            GraphPanel(),
+            DetailPanel(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
           ],
         );
       },

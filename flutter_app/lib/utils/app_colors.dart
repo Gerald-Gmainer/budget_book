@@ -12,4 +12,7 @@ class AppColors {
   static const Color cardAccentColor = Color(0x88fc6944);
   static const Color errorColor = Color(0xFFff0033);
   static const Color warningColor = Color(0xFFB13434);
+
+  static const Color incomeColor = Colors.green;
+  static const Color outcomeColor = Colors.red;
 }
