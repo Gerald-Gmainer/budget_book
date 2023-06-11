@@ -1,18 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 class DetailPanel extends StatelessWidget {
   final BudgetPeriodModel periodModel;
   final List<CategoryModel> categories;
 
-  DetailPanel({required this.periodModel, required this.categories});
+  const DetailPanel({required this.periodModel, required this.categories});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +48,7 @@ class DetailPanel extends StatelessWidget {
   double _calculateCategoryBalance(List<BookingModel> bookings) {
     double totalAmount = 0;
     for (var booking in bookings) {
-      totalAmount += booking.amount;
+      totalAmount += booking.amount ?? 0;
     }
     return totalAmount;
   }

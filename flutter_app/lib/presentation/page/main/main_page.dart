@@ -3,12 +3,14 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+
+import 'main_paginator.dart';
 import 'widget/balance_button_row.dart';
 import 'widget/left_drawer.dart';
 import 'widget/left_drawer_button.dart';
-import 'main_paginator.dart';
 import 'widget/refresh_button.dart';
 import 'widget/right_drawer.dart';
+import 'widget/right_drawer_button.dart';
 
 class MainPage extends StatefulWidget {
   static const String route = "MainPage";
@@ -34,7 +36,7 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           title: Text(AppLocalizations.of(context).app_title),
           leading: LeftDrawerButton(),
-          actions: [RefreshButton()],
+          actions: [RefreshButton(), RightDrawerButton()],
         ),
         primary: true,
         endDrawer: RightDrawer(),

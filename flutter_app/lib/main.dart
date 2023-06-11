@@ -51,6 +51,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
             BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
             BlocProvider<MainPaginatorBloc>(create: (context) => MainPaginatorBloc(_bookingRepo)),
+            BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
           ],
           child: MaterialApp(
             title: 'Budget book',

@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BalanceButtonRow extends StatelessWidget {
   static const double size = 100;
 
-  _onOutcome() {}
-
-  _onIncome() {}
+  _navigateToCrud(BuildContext context, CategoryType categoryType) {
+    final BookingCrudModel model = BookingCrudModel(
+      model: BookingModel.empty(),
+      categoryType: categoryType,
+    );
+    Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: model);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +21,9 @@ class BalanceButtonRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         IconButton(
-          onPressed: _onOutcome,
+          onPressed: () {
+            _navigateToCrud(context, CategoryType.outcome);
+          },
           iconSize: size,
           icon: CustomPaint(
             size: const Size(size, size),
@@ -24,7 +31,9 @@ class BalanceButtonRow extends StatelessWidget {
           ),
         ),
         IconButton(
-          onPressed: _onIncome,
+          onPressed: () {
+            _navigateToCrud(context, CategoryType.income);
+          },
           iconSize: size,
           icon: CustomPaint(
             size: const Size(size, size),

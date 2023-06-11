@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/utils/utils.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'widget/date_panel.dart';
 import 'widget/detail_panel.dart';
 import 'widget/graph_panel.dart';
@@ -30,11 +29,17 @@ class _MainPaginatorState extends State<MainPaginator> {
     super.dispose();
   }
 
+  _reload() {
+    BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainPaginatorBloc, MainPaginatorState>(
       builder: (context, state) {
-        // TODO build error text with reload button
+        if (state is MainPaginatorErrorState) {
+          return ErrorText(message: state.message, onReload: _reload);
+        }
         if (state is MainPaginatorLoadedState) {
           return _buildView(state.bookModel);
         }

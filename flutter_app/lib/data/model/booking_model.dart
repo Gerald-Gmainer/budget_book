@@ -1,12 +1,14 @@
 import 'package:flutter_app/data/data.dart';
 
 class BookingModel extends DataModel {
-  final DateTime bookingDate;
-  final String? description;
-  final double amount;
-  final int categoryId;
-  final int accountId;
-  final bool isDeleted;
+  DateTime? bookingDate;
+  String? description;
+  double? amount;
+  int? categoryId;
+  int? accountId;
+  bool? isDeleted;
+
+  BookingModel.empty() : super(null);
 
   BookingModel({
     int? id,

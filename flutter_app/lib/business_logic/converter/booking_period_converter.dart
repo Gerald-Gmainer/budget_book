@@ -26,8 +26,12 @@ class BookingPeriodConverter {
     Map<int, Map<int, List<BookingModel>>> bookingsByCategory = {};
 
     for (var booking in bookings) {
-      final monthKey = DateTime(booking.bookingDate.year, booking.bookingDate.month).millisecondsSinceEpoch;
-      int categoryId = booking.categoryId;
+      if (booking.bookingDate == null || booking.categoryId == null) {
+        BudgetLogger.instance.e("_convertToMonth: bookingDate or categoryId is NULL");
+        continue;
+      }
+      final monthKey = DateTime(booking.bookingDate!.year, booking.bookingDate!.month).millisecondsSinceEpoch;
+      int categoryId = booking.categoryId!;
 
       if (!bookingsByCategory.containsKey(monthKey)) {
         bookingsByCategory[monthKey] = {};

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/logger.dart';
 
@@ -30,6 +31,10 @@ class AppRouter {
       case SettingsPage.route:
         return MyCustomRoute(
           builder: (context) => SettingsPage(),
+        );
+      case BookingCrudPage.route:
+        return MyCustomRoute(
+          builder: (context) => BookingCrudPage(model: settings.arguments as BookingCrudModel),
         );
       default:
         return MaterialPageRoute(
