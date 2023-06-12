@@ -5,7 +5,7 @@ class DateTimeConverter {
     if (date == null) {
       return "";
     }
-    return  DateFormat('yyyy-MM-dd').format(date);
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   static String toMMMMdd(DateTime? date) {
@@ -27,5 +27,12 @@ class DateTimeConverter {
       return "";
     }
     return DateFormat('MMMM yyyy').format(date);
+  }
+
+  static String toEEEEdMMMM(DateTime? date) {
+    if (date == null) {
+      return "";
+    }
+    return DateFormat('EEEE, d MMMM').format(date);
   }
 }

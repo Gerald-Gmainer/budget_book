@@ -4,7 +4,7 @@ part of 'booking_crud_bloc.dart';
 abstract class BookingCrudEvent {}
 
 class LoadBookingCrudEvent extends BookingCrudEvent {
-  final BookingModel model;
+  final BookingCrudModel model;
 
   LoadBookingCrudEvent(this.model);
 }

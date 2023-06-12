@@ -8,7 +8,7 @@ class BookingCrudInitState extends BookingCrudState {}
 class BookingCrudLoadingState extends BookingCrudState {}
 
 class BookingCrudLoadedState extends BookingCrudState {
-  final BookingModel model;
+  final BookingCrudModel model;
 
   BookingCrudLoadedState(this.model);
 }
