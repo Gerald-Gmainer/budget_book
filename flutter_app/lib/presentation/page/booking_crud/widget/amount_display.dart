@@ -4,7 +4,7 @@ import 'package:flutter_app/utils/app_colors.dart';
 class AmountDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       width: double.infinity,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),

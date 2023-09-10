@@ -19,3 +19,4 @@ export 'widget/form_button.dart';
 export 'widget/form_input_text.dart';
 export 'widget/collapseable.dart';
 export 'widget/error_text.dart';
+export 'widget/calculator/calculator.dart';

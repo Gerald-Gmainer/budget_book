@@ -6,10 +6,10 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/amount_display.dart';
+import '../../widget/calculator/calculator_keyboard.dart';
 import 'widget/choose_category_button.dart';
 import 'widget/date_input.dart';
 import 'widget/description_input.dart';
-import 'widget/number_input.dart';
 
 class BookingCrudPage extends StatefulWidget {
   static const String route = "BookingCrudPage";
@@ -66,7 +66,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           AmountDisplay(),
           DescriptionInput(),
           const Spacer(),
-          NumberInput(),
+          Calculator(),
           ChooseCategoryButton(),
         ],
       ),

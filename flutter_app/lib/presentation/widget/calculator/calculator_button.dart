@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/presentation/widget/calculator/calculator_key.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class NumberKey extends StatelessWidget {
-  final String text;
+class CalculatorButton extends StatelessWidget {
+  final CalculatorKey calculatorKey;
+  final Function(CalculatorKey) onPressed;
   final Color backgroundColor;
   final Color fontColor;
 
-  const NumberKey({
-    required this.text,
+  const CalculatorButton({
+    required this.calculatorKey,
+    required this.onPressed,
     this.backgroundColor = AppColors.secondaryColor,
     this.fontColor = AppColors.primaryTextColor,
   });
 
-  _onPressed() {}
-
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: _onPressed,
+      onPressed: () {
+        onPressed.call(calculatorKey);
+      },
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
         backgroundColor: backgroundColor,
       ),
       child: Text(
-        text,
+        calculatorKey.text,
         maxLines: 1,
         softWrap: false,
         overflow: TextOverflow.visible,
