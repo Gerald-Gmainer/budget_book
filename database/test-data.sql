@@ -1,6 +1,7 @@
 insert into profiles (user_id, name)
 select u.id, 'test name' 
-from auth.users u where u.email='gerald_gmainer@designium.jp';
+from auth.users u where u.email='gerald_gmainer@designium.jp';      
+-- PW: aaaaaaA1
 
 insert into accounts(user_id, name, currency, init_balance_amount, init_balance_date, include_in_balance)
 select u.id, 'cash', 'yen'::currencies, 0, now(), true
