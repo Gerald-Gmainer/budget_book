@@ -6,16 +6,27 @@
                     Login
                 </div>
                 <div class="card-body">
-                    <form (submit)="onSubmit()">
+                    <form [formGroup]="login_form" (ngSubmit)="onSubmit()">
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="Enter email">
+                            <input type="email" class="form-control" id="email" placeholder="Enter email"
+                                formControlName="email">
                         </div>
+
+                        <div class="spacer"></div>
+
                         <div class="form-group">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
+                            <input type="password" class="form-control" id="password" placeholder="Password"
+                                formControlName="password">
                         </div>
+
+                        <div class="spacer"></div>
+
                         <button type="submit" class="btn btn-primary">Submit</button>
+                        <div *ngIf="error" class="text-danger">
+                            {{ error }}
+                        </div>
                     </form>
                 </div>
             </div>

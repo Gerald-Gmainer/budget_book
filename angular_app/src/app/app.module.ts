@@ -9,6 +9,7 @@ import { SupabaseService } from './shared/service';
 
 import { DashboardComponent } from './features/dashboard/';
 import { LoginComponent } from './features/login/';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginComponent } from './features/login/';
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [SupabaseService],
   bootstrap: [AppComponent]

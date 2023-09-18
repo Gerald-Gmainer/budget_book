@@ -21,20 +21,20 @@ export class LoginComponent {
     private authService: AuthService) { }
 
   onSubmit() {
-    if (this.login_form.valid) {
-
-      delete this.error;
-
-      const { email, password } = this.login_form.value;
-      this.authService.login(email!, password!)
-        .then(() => {
-          this.router.navigate(['/']);
-        })
-        .catch(err => {
-          this.error = err;
-        })
-
+    if (!this.login_form.valid) {
+      return;
     }
+
+    delete this.error;
+
+    const { email, password } = this.login_form.value;
+    this.authService.login(email!, password!)
+      .then(() => {
+        this.router.navigate(['/']);
+      })
+      .catch(err => {
+        this.error = err;
+      })
   }
 
 }
