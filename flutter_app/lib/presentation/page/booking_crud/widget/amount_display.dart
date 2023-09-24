@@ -26,10 +26,10 @@ class AmountDisplay extends StatelessWidget {
   }
 
   Widget _buildHistory() {
-    return ValueListenableBuilder<List<CalculatorKey>>(
+    return ValueListenableBuilder<List<String>>(
       valueListenable: model.history,
       builder: (context, data, child) {
-        final history = data.map((e) => e.calculateText).toList().join();
+        final history = data.join();
         return Text(history, style: const TextStyle(fontSize: 26, color: AppColors.primaryTextColor));
       },
     );

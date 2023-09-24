@@ -20,7 +20,7 @@ enum CalculatorKey {
 }
 
 extension CalculatorKeyExtension on CalculatorKey {
-  String get text {
+  String get displayText {
     switch (this) {
       case CalculatorKey.digit0:
         return "0";
@@ -66,7 +66,7 @@ extension CalculatorKeyExtension on CalculatorKey {
       case CalculatorKey.multiplication:
         return "*";
       default:
-        return text;
+        return displayText;
     }
   }
 }

@@ -25,12 +25,17 @@ class CalculatorButton extends StatelessWidget {
         shape: const CircleBorder(),
         backgroundColor: backgroundColor,
       ),
-      child: Text(
-        calculatorKey.text,
-        maxLines: 1,
-        softWrap: false,
-        overflow: TextOverflow.visible,
-        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: fontColor),
+      child: OverflowBox(
+        alignment: Alignment.center,
+        maxWidth: double.infinity,
+        child: Text(
+          calculatorKey.displayText,
+          maxLines: 1,
+          textAlign: TextAlign.left,
+          softWrap: false,
+          overflow: TextOverflow.visible,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: fontColor),
+        ),
       ),
     );
   }

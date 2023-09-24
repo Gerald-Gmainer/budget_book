@@ -25,12 +25,18 @@ class _CalculatorState extends State<Calculator> {
         widget.model.clearResult();
         break;
       case CalculatorKey.back:
-        widget.model.backHistory();
+        if (widget.model.history.value.isNotEmpty) {
+          widget.model.backHistory();
+          _calculateResult();
+        }
+        break;
+      case CalculatorKey.equal:
+        widget.model.equalHistory();
         _calculateResult();
         break;
 
       default:
-        widget.model.addHistory(key);
+        widget.model.addHistory(key.calculateText);
         _calculateResult();
     }
   }
@@ -38,9 +44,10 @@ class _CalculatorState extends State<Calculator> {
   void _calculateResult() {
     if (widget.model.history.value.isEmpty) {
       BudgetLogger.instance.d("zero");
+      widget.model.setResult(0);
       return;
     }
-    String expression = widget.model.history.value.map((e) => e.calculateText).toList().join();
+    String expression = widget.model.history.value.join();
     // BudgetLogger.instance.d("history: $expression");
     try {
       Parser p = Parser();
