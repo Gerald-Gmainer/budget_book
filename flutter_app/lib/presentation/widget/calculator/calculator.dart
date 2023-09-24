@@ -21,10 +21,12 @@ class _CalculatorState extends State<Calculator> {
   _onPressed(CalculatorKey key) {
     switch (key) {
       case CalculatorKey.clear:
-        // TODO back button
-      case CalculatorKey.back:
         widget.model.clearHistory();
         widget.model.clearResult();
+        break;
+      case CalculatorKey.back:
+        widget.model.backHistory();
+        _calculateResult();
         break;
 
       default:

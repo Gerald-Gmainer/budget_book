@@ -17,6 +17,10 @@ class CalculatorModel {
     _history.value = [];
   }
 
+  backHistory() {
+    _history.value = _history.value.sublist(0, _history.value.length - 1);
+  }
+
   setResult(double value) {
     _result.value = value;
   }
