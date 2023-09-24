@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
     final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).app_title)),
+      appBar: AppBar(title: const Text("Budget Book")),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
 
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const SizedBox(height: AppDimensions.verticalPadding),
-          Text(AppLocalizations.of(context).login_sign_in_label),
+          const Text("Sign in with"),
           const SizedBox(height: AppDimensions.verticalPadding),
           _buildGoogleLogin(isLoading),
           const SizedBox(height: AppDimensions.verticalPadding),
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
         Expanded(
           child: Container(margin: const EdgeInsets.only(right: 8), child: const Divider(color: Colors.white)),
         ),
-        Text(AppLocalizations.of(context).login_continue_label),
+        const Text("or continue with"),
         Expanded(
           child: Container(margin: const EdgeInsets.only(left: 8), child: const Divider(color: Colors.white)),
         ),
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildEmail(bool isLoading) {
     return FormInputText(
       controller: _emailController,
-      label: AppLocalizations.of(context).login_password_input,
+      label: "Password",
       validator: ValidationBuilder().email().build(),
       isLoading: isLoading,
     );
@@ -155,7 +155,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildPassword(bool isLoading) {
     return FormInputText(
       controller: _passwordController,
-      label: AppLocalizations.of(context).login_password_input,
+      label: "Password",
       validator: ValidationBuilder().required().build(),
       isLoading: isLoading,
       obscureText: true,
@@ -166,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: double.infinity,
       child: FormButton(
-        text: AppLocalizations.of(context).login_login_button,
+        text: "Login",
         onPressed: _credentialsLogin,
         isLoading: isLoading,
       ),
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         TextButton(
           onPressed: isLoading ? null : _forgotPassword,
-          child: Text(AppLocalizations.of(context).login_forgot_password_button),
+          child: const Text("Forgot your password?"),
         ),
       ],
     );
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildSignUp(bool isLoading) {
     return TextButton(
       onPressed: isLoading ? null : _signUp,
-      child: Text(AppLocalizations.of(context).login_sign_up_button),
+      child: const Text("Don't have an account yet? Sign up"),
     );
   }
 }

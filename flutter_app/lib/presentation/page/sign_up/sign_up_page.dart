@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).app_title)),
+      appBar: AppBar(title: Text("Budget Book")),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
 
@@ -129,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildEmail() {
     return FormInputText(
       controller: _emailController,
-      label: AppLocalizations.of(context).signup_password_input,
+      label: "Email",
       validator: ValidationBuilder().email().build(),
     );
   }
@@ -137,7 +137,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildPassword() {
     return FormInputText(
       controller: _passwordController,
-      label: AppLocalizations.of(context).signup_password_input,
+      label: "Password",
       validator: ValidationBuilder().password().build(),
       obscureText: true,
     );
@@ -146,7 +146,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildConfirmPassword() {
     return FormInputText(
       controller: _passwordConfirmController,
-      label: AppLocalizations.of(context).signup_confirm_password_input,
+      label: "Confirm Password",
       validator: ValidationBuilder().required().build(),
       obscureText: true,
     );
@@ -156,7 +156,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return SizedBox(
       width: double.infinity,
       child: FormButton(
-        text: AppLocalizations.of(context).signup_signup_button,
+        text: "Sign Up",
         onPressed: _signUp,
       ),
     );

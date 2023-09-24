@@ -34,7 +34,7 @@ class _MainPageState extends State<MainPage> {
       create: (_) => LeftDrawerMenuState(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context).app_title),
+          title: const Text("Budget Book"),
           leading: LeftDrawerButton(),
           actions: [RefreshButton(), RightDrawerButton()],
         ),
