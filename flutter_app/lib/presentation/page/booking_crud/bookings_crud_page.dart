@@ -6,7 +6,6 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/amount_display.dart';
-import '../../widget/calculator/calculator_keyboard.dart';
 import 'widget/choose_category_button.dart';
 import 'widget/date_input.dart';
 import 'widget/description_input.dart';
@@ -22,6 +21,8 @@ class BookingCrudPage extends StatefulWidget {
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
+  final CalculatorModel _model = CalculatorModel();
+
   @override
   void initState() {
     super.initState();
@@ -63,10 +64,10 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           DateInput(),
-          AmountDisplay(),
+          AmountDisplay(model: _model),
           DescriptionInput(),
           const Spacer(),
-          Calculator(),
+          Calculator(model: _model),
           ChooseCategoryButton(),
         ],
       ),

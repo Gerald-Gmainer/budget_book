@@ -60,4 +60,13 @@ extension CalculatorKeyExtension on CalculatorKey {
         return "=";
     }
   }
+
+  String get calculateText {
+    switch (this) {
+      case CalculatorKey.multiplication:
+        return "*";
+      default:
+        return text;
+    }
+  }
 }
