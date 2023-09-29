@@ -21,8 +21,6 @@ class BookingCrudPage extends StatefulWidget {
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
-  final CalculatorModel _model = CalculatorModel();
-
   @override
   void initState() {
     super.initState();
@@ -33,6 +31,10 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     BlocProvider.of<BookingCrudBloc>(context).add(LoadBookingCrudEvent(widget.model));
   }
 
+  _onLoaded(BookingCrudModel model) {
+    BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +43,9 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
       ),
       body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is BookingCrudLoadedState) {
+            _onLoaded(state.model);
+          }
         },
         builder: (context, state) {
           if (state is BookingCrudLoadedState) {
@@ -64,10 +68,10 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           DateInput(),
-          AmountDisplay(model: _model),
+          AmountDisplay(),
           DescriptionInput(),
           const Spacer(),
-          Calculator(model: _model),
+          Calculator(),
           ChooseCategoryButton(),
         ],
       ),
