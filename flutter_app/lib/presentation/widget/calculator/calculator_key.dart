@@ -80,6 +80,8 @@ extension CalculatorKeyExtension on CalculatorKey {
         return "*";
       case CalculatorKey.division:
         return "/";
+      case CalculatorKey.dot:
+        return ".";
       default:
         return "NULL";
     }

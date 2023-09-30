@@ -5,4 +5,9 @@ class BookingCrudModel {
   final CategoryType categoryType;
 
   BookingCrudModel({required this.model, required this.categoryType});
+
+  @override
+  String toString() {
+    return "categoryType: $categoryType / model: $model";
+  }
 }

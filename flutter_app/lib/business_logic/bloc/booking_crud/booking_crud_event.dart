@@ -3,16 +3,10 @@ part of 'booking_crud_bloc.dart';
 @immutable
 abstract class BookingCrudEvent {}
 
-class LoadBookingCrudEvent extends BookingCrudEvent {
-  final BookingCrudModel model;
-
-  LoadBookingCrudEvent(this.model);
-}
+class InitBookingCrudEvent extends BookingCrudEvent {}
 
 class UploadBookingCrudEvent extends BookingCrudEvent {
-  final BookingModel model;
+  final BookingCrudModel model;
 
   UploadBookingCrudEvent(this.model);
 }
-
-

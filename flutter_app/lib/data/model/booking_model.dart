@@ -35,7 +35,7 @@ class BookingModel extends DataModel {
     return [
       "id: $id",
       "bookingDate: $bookingDate",
-      // "description: $description",
+      "description: $description",
       "amount: $amount",
       "categoryId: $categoryId",
       // "accountId: $accountId",

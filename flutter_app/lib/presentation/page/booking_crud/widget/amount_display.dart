@@ -9,7 +9,7 @@ class AmountDisplay extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: BlocBuilder<CalculatorBloc, CalculatorState>(
           builder: (context, state) {
             final List<String> history = state is CalculatorUpdateState ? state.history : [];

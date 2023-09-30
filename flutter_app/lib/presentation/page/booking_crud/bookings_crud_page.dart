@@ -21,41 +21,65 @@ class BookingCrudPage extends StatefulWidget {
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
+  final PageController _pageController = PageController(initialPage: 0);
+  int _currentPage = 0;
+
   @override
   void initState() {
     super.initState();
-    _load();
-  }
-
-  _load() {
-    BlocProvider.of<BookingCrudBloc>(context).add(LoadBookingCrudEvent(widget.model));
-  }
-
-  _onLoaded(BookingCrudModel model) {
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
+    BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  _openCategories() {
+    _animateToPage(1);
+  }
+
+  _animateToPage(int page) {
+    _currentPage = page;
+    _pageController.animateToPage(
+      page,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  _upload() {
+    BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_isCreating() ? "create booking" : "edit booking"),
-      ),
-      body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
-        listener: (context, state) {
-          if (state is BookingCrudLoadedState) {
-            _onLoaded(state.model);
-          }
-        },
-        builder: (context, state) {
-          if (state is BookingCrudLoadedState) {
-            return _buildView(state.model);
-          }
-          if (state is BookingCrudErrorState) {
-            return ErrorText(message: state.message, onReload: _load);
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
+    return WillPopScope(
+      onWillPop: () async {
+        if (_currentPage > 0) {
+          _animateToPage(0);
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_isCreating() ? "create booking" : "edit booking"),
+        ),
+        body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            if (state is BookingCrudInitState) {
+              return _buildView(widget.model);
+            }
+            if (state is BookingCrudErrorState) {
+              return ErrorText(message: state.message, onReload: _upload);
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
@@ -67,15 +91,39 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          DateInput(),
+          DateInput(model: model),
           AmountDisplay(),
-          DescriptionInput(),
-          const Spacer(),
-          Calculator(),
-          ChooseCategoryButton(),
+          DescriptionInput(model: model),
+          Expanded(child: _buildPageView()),
         ],
       ),
     );
+  }
+
+  _buildPageView() {
+    return PageView(
+      controller: _pageController,
+      scrollDirection: Axis.vertical,
+      physics: const NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        _buildCalculatorView(),
+        _buildCategoriesView(),
+      ],
+    );
+  }
+
+  _buildCalculatorView() {
+    return Column(
+      children: [
+        const Spacer(),
+        Calculator(model: widget.model),
+        ChooseCategoryButton(model: widget.model, onPressed: _openCategories),
+      ],
+    );
+  }
+
+  _buildCategoriesView() {
+    return Container(color: Colors.red);
   }
 
   bool _isCreating() {

@@ -22,18 +22,18 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   }
 
   _onInitMainPaginatorEvent(InitMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
-    // try {
-    emit(MainPaginatorLoadingState());
-    final bookModel = await _calculateBookModel(_currentBudgetPeriod);
-    emit(MainPaginatorLoadedState(bookModel));
-    // } catch (e) {
-    //   if (!ConnectivitySingleton.instance.isConnected()) {
-    //     emit(MainPaginatorErrorState("TODO internet error message"));
-    //   } else {
-    //     BudgetLogger.instance.e(e);
-    //     emit(MainPaginatorErrorState(e.toString()));
-    //   }
-    // }
+    try {
+      emit(MainPaginatorLoadingState());
+      final bookModel = await _calculateBookModel(_currentBudgetPeriod);
+      emit(MainPaginatorLoadedState(bookModel));
+    } catch (e) {
+      if (!ConnectivitySingleton.instance.isConnected()) {
+        emit(MainPaginatorErrorState("TODO internet error message"));
+      } else {
+        BudgetLogger.instance.e(e);
+        emit(MainPaginatorErrorState(e.toString()));
+      }
+    }
   }
 
   _onChangePeriodMainPaginatorEvent(ChangePeriodMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
