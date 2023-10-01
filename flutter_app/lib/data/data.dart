@@ -17,3 +17,4 @@ export 'supabase/user_client.dart';
 export 'supabase/booking_client.dart';
 
 export 'utils/json_decoder.dart';
+export 'utils/json_encoder.dart';

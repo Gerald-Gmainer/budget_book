@@ -37,7 +37,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   _onValueChange(double value) {
-    widget.model.model.amount = value;
+    widget.model.bookingModel.amount = value;
   }
 
   @override

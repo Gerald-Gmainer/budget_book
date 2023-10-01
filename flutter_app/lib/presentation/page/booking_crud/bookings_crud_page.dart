@@ -6,6 +6,7 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/amount_display.dart';
+import 'widget/category_list.dart';
 import 'widget/choose_category_button.dart';
 import 'widget/date_input.dart';
 import 'widget/description_input.dart';
@@ -29,6 +30,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     super.initState();
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
+    BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
   }
 
   @override
@@ -38,7 +40,9 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    _animateToPage(1);
+    if (widget.model.bookingModel.amount != null && widget.model.bookingModel.amount! > 0) {
+      _animateToPage(1);
+    }
   }
 
   _animateToPage(int page) {
@@ -52,6 +56,11 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
   _upload() {
     BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
+  }
+
+  _onUploadSuccess() {
+    BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
+    Navigator.of(context).pop();
   }
 
   @override
@@ -69,7 +78,11 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           title: Text(_isCreating() ? "create booking" : "edit booking"),
         ),
         body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is BookingCrudUploadedState) {
+              _onUploadSuccess();
+            }
+          },
           builder: (context, state) {
             if (state is BookingCrudInitState) {
               return _buildView(widget.model);
@@ -123,10 +136,14 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _buildCategoriesView() {
-    return Container(color: Colors.red);
+    return BlocBuilder<CategoryListBloc, CategoryListState>(
+      builder: (context, state) {
+        return CategoryList(model: widget.model, state: state, onCategoryTap: _upload);
+      },
+    );
   }
 
   bool _isCreating() {
-    return widget.model.model.id == null;
+    return widget.model.bookingModel.id == null;
   }
 }

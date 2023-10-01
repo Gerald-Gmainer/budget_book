@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<MainPaginatorBloc>(create: (context) => MainPaginatorBloc(_bookingRepo)),
             BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
             BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
+            BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),
           ],
           child: MaterialApp(
             title: 'Budget book',

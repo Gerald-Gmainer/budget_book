@@ -33,7 +33,7 @@ class ErrorText extends StatelessWidget {
     return ElevatedButton(
       onPressed: onReload!,
       child: const Text(
-        "TODO retry",
+        "Retry",
         style: TextStyle(color: AppColors.primaryTextColor),
       ),
     );

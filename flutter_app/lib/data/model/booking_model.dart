@@ -30,6 +30,18 @@ class BookingModel extends DataModel {
         isDeleted: json['is_deleted'],
       );
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'booking_date': JsonEncoder.encodeDateTime(bookingDate),
+      'description': description,
+      'amount': amount,
+      'category_id': categoryId,
+      // 'account_id': accountId,
+      // 'is_deleted': isDeleted,
+    };
+  }
+
   @override
   String toString() {
     return [

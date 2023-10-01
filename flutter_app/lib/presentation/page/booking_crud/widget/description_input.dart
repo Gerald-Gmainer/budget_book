@@ -8,7 +8,7 @@ class DescriptionInput extends StatelessWidget {
   const DescriptionInput({required this.model});
 
   _onChanged(String value) {
-    model.model.description = value;
+    model.bookingModel.description = value;
   }
 
   @override

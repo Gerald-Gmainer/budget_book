@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/utils/logger.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'booking_crud_event.dart';
@@ -21,6 +21,18 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
   }
 
   _onUploadBookingCrudEvent(UploadBookingCrudEvent event, Emitter<BookingCrudState> emit) async {
-    BudgetLogger.instance.d(event.model);
+    try {
+      BudgetLogger.instance.d("upload ${event.model.bookingModel.toJson()}");
+      emit(BookingCrudLoadingState());
+      await bookingRepo.uploadBooking(event.model.bookingModel);
+      emit(BookingCrudUploadedState());
+    } catch (e) {
+      if (!ConnectivitySingleton.instance.isConnected()) {
+        emit(BookingCrudErrorState("TODO internet error message"));
+      } else {
+        BudgetLogger.instance.e(e);
+        emit(BookingCrudErrorState(e.toString()));
+      }
+    }
   }
 }

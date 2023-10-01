@@ -22,10 +22,10 @@ CREATE TABLE profiles (
 );
 
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Owners can view their profile" ON profiles FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Nobody can view profiles" ON profiles FOR SELECT USING (false);
 CREATE POLICY "Nobody can insert profiles" ON profiles FOR INSERT WITH CHECK (false);
-CREATE POLICY "Nody can update profiles" ON profiles FOR UPDATE USING (false);
-CREATE POLICY "Owners can delete their profile" ON profiles FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Nobody can update profiles" ON profiles FOR UPDATE USING (false);
+CREATE POLICY "Nobody can delete their profile" ON profiles FOR DELETE USING (false);
 
 CREATE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
@@ -62,6 +62,8 @@ CREATE TABLE categories (
   type category_type  NOT NULL
 );
 
+--
+
 CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -74,18 +76,53 @@ CREATE TABLE bookings (
   updated_at timestamp DEFAULT now()
 );
 
--- 
-
 CREATE OR REPLACE VIEW view_bookings AS
   SELECT b.id, b.booking_date, b.description, b.amount, b.category_id, b.account_id, b.is_deleted
   FROM bookings b
   WHERE b.user_id = auth.uid();
 
+CREATE OR REPLACE FUNCTION create_booking(p_booking JSON) RETURNS INTEGER AS $$
+DECLARE
+  _new_booking_id INTEGER;
+  _user_id uuid;
+BEGIN
+  SELECT auth.uid() INTO _user_id;
+  RAISE LOG 'create booking by user_id: %', _user_id;
+  RAISE LOG '%', p_booking;
+
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in. Please log in to create a booking.';
+  END IF;
+
+  INSERT INTO bookings (user_id, booking_date, description, amount, category_id, account_id)
+  SELECT
+      _user_id,
+      (p_booking->>'booking_date'::DATE),
+      p_booking->>'description'::TEXT,
+      (p_booking->>'amount')::NUMERIC,
+      (p_booking->>'category_id')::INTEGER,
+      (p_booking->>'account_id')::INTEGER
+  RETURNING id INTO _new_booking_id;
+
+  RETURN _new_booking_id;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Nobody can view bookings" ON bookings FOR SELECT USING (false);
+CREATE POLICY "Nobody can insert bookings" ON bookings FOR INSERT WITH CHECK (false);
+CREATE POLICY "Nobody can update bookings" ON bookings FOR UPDATE USING (false);
+CREATE POLICY "Nobody can delete bookings" ON bookings FOR DELETE USING (false);
+
+
+-- 
+
+
+
 -- functions
 -- create_profile
 -- create_account
 -- create_category
--- create_booking
 
 -- edit_profile
 -- edit_account
@@ -116,12 +153,3 @@ CREATE OR REPLACE VIEW view_bookings AS
 -- CREATE TABLE settings (
 --   id SERIAL PRIMARY KEY
 -- );
-
-drop table bookings;
-drop table categories;
-drop table accounts;
-drop trigger on_auth_user_created on auth.users;
-drop function handle_new_user;
-drop table profiles;
-drop type category_type;
-drop type currencies;

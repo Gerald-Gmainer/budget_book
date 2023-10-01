@@ -8,7 +8,7 @@ class BalanceButtonRow extends StatelessWidget {
 
   _navigateToCrud(BuildContext context, CategoryType categoryType) {
     final BookingCrudModel model = BookingCrudModel(
-      model: BookingModel.empty(),
+      bookingModel: BookingModel.empty(),
       categoryType: categoryType,
     );
     Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: model);
