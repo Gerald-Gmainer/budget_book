@@ -44,9 +44,16 @@ class _DateInputState extends State<DateInput> {
       onPressed: () {
         _onPressed(context);
       },
-      child: Text(
-        DateTimeConverter.toEEEEdMMMM(_selectedDate),
-        style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(Icons.edit_calendar, color: AppColors.primaryTextColor),
+          const SizedBox(width: 8),
+          Text(
+            DateTimeConverter.toEEEEdMMMM(_selectedDate),
+            style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
+          ),
+        ],
       ),
     );
   }

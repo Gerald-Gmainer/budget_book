@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
+import 'package:flutter_app/presentation/page/main/widget/create_booking_button.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'main_paginator.dart';
-import 'widget/balance_button_row.dart';
 import 'widget/left_drawer.dart';
 import 'widget/left_drawer_button.dart';
 import 'widget/refresh_button.dart';
@@ -50,7 +50,7 @@ class _MainPageState extends State<MainPage> {
                 child: Column(
                   children: [
                     Expanded(child: MainPaginator()),
-                    BalanceButtonRow(),
+                    // BalanceButtonRow(),
                   ],
                 ),
               ),
@@ -58,6 +58,7 @@ class _MainPageState extends State<MainPage> {
             ],
           );
         }),
+        floatingActionButton: CreateBookingButton(),
       ),
     );
   }

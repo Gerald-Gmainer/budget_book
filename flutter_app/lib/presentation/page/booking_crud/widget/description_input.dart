@@ -14,7 +14,8 @@ class DescriptionInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding, vertical: 0),
+      // padding: const EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding, vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: TextFormField(
         onChanged: _onChanged,
         decoration: const InputDecoration(

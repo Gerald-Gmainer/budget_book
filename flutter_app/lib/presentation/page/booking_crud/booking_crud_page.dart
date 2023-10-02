@@ -2,32 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
-import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widget/amount_display.dart';
-import 'widget/category_list.dart';
-import 'widget/choose_category_button.dart';
-import 'widget/date_input.dart';
-import 'widget/description_input.dart';
+import 'booking_crud_tab1.dart';
+import 'booking_crud_tab2.dart';
+import 'widget/category_type_button.dart';
 
 class BookingCrudPage extends StatefulWidget {
   static const String route = "BookingCrudPage";
-  final BookingCrudModel model;
+  final BookingModel bookingModel;
 
-  const BookingCrudPage({required this.model});
+  const BookingCrudPage({required this.bookingModel});
 
   @override
   State<BookingCrudPage> createState() => _BookingCrudPageState();
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
+  late final BookingCrudModel _crudModel;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    // TODO how to determineCategoryType
+    _crudModel = BookingCrudModel(bookingModel: widget.bookingModel, categoryType: CategoryType.outcome);
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
@@ -40,13 +40,16 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    if (widget.model.bookingModel.amount != null && widget.model.bookingModel.amount! > 0) {
+    if (_crudModel.bookingModel.amount != null && _crudModel.bookingModel.amount! > 0) {
       _animateToPage(1);
     }
   }
 
   _animateToPage(int page) {
-    _currentPage = page;
+    setState(() {
+      _currentPage = page;
+    });
+
     _pageController.animateToPage(
       page,
       duration: const Duration(milliseconds: 500),
@@ -55,12 +58,18 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _upload() {
-    BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
+    BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(_crudModel));
   }
 
   _onUploadSuccess() {
     BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
     Navigator.of(context).pop();
+  }
+
+  _onCategoryPressed(CategoryType categoryType) {
+    setState(() {
+      _crudModel.categoryType = categoryType;
+    });
   }
 
   @override
@@ -75,7 +84,11 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_isCreating() ? "create booking" : "edit booking"),
+          title: Text(_isCreating() ? "New" : "Edit"),
+          actions: [
+            CategoryTypeButton(crudModel: _crudModel, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
+            CategoryTypeButton(crudModel: _crudModel, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
+          ],
         ),
         body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
           listener: (context, state) {
@@ -85,7 +98,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           },
           builder: (context, state) {
             if (state is BookingCrudInitState) {
-              return _buildView(widget.model);
+              return _buildView();
             }
             if (state is BookingCrudErrorState) {
               return ErrorText(message: state.message, onReload: _upload);
@@ -97,53 +110,18 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     );
   }
 
-  Widget _buildView(BookingCrudModel model) {
-    return Padding(
-      padding: const EdgeInsets.all(AppDimensions.verticalPadding),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          DateInput(model: model),
-          AmountDisplay(),
-          DescriptionInput(model: model),
-          Expanded(child: _buildPageView()),
-        ],
-      ),
-    );
-  }
-
-  _buildPageView() {
+  Widget _buildView() {
     return PageView(
       controller: _pageController,
-      scrollDirection: Axis.vertical,
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
-        _buildCalculatorView(),
-        _buildCategoriesView(),
+        BookingCrudTab1(crudModel: _crudModel, onCategoryTap: _openCategories),
+        BookingCrudTab2(crudModel: _crudModel, onUpload: _upload),
       ],
-    );
-  }
-
-  _buildCalculatorView() {
-    return Column(
-      children: [
-        const Spacer(),
-        Calculator(model: widget.model),
-        ChooseCategoryButton(model: widget.model, onPressed: _openCategories),
-      ],
-    );
-  }
-
-  _buildCategoriesView() {
-    return BlocBuilder<CategoryListBloc, CategoryListState>(
-      builder: (context, state) {
-        return CategoryList(model: widget.model, state: state, onCategoryTap: _upload);
-      },
     );
   }
 
   bool _isCreating() {
-    return widget.model.bookingModel.id == null;
+    return _crudModel.bookingModel.id == null;
   }
 }

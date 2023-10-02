@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/presentation/presentation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/utils/logger.dart';
 
 class CategoryList extends StatelessWidget {
   final BookingCrudModel model;
-  final CategoryListState state;
+  final List<CategoryModel> categories;
   final VoidCallback onCategoryTap;
 
-  const CategoryList({required this.state, required this.onCategoryTap, required this.model});
-
-  _reload(BuildContext context) {
-    BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
-  }
+  const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
 
   _onCategoryTap(BuildContext context, CategoryModel category) {
     model.bookingModel.categoryId = category.id;
@@ -22,31 +16,18 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state is CategoryErrorState) {
-      return ErrorText(
-        message: (state as CategoryErrorState).message,
-        onReload: () {
-          _reload(context);
-        },
-      );
-    }
-    if (state is CategoryLoadedState) {
-      return _buildView(context, (state as CategoryLoadedState).categories);
-    }
-    return const Center(child: CircularProgressIndicator());
-  }
+    var trimmedList = [...categories];
+    trimmedList.removeWhere((category) => category.categoryType != model.categoryType);
 
-  Widget _buildView(BuildContext context, List<CategoryModel> categories) {
-    categories.removeWhere((category) => category.categoryType == CategoryType.income);
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
       ),
-      itemCount: categories.length,
+      itemCount: trimmedList.length,
       itemBuilder: (BuildContext context, int index) {
-        final category = categories[index];
+        final category = trimmedList[index];
         return _buildCategory(context, category);
       },
     );

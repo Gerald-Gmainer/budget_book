@@ -9,7 +9,7 @@ class CategoryCacheService {
   DateTime? _lastCacheTime;
   bool _isFetchingCategories = false;
   final Duration cacheDuration = const Duration(minutes: 5);
-  final Completer<void> _categoriesFetchCompleter = Completer<void>();
+  final Completer<List<CategoryModel>> _categoriesFetchCompleter = Completer<List<CategoryModel>>();
 
   CategoryCacheService(this.bookingClient);
 
@@ -19,8 +19,7 @@ class CategoryCacheService {
     }
 
     if (_isFetchingCategories) {
-      await _categoriesFetchCompleter.future;
-      return _cachedCategories!;
+      return _categoriesFetchCompleter.future;
     }
 
     _isFetchingCategories = true;
@@ -32,7 +31,7 @@ class CategoryCacheService {
       _lastCacheTime = DateTime.now();
 
       _isFetchingCategories = false;
-      _categoriesFetchCompleter.complete();
+      _categoriesFetchCompleter.complete(_cachedCategories);
 
       return categories;
     } catch (e) {

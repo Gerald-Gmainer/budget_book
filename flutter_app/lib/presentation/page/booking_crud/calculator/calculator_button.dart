@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/presentation/widget/calculator/calculator_key.dart';
 import 'package:flutter_app/utils/utils.dart';
+
+import 'calculator_key.dart';
 
 class CalculatorButton extends StatelessWidget {
   final CalculatorKey calculatorKey;

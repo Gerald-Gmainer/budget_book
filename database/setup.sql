@@ -97,11 +97,12 @@ BEGIN
   INSERT INTO bookings (user_id, booking_date, description, amount, category_id, account_id)
   SELECT
       _user_id,
-      (p_booking->>'booking_date'::DATE),
+      (p_booking->>'booking_date')::DATE,
       p_booking->>'description'::TEXT,
       (p_booking->>'amount')::NUMERIC,
       (p_booking->>'category_id')::INTEGER,
-      (p_booking->>'account_id')::INTEGER
+      -- (p_booking->>'account_id')::INTEGER
+      1
   RETURNING id INTO _new_booking_id;
 
   RETURN _new_booking_id;

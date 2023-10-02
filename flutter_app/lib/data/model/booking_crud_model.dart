@@ -2,7 +2,7 @@ import 'package:flutter_app/data/data.dart';
 
 class BookingCrudModel {
   final BookingModel bookingModel;
-  final CategoryType categoryType;
+  CategoryType categoryType;
 
   BookingCrudModel({required this.bookingModel, required this.categoryType});
 

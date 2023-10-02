@@ -6,10 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AmountDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        // color: AppColors.secondaryColor,
+        color: Color(0x885F6971),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
         child: BlocBuilder<CalculatorBloc, CalculatorState>(
           builder: (context, state) {
             final List<String> history = state is CalculatorUpdateState ? state.history : [];
@@ -33,7 +38,10 @@ class AmountDisplay extends StatelessWidget {
   }
 
   Widget _buildResult(double result) {
-    final resultFormatted = result == result.truncate() ? result.toStringAsFixed(0) : result.toStringAsFixed(2);
+    String resultFormatted = result == result.truncate() ? result.toStringAsFixed(0) : result.toStringAsFixed(2);
+    if (result > 0) {
+      resultFormatted = "$resultFormatted€";
+    }
     return Text(resultFormatted, style: const TextStyle(fontSize: 44, color: AppColors.primaryTextColor));
   }
 }
