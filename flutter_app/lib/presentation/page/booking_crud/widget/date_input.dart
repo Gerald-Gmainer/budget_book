@@ -5,8 +5,9 @@ import 'package:flutter_app/utils/utils.dart';
 
 class DateInput extends StatefulWidget {
   final BookingCrudModel model;
+  final bool hideQuickButtons;
 
-  const DateInput({required this.model});
+  const DateInput({required this.model, required this.hideQuickButtons});
 
   @override
   State<DateInput> createState() => _DateInputState();
@@ -14,6 +15,7 @@ class DateInput extends StatefulWidget {
 
 class _DateInputState extends State<DateInput> {
   late DateTime _selectedDate;
+  final DateTime now = DateTime.now();
 
   @override
   void initState() {
@@ -22,7 +24,7 @@ class _DateInputState extends State<DateInput> {
     _selectedDate = widget.model.bookingModel.bookingDate!;
   }
 
-  _onPressed(BuildContext context) async {
+  _onDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
@@ -38,11 +40,27 @@ class _DateInputState extends State<DateInput> {
     }
   }
 
+  _onQuickPressed(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+    });
+    widget.model.bookingModel.bookingDate = date;
+  }
+
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildDatePicker(),
+        if (!widget.hideQuickButtons) _buildQuickButtons(),
+      ],
+    );
+  }
+
+  _buildDatePicker() {
     return TextButton(
       onPressed: () {
-        _onPressed(context);
+        _onDatePicker(context);
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -54,6 +72,47 @@ class _DateInputState extends State<DateInput> {
             style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
           ),
         ],
+      ),
+    );
+  }
+
+  _buildQuickButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildQuickButton(0, "today"),
+        const SizedBox(width: 8),
+        _buildQuickButton(-1, "yesterday"),
+        const SizedBox(width: 8),
+        _buildQuickButton(-2, "2 days ago"),
+      ],
+    );
+  }
+
+  _buildQuickButton(int dayDiff, String subtext) {
+    final date = now.add(Duration(days: dayDiff));
+
+    return Expanded(
+      child: ElevatedButton(
+        onPressed: () {
+          _onQuickPressed(date);
+        },
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              DateTimeConverter.toMMdd(date),
+              style: const TextStyle(fontSize: 16.0),
+            ),
+            Text(
+              subtext,
+              style: const TextStyle(color: AppColors.secondaryTextColor),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -44,7 +44,7 @@ class _CalculatorState extends State<Calculator> {
   Widget build(BuildContext context) {
     return BlocListener<CalculatorBloc, CalculatorState>(
       listener: (context, state) {
-        if(state is CalculatorUpdateState) {
+        if (state is CalculatorUpdateState) {
           _onValueChange(state.result);
         }
       },

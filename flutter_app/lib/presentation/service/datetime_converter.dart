@@ -29,6 +29,13 @@ class DateTimeConverter {
     return DateFormat('MMMM yyyy').format(date);
   }
 
+  static String toMMdd(DateTime? date) {
+    if (date == null) {
+      return "";
+    }
+    return DateFormat('MM/dd').format(date);
+  }
+
   static String toEEEEdMMMM(DateTime? date) {
     if (date == null) {
       return "";

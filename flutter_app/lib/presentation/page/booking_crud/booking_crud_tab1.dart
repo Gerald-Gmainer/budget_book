@@ -6,7 +6,6 @@ import 'calculator/calculator.dart';
 import 'widget/amount_display.dart';
 import 'widget/choose_category_button.dart';
 import 'widget/date_input.dart';
-import 'widget/date_quick_buttons.dart';
 import 'widget/description_input.dart';
 
 class BookingCrudTab1 extends StatelessWidget {
@@ -17,17 +16,26 @@ class BookingCrudTab1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        DateInput(model: crudModel),
-        DateQuickButtons(crudModel: crudModel),
-        const SizedBox(height: AppDimensions.verticalPadding),
-        AmountDisplay(),
-        DescriptionInput(model: crudModel),
-        const Spacer(),
-        Calculator(model: crudModel),
-        ChooseCategoryButton(model: crudModel, onPressed: onCategoryTap),
-      ],
-    );
+    return LayoutBuilder(builder: (context, BoxConstraints constraints) {
+      double appBarHeight = AppBar().preferredSize.height;
+      double screenHeight = MediaQuery.of(context).size.height - appBarHeight;
+      final hideQuickButtons = screenHeight < 600;
+
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          DateInput(model: crudModel, hideQuickButtons: hideQuickButtons),
+          const SizedBox(height: AppDimensions.verticalPadding * 2),
+          AmountDisplay(),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          DescriptionInput(model: crudModel),
+          const Spacer(),
+          Calculator(model: crudModel),
+          const SizedBox(height: AppDimensions.verticalPadding),
+          ChooseCategoryButton(model: crudModel, onPressed: onCategoryTap),
+          const SizedBox(height: AppDimensions.verticalPadding),
+        ],
+      );
+    });
   }
 }

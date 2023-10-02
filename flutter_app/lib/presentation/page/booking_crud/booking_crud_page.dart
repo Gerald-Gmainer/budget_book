@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/utils/app_dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'booking_crud_tab1.dart';
@@ -111,13 +112,18 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   Widget _buildView() {
-    return PageView(
-      controller: _pageController,
-      physics: const NeverScrollableScrollPhysics(),
-      children: <Widget>[
-        BookingCrudTab1(crudModel: _crudModel, onCategoryTap: _openCategories),
-        BookingCrudTab2(crudModel: _crudModel, onUpload: _upload),
-      ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding, vertical: AppDimensions.verticalPadding),
+        child: PageView(
+          controller: _pageController,
+          physics: const NeverScrollableScrollPhysics(),
+          children: <Widget>[
+            BookingCrudTab1(crudModel: _crudModel, onCategoryTap: _openCategories),
+            BookingCrudTab2(crudModel: _crudModel, onUpload: _upload),
+          ],
+        ),
+      ),
     );
   }
 
