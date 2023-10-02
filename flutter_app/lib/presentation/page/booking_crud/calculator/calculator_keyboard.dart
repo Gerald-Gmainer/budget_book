@@ -14,8 +14,8 @@ class CalculatorKeyboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.count(
       crossAxisCount: 5,
-      mainAxisSpacing: 12,
-      crossAxisSpacing: 12,
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       padding: const EdgeInsets.all(5),
@@ -27,12 +27,14 @@ class CalculatorKeyboard extends StatelessWidget {
           calculatorKey: CalculatorKey.division,
           onPressed: onPressed,
           backgroundColor: operatorColor,
-          icon: const FaIcon(
-            FontAwesomeIcons.divide,
-            size: 20,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.divide, size: 20),
         ),
-        CalculatorButton(calculatorKey: CalculatorKey.clear, onPressed: onPressed, backgroundColor: const Color(0xFFFF9999), fontColor: Colors.black),
+        CalculatorButton(
+          calculatorKey: CalculatorKey.clear,
+          onPressed: onPressed,
+          backgroundColor: const Color(0xFFB36565),
+          // fontColor: Colors.black,
+        ),
         CalculatorButton(calculatorKey: CalculatorKey.digit4, onPressed: onPressed),
         CalculatorButton(calculatorKey: CalculatorKey.digit5, onPressed: onPressed),
         CalculatorButton(calculatorKey: CalculatorKey.digit6, onPressed: onPressed),
@@ -40,10 +42,7 @@ class CalculatorKeyboard extends StatelessWidget {
           calculatorKey: CalculatorKey.multiplication,
           onPressed: onPressed,
           backgroundColor: operatorColor,
-          icon: const FaIcon(
-            FontAwesomeIcons.xmark,
-            size: 20,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.xmark, size: 20),
         ),
         const SizedBox.shrink(),
         CalculatorButton(calculatorKey: CalculatorKey.digit1, onPressed: onPressed),
@@ -53,46 +52,31 @@ class CalculatorKeyboard extends StatelessWidget {
           calculatorKey: CalculatorKey.subtraction,
           onPressed: onPressed,
           backgroundColor: operatorColor,
-          icon: const FaIcon(
-            FontAwesomeIcons.minus,
-            size: 20,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.minus, size: 20),
         ),
         const SizedBox.shrink(),
         CalculatorButton(calculatorKey: CalculatorKey.digit0, onPressed: onPressed),
         CalculatorButton(
           calculatorKey: CalculatorKey.dot,
           onPressed: onPressed,
-          icon: const FaIcon(
-            FontAwesomeIcons.solidCircle,
-            size: 5,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.solidCircle, size: 5),
         ),
         CalculatorButton(
           calculatorKey: CalculatorKey.back,
           onPressed: onPressed,
-          icon: const FaIcon(
-            FontAwesomeIcons.deleteLeft,
-            size: 20,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.deleteLeft, size: 20),
         ),
         CalculatorButton(
           calculatorKey: CalculatorKey.addition,
           onPressed: onPressed,
           backgroundColor: operatorColor,
-          icon: const FaIcon(
-            FontAwesomeIcons.plus,
-            size: 20,
-          ),
+          icon: const FaIcon(FontAwesomeIcons.plus, size: 20),
         ),
         CalculatorButton(
           calculatorKey: CalculatorKey.equal,
           onPressed: onPressed,
-          backgroundColor: operatorColor,
-          icon: const FaIcon(
-            FontAwesomeIcons.equals,
-            size: 20,
-          ),
+          backgroundColor: const Color(0xFF4875C9),
+          icon: const FaIcon(FontAwesomeIcons.equals, size: 20),
         ),
       ],
     );

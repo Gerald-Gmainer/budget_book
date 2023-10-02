@@ -53,7 +53,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
     _pageController.animateToPage(
       page,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );
   }

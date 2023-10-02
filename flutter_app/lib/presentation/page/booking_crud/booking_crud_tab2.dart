@@ -5,6 +5,7 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/category_list.dart';
+import 'widget/crud_overview.dart';
 
 class BookingCrudTab2 extends StatelessWidget {
   final BookingCrudModel crudModel;
@@ -39,7 +40,8 @@ class BookingCrudTab2 extends StatelessWidget {
   Widget _buildView(List<CategoryModel> categories) {
     return Column(
       children: [
-        Text("omg"),
+        CrudOverview(model: crudModel),
+        SizedBox(height: 16),
         Expanded(child: CategoryList(model: crudModel, onCategoryTap: onUpload, categories: categories)),
       ],
     );

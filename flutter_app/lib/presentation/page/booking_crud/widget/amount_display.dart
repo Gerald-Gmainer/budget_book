@@ -11,7 +11,7 @@ class AmountDisplay extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
         // color: AppColors.secondaryColor,
-        color: Color(0x885F6971),
+        color: const Color(0x885F6971),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
@@ -20,11 +20,17 @@ class AmountDisplay extends StatelessWidget {
             final List<String> history = state is CalculatorUpdateState ? state.history : [];
             final double result = state is CalculatorUpdateState ? state.result : 0;
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildHistory(history),
-                _buildResult(result),
+                const Text("€", style: TextStyle(fontSize: 24, color: AppColors.primaryTextColor)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    _buildHistory(history),
+                    _buildResult(result),
+                  ],
+                ),
               ],
             );
           },
@@ -34,14 +40,11 @@ class AmountDisplay extends StatelessWidget {
   }
 
   Widget _buildHistory(List<String> history) {
-    return Text(history.join(), style: const TextStyle(fontSize: 22, color: AppColors.primaryTextColor));
+    return Text(history.join(), style: const TextStyle(fontSize: 18, color: AppColors.primaryTextColor));
   }
 
   Widget _buildResult(double result) {
     String resultFormatted = result == result.truncate() ? result.toStringAsFixed(0) : result.toStringAsFixed(2);
-    if (result > 0) {
-      resultFormatted = "$resultFormatted€";
-    }
-    return Text(resultFormatted, style: const TextStyle(fontSize: 44, color: AppColors.primaryTextColor));
+    return Text(resultFormatted, style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
   }
 }

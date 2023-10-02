@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/utils/app_dimensions.dart';
 
 class DescriptionInput extends StatelessWidget {
   final BookingCrudModel model;
+  final TextEditingController controller;
 
-  const DescriptionInput({required this.model});
+  DescriptionInput({required this.model}): controller = TextEditingController(text: model.bookingModel.description);
 
   _onChanged(String value) {
     model.bookingModel.description = value;
@@ -13,15 +13,12 @@ class DescriptionInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      // padding: const EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding, vertical: 0),
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: TextFormField(
-        onChanged: _onChanged,
-        decoration: const InputDecoration(
-          prefixIcon: Icon(Icons.edit),
-          labelText: 'Note',
-        ),
+    return TextFormField(
+      controller: controller,
+      onChanged: _onChanged,
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.edit),
+        labelText: 'Note',
       ),
     );
   }
