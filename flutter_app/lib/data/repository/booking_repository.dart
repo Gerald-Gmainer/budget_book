@@ -13,7 +13,7 @@ class BookingRepository {
     return await _client.getAllBookings();
   }
 
-  Future<List<CategoryModel>> getAllCategories() async {
+  Future<List<CategoryDataModel>> getAllCategories() async {
     return await _categoryCacheService.getAllCategories();
   }
 

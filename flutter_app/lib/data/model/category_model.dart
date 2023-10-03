@@ -1,27 +1,10 @@
 import 'package:flutter_app/data/data.dart';
 
-class CategoryModel extends DataModel {
-  final String name;
+class CategoryModel {
+  final CategoryDataModel dataModel;
   final CategoryType categoryType;
 
-  CategoryModel({
-    int? id,
-    required this.name,
-    required this.categoryType,
-  }) : super(id);
+  CategoryModel.empty(this.categoryType) : dataModel = CategoryDataModel.empty(categoryType);
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
-        id: json['id'],
-        name: json['name'],
-        categoryType: json['type'] == "income" ? CategoryType.income : CategoryType.outcome,
-      );
-
-  @override
-  String toString() {
-    return [
-      "id: $id",
-      "name: $name",
-      "categoryType: $categoryType",
-    ].join(" / ");
-  }
+  CategoryModel(this.dataModel, this.categoryType);
 }

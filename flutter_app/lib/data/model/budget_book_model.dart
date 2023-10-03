@@ -4,7 +4,7 @@ class BudgetBookModel {
   final BudgetPeriod currentPeriod;
   final List<BudgetPeriodModel> periodModels;
   final List<AccountModel> accounts;
-  final List<CategoryModel> categories;
+  final List<CategoryDataModel> categories;
 
   BudgetBookModel({
     required this.currentPeriod,

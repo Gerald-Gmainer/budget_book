@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/utils/logger.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 
 class CategoryList extends StatelessWidget {
   final BookingModel model;
@@ -10,11 +10,13 @@ class CategoryList extends StatelessWidget {
   const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
 
   _onCategoryTap(BuildContext context, CategoryModel category) {
-    model.dataModel.categoryId = category.id;
+    model.dataModel.categoryId = category.dataModel.id;
     onCategoryTap();
   }
 
-  _createCategory(BuildContext context) {}
+  _createCategory(BuildContext context) {
+    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(CategoryType.outcome));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class CategoryList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Image.network(category.imageUrl),
-            Text(category.name),
+            Text(category.dataModel.name ?? ""),
           ],
         ),
       ),

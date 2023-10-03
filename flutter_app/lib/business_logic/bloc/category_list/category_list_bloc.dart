@@ -18,8 +18,9 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
   _onLoadCategoryListEvent(LoadCategoryListEvent event, Emitter<CategoryListState> emit) async {
     try {
       emit(CategoryLoadingState());
-      final categories = await repo.getAllCategories();
-      emit(CategoryLoadedState(categories));
+      final dataModels = await repo.getAllCategories();
+      // TODO use converter
+      emit(CategoryLoadedState(dataModels.map((e) => CategoryModel(e, e.categoryType)).toList()));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(CategoryErrorState("TODO internet error message"));

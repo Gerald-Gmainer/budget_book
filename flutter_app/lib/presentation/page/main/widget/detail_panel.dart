@@ -5,7 +5,7 @@ import 'package:flutter_app/utils/utils.dart';
 
 class DetailPanel extends StatelessWidget {
   final BudgetPeriodModel periodModel;
-  final List<CategoryModel> categories;
+  final List<CategoryDataModel> categories;
 
   const DetailPanel({required this.periodModel, required this.categories});
 
@@ -25,7 +25,7 @@ class DetailPanel extends StatelessWidget {
   }
 
   Widget _buildHeader(CategoryModel category) {
-    return Text(category.name);
+    return Text(category.dataModel.name ?? "");
   }
 
   Widget _buildTrailing(CategoryModel category, double amount) {

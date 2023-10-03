@@ -7,6 +7,7 @@ export 'model/booking_data_model.dart';
 export 'model/budget_book_model.dart';
 export 'model/budget_period_model.dart';
 export 'model/category_model.dart';
+export 'model/category_data_model.dart';
 export 'model/category_booking_group_model.dart';
 export 'model/booking_model.dart';
 

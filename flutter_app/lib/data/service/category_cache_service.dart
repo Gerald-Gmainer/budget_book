@@ -5,15 +5,15 @@ import 'package:flutter_app/data/data.dart';
 class CategoryCacheService {
   final BookingClient bookingClient;
 
-  List<CategoryModel>? _cachedCategories;
+  List<CategoryDataModel>? _cachedCategories;
   DateTime? _lastCacheTime;
   bool _isFetchingCategories = false;
   final Duration cacheDuration = const Duration(minutes: 5);
-  final Completer<List<CategoryModel>> _categoriesFetchCompleter = Completer<List<CategoryModel>>();
+  final Completer<List<CategoryDataModel>> _categoriesFetchCompleter = Completer<List<CategoryDataModel>>();
 
   CategoryCacheService(this.bookingClient);
 
-  Future<List<CategoryModel>> getAllCategories() async {
+  Future<List<CategoryDataModel>> getAllCategories() async {
     if (_cachedCategories != null && _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= cacheDuration) {
       return _cachedCategories!;
     }

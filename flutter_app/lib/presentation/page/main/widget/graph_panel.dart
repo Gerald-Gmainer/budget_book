@@ -30,17 +30,16 @@ class GraphPanel extends StatelessWidget {
           ],
           series: <CircularSeries<_PieData, String>>[
             DoughnutSeries<_PieData, String>(
-              dataSource: _mapToPieData(periodModel.categoryBookingGroupModels),
-              xValueMapper: (_PieData data, _) => data.xData,
-              yValueMapper: (_PieData data, _) => data.yData,
-              dataLabelMapper: (_PieData data, _) => data.text,
-              pointColorMapper: (_PieData data, _) => data.color,
-              radius: '100%',
-              innerRadius: '50%',
-              dataLabelSettings: const DataLabelSettings(isVisible: true),
-              strokeColor: AppColors.primaryColor,
-              strokeWidth: 5
-            ),
+                dataSource: _mapToPieData(periodModel.categoryBookingGroupModels),
+                xValueMapper: (_PieData data, _) => data.xData,
+                yValueMapper: (_PieData data, _) => data.yData,
+                dataLabelMapper: (_PieData data, _) => data.text,
+                pointColorMapper: (_PieData data, _) => data.color,
+                radius: '100%',
+                innerRadius: '50%',
+                dataLabelSettings: const DataLabelSettings(isVisible: true),
+                strokeColor: AppColors.primaryColor,
+                strokeWidth: 5),
           ],
         ),
       ),
@@ -54,7 +53,7 @@ class GraphPanel extends StatelessWidget {
       if (model.category.categoryType == CategoryType.income) {
         continue;
       }
-      String categoryName = model.category.name;
+      String categoryName = model.category.dataModel.name ?? "";
       double totalAmount = 0.0;
       for (var booking in model.bookings) {
         if (booking.dataModel.amount != null) {
@@ -64,7 +63,7 @@ class GraphPanel extends StatelessWidget {
       _PieData pieData = _PieData(
         categoryName,
         totalAmount,
-        model.category.name,
+        model.category.dataModel.name ?? "",
         Colors.primaries[Random().nextInt(Colors.primaries.length)],
       );
       pieDataList.add(pieData);
