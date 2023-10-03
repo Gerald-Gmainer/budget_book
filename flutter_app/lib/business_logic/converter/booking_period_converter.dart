@@ -51,7 +51,8 @@ class BookingPeriodConverter {
 
       groupedBookings.forEach((categoryId, bookings) {
         final category = _findCategory(categories, categoryId);
-        groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings));
+        final amount = _calculateAmount(bookings);
+        groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
       });
 
       groupModels.sort((a, b) {
@@ -64,6 +65,8 @@ class BookingPeriodConverter {
         }
       });
 
+      final balance = _calculateBalance(groupModels);
+
       models.insert(
         0,
         BudgetPeriodModel(
@@ -71,6 +74,7 @@ class BookingPeriodConverter {
           dateTime: month,
           dateTimeFrom: null,
           dateTimeTo: null,
+          balance: balance,
           categoryBookingGroupModels: groupModels,
         ),
       );
@@ -81,6 +85,24 @@ class BookingPeriodConverter {
 
   CategoryModel _findCategory(List<CategoryModel> categories, int categoryId) {
     return categories.firstWhere((element) => element.id == categoryId, orElse: () => CategoryModel(name: "unkown", categoryType: CategoryType.outcome));
+  }
+
+  double _calculateAmount(List<BookingModel> bookings) {
+    return bookings.fold(0.0, (double totalAmount, BookingModel booking) {
+      return totalAmount + (booking.amount ?? 0);
+    });
+  }
+
+  double _calculateBalance(List<CategoryBookingGroupModel> groupModels) {
+    double balance = 0.0;
+    for (var model in groupModels) {
+      if (model.category.categoryType == CategoryType.income) {
+        balance += model.amount;
+      } else if (model.category.categoryType == CategoryType.outcome) {
+        balance -= model.amount;
+      }
+    }
+    return balance;
   }
 
   List<BudgetPeriodModel> _convertToYear(List<BookingModel> bookings, List<CategoryModel> categories) {
@@ -94,6 +116,7 @@ class BookingPeriodConverter {
         dateTime: DateTime.now(),
         dateTimeFrom: null,
         dateTimeTo: null,
+        balance: -1,
         categoryBookingGroupModels: [],
       )
     ];

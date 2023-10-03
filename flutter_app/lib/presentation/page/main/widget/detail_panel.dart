@@ -16,7 +16,7 @@ class DetailPanel extends StatelessWidget {
         items: periodModel.categoryBookingGroupModels
             .map((e) => CollapseableItem(
                   header: _buildHeader(e.category),
-                  trailing: _buildTrailing(e.category, e.bookings),
+                  trailing: _buildTrailing(e.category, e.amount),
                   body: _buildBody(e.bookings),
                 ))
             .toList(),
@@ -28,10 +28,9 @@ class DetailPanel extends StatelessWidget {
     return Text(category.name);
   }
 
-  Widget _buildTrailing(CategoryModel category, List<BookingModel> bookings) {
-    final total = _calculateCategoryBalance(bookings);
+  Widget _buildTrailing(CategoryModel category, double amount) {
     final color = category.categoryType == CategoryType.income ? AppColors.incomeColor : AppColors.outcomeColor;
-    return Text(CurrencyConverter.format(total), style: TextStyle(color: color));
+    return Text(CurrencyConverter.format(amount), style: TextStyle(color: color));
   }
 
   Widget _buildBody(List<BookingModel> bookings) {
@@ -43,13 +42,5 @@ class DetailPanel extends StatelessWidget {
         );
       }).toList(),
     );
-  }
-
-  double _calculateCategoryBalance(List<BookingModel> bookings) {
-    double totalAmount = 0;
-    for (var booking in bookings) {
-      totalAmount += booking.amount ?? 0;
-    }
-    return totalAmount;
   }
 }

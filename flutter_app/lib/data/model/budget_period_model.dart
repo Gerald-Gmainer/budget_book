@@ -5,6 +5,7 @@ class BudgetPeriodModel {
   final DateTime? dateTime;
   final DateTime? dateTimeFrom;
   final DateTime? dateTimeTo;
+  final double balance;
   final List<CategoryBookingGroupModel> categoryBookingGroupModels;
 
   BudgetPeriodModel({
@@ -12,6 +13,7 @@ class BudgetPeriodModel {
     required this.dateTime,
     required this.dateTimeFrom,
     required this.dateTimeTo,
+    required this.balance,
     required this.categoryBookingGroupModels,
   });
 }

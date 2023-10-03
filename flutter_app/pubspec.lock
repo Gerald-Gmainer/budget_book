@@ -684,6 +684,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.18"
+  syncfusion_flutter_charts:
+    dependency: "direct main"
+    description:
+      name: syncfusion_flutter_charts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "21.2.4"
   syncfusion_flutter_core:
     dependency: transitive
     description:

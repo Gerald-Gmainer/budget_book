@@ -69,7 +69,7 @@ class _MainPaginatorState extends State<MainPaginator> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DatePanel(periodModel: bookModel.periodModels[index]),
-            GraphPanel(),
+            GraphPanel(periodModel: bookModel.periodModels[index]),
             DetailPanel(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
           ],
         );
