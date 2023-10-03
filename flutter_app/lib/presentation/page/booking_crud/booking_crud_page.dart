@@ -11,24 +11,21 @@ import 'widget/category_type_button.dart';
 
 class BookingCrudPage extends StatefulWidget {
   static const String route = "BookingCrudPage";
-  final BookingModel bookingModel;
+  final BookingModel model;
 
-  const BookingCrudPage({required this.bookingModel});
+  const BookingCrudPage({required this.model});
 
   @override
   State<BookingCrudPage> createState() => _BookingCrudPageState();
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
-  late final BookingModel _crudModel;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
-    // TODO how to determineCategoryType
-    _crudModel = BookingModel(dataModel: widget.bookingModel.dataModel, categoryType: CategoryType.outcome);
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
@@ -41,7 +38,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    if (_crudModel.dataModel.amount != null && _crudModel.dataModel.amount! > 0) {
+    if (widget.model.dataModel.amount != null && widget.model.dataModel.amount! > 0) {
       _animateToPage(1);
     }
   }
@@ -59,7 +56,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _upload() {
-    BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(_crudModel));
+    BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
   }
 
   _onUploadSuccess() {
@@ -69,7 +66,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
   _onCategoryPressed(CategoryType categoryType) {
     setState(() {
-      _crudModel.categoryType = categoryType;
+      widget.model.categoryType = categoryType;
     });
   }
 
@@ -87,8 +84,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         appBar: AppBar(
           title: Text(_isCreating() ? "New" : "Edit"),
           actions: [
-            CategoryTypeButton(model: _crudModel, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
-            CategoryTypeButton(model: _crudModel, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
+            CategoryTypeButton(model: widget.model, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
+            CategoryTypeButton(model: widget.model, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
           ],
         ),
         body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
@@ -119,8 +116,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
-            BookingCrudTab1(crudModel: _crudModel, onCategoryTap: _openCategories),
-            BookingCrudTab2(crudModel: _crudModel, onUpload: _upload),
+            BookingCrudTab1(model: widget.model, onCategoryTap: _openCategories),
+            BookingCrudTab2(model: widget.model, onUpload: _upload),
           ],
         ),
       ),
@@ -128,6 +125,6 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   bool _isCreating() {
-    return _crudModel.dataModel.id == null;
+    return widget.model.dataModel.id == null;
   }
 }

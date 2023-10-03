@@ -4,6 +4,10 @@ class BookingModel {
   final BookingDataModel dataModel;
   CategoryType categoryType;
 
+  BookingModel.empty()
+      : dataModel = BookingDataModel.empty(),
+        categoryType = CategoryType.outcome;
+
   BookingModel({required this.dataModel, required this.categoryType});
 
   @override

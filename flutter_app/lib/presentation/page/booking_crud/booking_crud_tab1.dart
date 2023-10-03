@@ -9,10 +9,10 @@ import 'widget/date_input.dart';
 import 'widget/description_input.dart';
 
 class BookingCrudTab1 extends StatelessWidget {
-  final BookingModel crudModel;
+  final BookingModel model;
   final VoidCallback onCategoryTap;
 
-  const BookingCrudTab1({required this.crudModel, required this.onCategoryTap});
+  const BookingCrudTab1({required this.model, required this.onCategoryTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +24,15 @@ class BookingCrudTab1 extends StatelessWidget {
       return Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          DateInput(model: crudModel, hideQuickButtons: hideQuickButtons),
+          DateInput(model: model, hideQuickButtons: hideQuickButtons),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
           AmountDisplay(),
           const SizedBox(height: AppDimensions.verticalPadding),
-          DescriptionInput(model: crudModel),
+          DescriptionInput(model: model),
           const Spacer(),
-          Calculator(model: crudModel),
+          Calculator(model: model),
           const SizedBox(height: AppDimensions.verticalPadding),
-          ChooseCategoryButton(model: crudModel, onPressed: onCategoryTap),
+          ChooseCategoryButton(model: model, onPressed: onCategoryTap),
           const SizedBox(height: AppDimensions.verticalPadding),
         ],
       );

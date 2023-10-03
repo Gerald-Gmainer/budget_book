@@ -14,6 +14,8 @@ class CategoryList extends StatelessWidget {
     onCategoryTap();
   }
 
+  _createCategory(BuildContext context) {}
+
   @override
   Widget build(BuildContext context) {
     var trimmedList = [...categories];
@@ -57,25 +59,12 @@ class CategoryList extends StatelessWidget {
     return Card(
       child: InkWell(
         onTap: () {
-          // Handle the action when the "Create New" button is tapped
-          // You can open a dialog or navigate to a new screen to create a new category.
-          // For this example, let's show a snackbar.
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Create New Category'),
-              action: SnackBarAction(
-                label: 'Dismiss',
-                onPressed: () {
-                  // Action to dismiss the snackbar
-                },
-              ),
-            ),
-          );
+          _createCategory(context);
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(Icons.add), // You can change the icon to your preferred icon
+          children: const [
+            Icon(Icons.add),
             Text('New'),
           ],
         ),

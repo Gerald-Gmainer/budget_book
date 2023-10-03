@@ -9,10 +9,10 @@ import 'widget/category_list.dart';
 import 'widget/crud_overview.dart';
 
 class BookingCrudTab2 extends StatelessWidget {
-  final BookingModel crudModel;
+  final BookingModel model;
   final VoidCallback onUpload;
 
-  const BookingCrudTab2({required this.crudModel, required this.onUpload});
+  const BookingCrudTab2({required this.model, required this.onUpload});
 
   _reload(BuildContext context) {
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
@@ -41,9 +41,9 @@ class BookingCrudTab2 extends StatelessWidget {
   Widget _buildView(List<CategoryModel> categories) {
     return Column(
       children: [
-        CrudOverview(model: crudModel),
+        CrudOverview(model: model),
         const SizedBox(height: AppDimensions.verticalPadding),
-        Expanded(child: CategoryList(model: crudModel, onCategoryTap: onUpload, categories: categories)),
+        Expanded(child: CategoryList(model: model, onCategoryTap: onUpload, categories: categories)),
       ],
     );
     // return CategoryList(model: crudModel, onCategoryTap: onUpload, categories: categories);

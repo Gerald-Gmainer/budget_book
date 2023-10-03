@@ -7,7 +7,7 @@ class CreateBookingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: BookingDataModel.empty());
+        Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: BookingModel.empty());
       },
       child: const Icon(Icons.add),
     );

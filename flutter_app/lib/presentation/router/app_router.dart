@@ -34,7 +34,7 @@ class AppRouter {
         );
       case BookingCrudPage.route:
         return MyCustomRoute(
-          builder: (context) => BookingCrudPage(bookingModel: settings.arguments as BookingModel),
+          builder: (context) => BookingCrudPage(model: settings.arguments as BookingModel),
         );
       default:
         return MaterialPageRoute(
