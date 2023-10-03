@@ -4,7 +4,7 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class DateInput extends StatefulWidget {
-  final BookingCrudModel model;
+  final BookingModel model;
   final bool hideQuickButtons;
 
   const DateInput({required this.model, required this.hideQuickButtons});
@@ -20,8 +20,8 @@ class _DateInputState extends State<DateInput> {
   @override
   void initState() {
     super.initState();
-    widget.model.bookingModel.bookingDate ??= DateTime.now();
-    _selectedDate = widget.model.bookingModel.bookingDate!;
+    widget.model.dataModel.bookingDate ??= DateTime.now();
+    _selectedDate = widget.model.dataModel.bookingDate!;
   }
 
   _onDatePicker(BuildContext context) async {
@@ -36,7 +36,7 @@ class _DateInputState extends State<DateInput> {
       setState(() {
         _selectedDate = picked;
       });
-      widget.model.bookingModel.bookingDate = picked;
+      widget.model.dataModel.bookingDate = picked;
     }
   }
 
@@ -44,7 +44,7 @@ class _DateInputState extends State<DateInput> {
     setState(() {
       _selectedDate = date;
     });
-    widget.model.bookingModel.bookingDate = date;
+    widget.model.dataModel.bookingDate = date;
   }
 
   @override

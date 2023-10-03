@@ -37,8 +37,8 @@ class DetailPanel extends StatelessWidget {
     return Column(
       children: bookings.map((booking) {
         return ListTile(
-          title: Text(CurrencyConverter.format(booking.amount)),
-          trailing: Text(DateTimeConverter.toMMMMdd(booking.bookingDate)),
+          title: Text(CurrencyConverter.format(booking.dataModel.amount)),
+          trailing: Text(DateTimeConverter.toMMMMdd(booking.dataModel.bookingDate)),
         );
       }).toList(),
     );

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/category_list.dart';
 import 'widget/crud_overview.dart';
 
 class BookingCrudTab2 extends StatelessWidget {
-  final BookingCrudModel crudModel;
+  final BookingModel crudModel;
   final VoidCallback onUpload;
 
   const BookingCrudTab2({required this.crudModel, required this.onUpload});
@@ -41,7 +42,7 @@ class BookingCrudTab2 extends StatelessWidget {
     return Column(
       children: [
         CrudOverview(model: crudModel),
-        SizedBox(height: 16),
+        const SizedBox(height: AppDimensions.verticalPadding),
         Expanded(child: CategoryList(model: crudModel, onCategoryTap: onUpload, categories: categories)),
       ],
     );

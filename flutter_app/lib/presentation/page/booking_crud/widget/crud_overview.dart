@@ -4,7 +4,7 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class CrudOverview extends StatelessWidget {
-  final BookingCrudModel model;
+  final BookingModel model;
 
   const CrudOverview({required this.model});
 
@@ -30,25 +30,25 @@ class CrudOverview extends StatelessWidget {
   }
 
   _hasDescription() {
-    return model.bookingModel.description != null && model.bookingModel.description!.isNotEmpty;
+    return model.dataModel.description != null && model.dataModel.description!.isNotEmpty;
   }
 
   _buildDate() {
     return Text(
-      DateTimeConverter.toEEEEdMMMM(model.bookingModel.bookingDate),
+      DateTimeConverter.toEEEEdMMMM(model.dataModel.bookingDate),
       style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
     );
   }
 
   _buildAmount() {
-    double result = model.bookingModel.amount ?? 0;
+    double result = model.dataModel.amount ?? 0;
     String resultFormatted = result == result.truncate() ? result.toStringAsFixed(0) : result.toStringAsFixed(2);
     return Text("€$resultFormatted", style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
   }
 
   _buildNote() {
     return Text(
-      model.bookingModel.description ?? "",
+      model.dataModel.description ?? "",
       style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
     );
   }

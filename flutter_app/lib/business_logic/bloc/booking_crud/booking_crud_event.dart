@@ -6,7 +6,7 @@ abstract class BookingCrudEvent {}
 class InitBookingCrudEvent extends BookingCrudEvent {}
 
 class UploadBookingCrudEvent extends BookingCrudEvent {
-  final BookingCrudModel model;
+  final BookingModel model;
 
   UploadBookingCrudEvent(this.model);
 }

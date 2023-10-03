@@ -3,11 +3,11 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class CategoryTypeButton extends StatelessWidget {
-  final BookingCrudModel crudModel;
+  final BookingModel model;
   final CategoryType categoryType;
   final Function(CategoryType categoryType) onPressed;
 
-  const CategoryTypeButton({required this.crudModel, required this.categoryType, required this.onPressed});
+  const CategoryTypeButton({required this.model, required this.categoryType, required this.onPressed});
 
   _onPressed() {
     onPressed(categoryType);
@@ -19,7 +19,7 @@ class CategoryTypeButton extends StatelessWidget {
       onPressed: _onPressed,
       child: Container(
         padding: const EdgeInsets.only(bottom: 4.0),
-        decoration: _buildDecoration(crudModel.categoryType == categoryType, _getColor()),
+        decoration: _buildDecoration(model.categoryType == categoryType, _getColor()),
         child: Text(
           categoryType.name.toUpperCase(),
           style: TextStyle(color: _getColor()),

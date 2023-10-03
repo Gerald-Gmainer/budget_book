@@ -9,7 +9,7 @@ import 'widget/date_input.dart';
 import 'widget/description_input.dart';
 
 class BookingCrudTab1 extends StatelessWidget {
-  final BookingCrudModel crudModel;
+  final BookingModel crudModel;
   final VoidCallback onCategoryTap;
 
   const BookingCrudTab1({required this.crudModel, required this.onCategoryTap});

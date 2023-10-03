@@ -57,8 +57,8 @@ class GraphPanel extends StatelessWidget {
       String categoryName = model.category.name;
       double totalAmount = 0.0;
       for (var booking in model.bookings) {
-        if (booking.amount != null) {
-          totalAmount += booking.amount!;
+        if (booking.dataModel.amount != null) {
+          totalAmount += booking.dataModel.amount!;
         }
       }
       _PieData pieData = _PieData(

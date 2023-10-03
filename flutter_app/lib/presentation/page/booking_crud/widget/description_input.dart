@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
 
 class DescriptionInput extends StatelessWidget {
-  final BookingCrudModel model;
+  final BookingModel model;
   final TextEditingController controller;
 
-  DescriptionInput({required this.model}): controller = TextEditingController(text: model.bookingModel.description);
+  DescriptionInput({required this.model}): controller = TextEditingController(text: model.dataModel.description);
 
   _onChanged(String value) {
-    model.bookingModel.description = value;
+    model.dataModel.description = value;
   }
 
   @override

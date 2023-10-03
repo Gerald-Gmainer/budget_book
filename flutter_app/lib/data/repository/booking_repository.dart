@@ -9,7 +9,7 @@ class BookingRepository {
     _categoryCacheService = CategoryCacheService(_client);
   }
 
-  Future<List<BookingModel>> getAllBookings() async {
+  Future<List<BookingDataModel>> getAllBookings() async {
     return await _client.getAllBookings();
   }
 
@@ -17,7 +17,7 @@ class BookingRepository {
     return await _categoryCacheService.getAllCategories();
   }
 
-  Future<void> uploadBooking(BookingModel model) async {
-    await _client.uploadBooking(model );
+  Future<void> uploadBooking(BookingDataModel model) async {
+    await _client.uploadBooking(model);
   }
 }

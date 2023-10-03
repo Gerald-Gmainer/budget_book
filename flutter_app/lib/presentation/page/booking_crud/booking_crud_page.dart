@@ -20,7 +20,7 @@ class BookingCrudPage extends StatefulWidget {
 }
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
-  late final BookingCrudModel _crudModel;
+  late final BookingModel _crudModel;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -28,7 +28,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   void initState() {
     super.initState();
     // TODO how to determineCategoryType
-    _crudModel = BookingCrudModel(bookingModel: widget.bookingModel, categoryType: CategoryType.outcome);
+    _crudModel = BookingModel(dataModel: widget.bookingModel.dataModel, categoryType: CategoryType.outcome);
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
@@ -41,7 +41,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    if (_crudModel.bookingModel.amount != null && _crudModel.bookingModel.amount! > 0) {
+    if (_crudModel.dataModel.amount != null && _crudModel.dataModel.amount! > 0) {
       _animateToPage(1);
     }
   }
@@ -87,8 +87,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         appBar: AppBar(
           title: Text(_isCreating() ? "New" : "Edit"),
           actions: [
-            CategoryTypeButton(crudModel: _crudModel, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
-            CategoryTypeButton(crudModel: _crudModel, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
+            CategoryTypeButton(model: _crudModel, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
+            CategoryTypeButton(model: _crudModel, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
           ],
         ),
         body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
@@ -128,6 +128,6 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   bool _isCreating() {
-    return _crudModel.bookingModel.id == null;
+    return _crudModel.dataModel.id == null;
   }
 }

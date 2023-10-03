@@ -3,14 +3,14 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/logger.dart';
 
 class CategoryList extends StatelessWidget {
-  final BookingCrudModel model;
+  final BookingModel model;
   final List<CategoryModel> categories;
   final VoidCallback onCategoryTap;
 
   const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
 
   _onCategoryTap(BuildContext context, CategoryModel category) {
-    model.bookingModel.categoryId = category.id;
+    model.dataModel.categoryId = category.id;
     onCategoryTap();
   }
 
@@ -25,8 +25,11 @@ class CategoryList extends StatelessWidget {
         crossAxisSpacing: 8.0,
         mainAxisSpacing: 8.0,
       ),
-      itemCount: trimmedList.length,
+      itemCount: trimmedList.length + 1,
       itemBuilder: (BuildContext context, int index) {
+        if (index == trimmedList.length) {
+          return _buildCreateNewButton(context);
+        }
         final category = trimmedList[index];
         return _buildCategory(context, category);
       },
@@ -44,6 +47,36 @@ class CategoryList extends StatelessWidget {
           children: <Widget>[
             // Image.network(category.imageUrl),
             Text(category.name),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateNewButton(BuildContext context) {
+    return Card(
+      child: InkWell(
+        onTap: () {
+          // Handle the action when the "Create New" button is tapped
+          // You can open a dialog or navigate to a new screen to create a new category.
+          // For this example, let's show a snackbar.
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Create New Category'),
+              action: SnackBarAction(
+                label: 'Dismiss',
+                onPressed: () {
+                  // Action to dismiss the snackbar
+                },
+              ),
+            ),
+          );
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(Icons.add), // You can change the icon to your preferred icon
+            Text('New'),
           ],
         ),
       ),

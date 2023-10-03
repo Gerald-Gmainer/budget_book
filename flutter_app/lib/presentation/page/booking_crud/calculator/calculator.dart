@@ -8,7 +8,7 @@ import 'calculator_keyboard.dart';
 export 'calculator_key.dart';
 
 class Calculator extends StatefulWidget {
-  final BookingCrudModel model;
+  final BookingModel model;
 
   const Calculator({required this.model});
 
@@ -37,7 +37,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   _onValueChange(double value) {
-    widget.model.bookingModel.amount = value;
+    widget.model.dataModel.amount = value;
   }
 
   @override

@@ -22,9 +22,9 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
 
   _onUploadBookingCrudEvent(UploadBookingCrudEvent event, Emitter<BookingCrudState> emit) async {
     try {
-      BudgetLogger.instance.d("upload ${event.model.bookingModel.toJson()}");
+      BudgetLogger.instance.d("upload ${event.model.dataModel.toJson()}");
       emit(BookingCrudLoadingState());
-      await bookingRepo.uploadBooking(event.model.bookingModel);
+      await bookingRepo.uploadBooking(event.model.dataModel);
       emit(BookingCrudUploadedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
