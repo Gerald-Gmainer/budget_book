@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 
 class DescriptionInput extends StatelessWidget {
   final BookingModel model;
