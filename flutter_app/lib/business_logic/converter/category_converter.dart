@@ -1,6 +1,7 @@
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter_app/utils/utils.dart';
 
 class CategoryConverter {
   List<CategoryModel> fromDataModels(List<CategoryDataModel> dataModels, List<CategoryIconDataModel> icons, List<CategoryColorDataModel> colors) {
@@ -19,13 +20,18 @@ class CategoryConverter {
 
   IconData? _iconNameFromId(int? iconId, List<CategoryIconDataModel> icons) {
     final iconModel = icons.firstWhereOrNull((iconModel) => iconModel.id == iconId);
-    if (iconModel == null) return null;
-    return IconData(iconModel.name ?? "unkown");
+    if (iconModel == null || iconModel.name == null) {
+      BudgetLogger.instance.i("cannot convert iconId $iconId");
+      return null;
+    }
+    return IconData(iconModel.name!);
   }
 
   IconColor? _iconColorFromId(int? colorId, List<CategoryColorDataModel> colors) {
     final colorModel = colors.firstWhereOrNull((colorModel) => colorModel.id == colorId);
-    if (colorModel == null) return null;
-    return IconColor(colorModel.code ?? "#FFFFFF");
+    if (colorModel == null) {
+      return null;
+    }
+    return IconColor(colorModel.code);
   }
 }

@@ -1,7 +1,9 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/utils/utils.dart';
 
 class CategoryList extends StatelessWidget {
   final BookingModel model;
@@ -24,53 +26,39 @@ class CategoryList extends StatelessWidget {
     var trimmedList = [...categories];
     trimmedList.removeWhere((category) => category.categoryType != model.categoryType);
 
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 8.0,
-        mainAxisSpacing: 8.0,
-      ),
-      itemCount: trimmedList.length + 1,
-      itemBuilder: (BuildContext context, int index) {
-        if (index == trimmedList.length) {
-          return _buildCreateNewButton(context);
-        }
-        final category = trimmedList[index];
-        return _buildCategory(context, category);
-      },
-    );
-  }
+    const double spacing = 40;
 
-  Widget _buildCategory(BuildContext context, CategoryModel category) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          _onCategoryTap(context, category);
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Image.network(category.imageUrl),
-            Text(category.name ?? "unkown"),
-          ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: spacing, vertical: spacing / 2),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: spacing,
+          mainAxisSpacing: spacing / 2,
+          childAspectRatio: 0.7,
         ),
-      ),
-    );
-  }
-
-  Widget _buildCreateNewButton(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: () {
-          _createCategory(context);
+        itemCount: trimmedList.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == trimmedList.length) {
+            return CategoryIcon(
+              icon: CommunityMaterialIcons.plus,
+              color: AppColors.accentColor,
+              text: "New",
+              onTap: () {
+                _createCategory(context);
+              },
+            );
+          }
+          final category = trimmedList[index];
+          return CategoryIcon(
+            icon: IconConverter.getIconData(category.iconData?.name),
+            color: ColorConverter.iconColorToColor(category.iconColor),
+            text: category.name,
+            onTap: () {
+              _onCategoryTap(context, category);
+            },
+          );
         },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.add),
-            Text('New'),
-          ],
-        ),
       ),
     );
   }

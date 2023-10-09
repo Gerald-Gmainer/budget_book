@@ -215,6 +215,8 @@ $$ LANGUAGE plpgsql SECURITY definer;
 
 DROP VIEW view_bookings;
 DROP VIEW view_categories;
+DROP VIEW view_category_icons;
+DROP VIEW view_category_colors;
 DROP TABLE bookings;
 DROP TABLE categories;
 DROP TABLE accounts;

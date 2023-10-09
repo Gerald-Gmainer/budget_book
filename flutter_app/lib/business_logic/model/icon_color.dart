@@ -1,5 +1,5 @@
 class IconColor {
-  final String code;
+  final String? code;
 
   IconColor(this.code);
 }
