@@ -54,7 +54,7 @@ class GraphPanel extends StatelessWidget {
       if (model.category.categoryType == CategoryType.income) {
         continue;
       }
-      String categoryName = model.category.dataModel.name ?? "";
+      String categoryName = model.category.name ?? "unknown";
       double totalAmount = 0.0;
       for (var booking in model.bookings) {
         if (booking.dataModel.amount != null) {
@@ -64,7 +64,7 @@ class GraphPanel extends StatelessWidget {
       _PieData pieData = _PieData(
         categoryName,
         totalAmount,
-        model.category.dataModel.name ?? "",
+        model.category.name ?? "unknown",
         Colors.primaries[Random().nextInt(Colors.primaries.length)],
       );
       pieDataList.add(pieData);

@@ -1,99 +1,189 @@
+INSERT INTO category_colors (code) VALUES
+  ('#FF5733'),  -- Red
+  ('#33FF57'),  -- Green
+  ('#3366FF'),  -- Blue
+  ('#FFFF33'),  -- Yellow
+  ('#FF33FF'),  -- Pink
+  ('#FF6633'),  -- Orange
+  ('#9933FF'),  -- Purple
+  ('#33FFFF'),  -- Cyan
+  ('#99FF33'),  -- Lime Green
+  ('#FF9966');  -- Peach
+
+INSERT INTO category_icons (name) VALUES
+  ('account'),
+  ('airplane'),
+  ('attach-money'),
+  ('book'),
+  ('car'),
+  ('cash-multiple'),
+  ('credit-card'),
+  ('dining'),
+  ('food'),
+  ('gift'),
+  ('home'),
+  ('hotel'),
+  ('lightbulb-outline'),
+  ('local-grocery-store'),
+  ('money'),
+  ('movie'),
+  ('music'),
+  ('phone'),
+  ('restaurant'),
+  ('rocket'),
+  ('school'),
+  ('shopping'),
+  ('train'),
+  ('umbrella'),
+  ('wallet-giftcard'),
+  ('water'),
+  ('wallet-membership'),
+  ('umbrella-outline'),
+  ('ticket-account'),
+  ('shopping-music');
+
+INSERT INTO currencies (name, decimal_precision, symbol)
+VALUES ('Euro', 2, '€');
+INSERT INTO currencies (name, decimal_precision, symbol)
+VALUES ('Japanese Yen', 0, '¥');
+INSERT INTO currencies (name, decimal_precision, symbol)
+VALUES ('US Dollar', 2, '$');
+
+
+----------------------------------------------------------------------------------------------------------------
+
 insert into profiles (user_id, name)
 select u.id, 'test name' 
 from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-insert into accounts(user_id, name, currency, init_balance_amount, init_balance_date, include_in_balance)
-select u.id, 'cash', 'yen'::currencies, 0, now(), true
-from auth.users u where u.email='gerald_gmainer@designium.jp';
+insert into accounts(user_id, name, currency_id, init_balance_amount, init_balance_date, include_in_balance)
+select u.id, 'cash', c.id, 0, now(), true
+from auth.users u 
+JOIN currencies c ON c.name = 'Japanese Yen'
+where u.email='gerald_gmainer@designium.jp';
 
-insert into categories(user_id, name, type)
-select u.id, 'work', 'income'::category_type
-from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into categories(user_id, name, type)
-select u.id, 'saving', 'income'::category_type
-from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into categories(user_id, name, type)
-select u.id, 'house', 'outcome'::category_type
-from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into categories(user_id, name, type)
-select u.id, 'car', 'outcome'::category_type
-from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into categories(user_id, name, type)
-select u.id, 'food', 'outcome'::category_type
-from auth.users u where u.email='gerald_gmainer@designium.jp';
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO categories (user_id, name, type, icon_id, color_id)
+SELECT ud.user_id, 'work', 'income'::category_type,
+  (SELECT id FROM category_icons WHERE name = 'book'),
+  (SELECT id FROM category_colors WHERE code = '#FF5733') 
+FROM user_data ud;
 
--- 
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO categories (user_id, name, type, icon_id, color_id)
+SELECT
+  ud.user_id, 'saving', 'income'::category_type,
+  (SELECT id FROM category_icons WHERE name = 'wallet-giftcard'),  
+  (SELECT id FROM category_colors WHERE code = '#33FF57')
+FROM user_data ud;
 
--- april 2023
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO categories (user_id, name, type, icon_id, color_id)
+SELECT ud.user_id, 'house', 'outcome'::category_type, 
+  (SELECT id FROM category_icons WHERE name = 'home'),  
+  (SELECT id FROM category_colors WHERE code = '#3366FF')
+FROM user_data ud;
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO categories (user_id, name, type, icon_id, color_id)
+SELECT ud.user_id, 'car', 'outcome'::category_type,
+  (SELECT id FROM category_icons WHERE name = 'car'),  
+  (SELECT id FROM category_colors WHERE code = '#FFFF33')
+FROM user_data ud;
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO categories (user_id, name, type, icon_id, color_id)
+SELECT ud.user_id,  'food', 'outcome'::category_type,
+  (SELECT id FROM category_icons WHERE name = 'food'),  
+  (SELECT id FROM category_colors WHERE code = '#FF33FF')
+FROM user_data ud;
 
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-04-14', 'YYYY-MM-DD'), 65999, 
-    (select c.id from categories c where c.name = 'house'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
 
--- may 2023
+-- April 2023
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT  ud.user_id,  TO_TIMESTAMP('2023-04-14', 'YYYY-MM-DD'), 65999, c.id, a.id
+FROM  user_data ud
+JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 300000, 
-    (select c.id from categories c where c.name = 'work'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
+-- May 2023
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id,  TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 300000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'work' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 70000, 
-    (select c.id from categories c where c.name = 'house'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-05-28', 'YYYY-MM-DD'), 10000, 
-    (select c.id from categories c where c.name = 'car'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-05-01', 'YYYY-MM-DD'), 3000, 
-    (select c.id from categories c where c.name = 'food'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-05-15', 'YYYY-MM-DD'), 2500, 
-    (select c.id from categories c where c.name = 'food'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 70000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
--- june 2023
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT  ud.user_id, TO_TIMESTAMP('2023-05-28', 'YYYY-MM-DD'), 10000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'car' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 300000, 
-    (select c.id from categories c where c.name = 'work'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-05-01', 'YYYY-MM-DD'), 3000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'food' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 70000, 
-    (select c.id from categories c where c.name = 'house'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-28', 'YYYY-MM-DD'), 10000, 
-    (select c.id from categories c where c.name = 'car'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-01', 'YYYY-MM-DD'), 1005, 
-    (select c.id from categories c where c.name = 'food'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-02', 'YYYY-MM-DD'), 100, 
-    (select c.id from categories c where c.name = 'food'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-05-15', 'YYYY-MM-DD'), 2500, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'food' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
-insert into bookings(user_id, booking_date, amount, category_id, account_id)
-    select u.id, TO_TIMESTAMP('2023-06-1', 'YYYY-MM-DD'), 1234, 
-    (select c.id from categories c where c.name = 'saving'), 
-    (select a.id from accounts a where a.name = 'cash')
-    from auth.users u where u.email='gerald_gmainer@designium.jp';
+-- June 2023
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 300000, c.id, a.id
+FROM user_data ud
+  JOIN categories c ON c.name = 'work' AND c.user_id = ud.user_id
+  JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 70000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
+JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-28', 'YYYY-MM-DD'), 10000, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'car'
+JOIN accounts a ON a.name = 'cash';
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-01', 'YYYY-MM-DD'), 1005, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'food'
+JOIN accounts a ON a.name = 'cash';
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-02', 'YYYY-MM-DD'), 100, c.id,  a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'food'
+JOIN accounts a ON a.name = 'cash';
+
+WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
+INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-1', 'YYYY-MM-DD'), 1234, c.id, a.id
+FROM user_data ud
+JOIN categories c ON c.name = 'saving'
+JOIN accounts a ON a.name = 'cash';

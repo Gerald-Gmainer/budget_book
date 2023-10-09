@@ -7,25 +7,9 @@ CREATE TABLE migrations (
 CREATE TYPE category_type AS ENUM
   ('income', 'outcome');
 
-CREATE TYPE currencies AS ENUM 
-  ('eur', 'yen');
-
-
--- TODO create type for icons
---
-
-CREATE TABLE profiles (
-  id SERIAL PRIMARY KEY,
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
-  name text,
-  avatar_url text
-);
-
-ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Nobody can view profiles" ON profiles FOR SELECT USING (false);
-CREATE POLICY "Nobody can insert profiles" ON profiles FOR INSERT WITH CHECK (false);
-CREATE POLICY "Nobody can update profiles" ON profiles FOR UPDATE USING (false);
-CREATE POLICY "Nobody can delete their profile" ON profiles FOR DELETE USING (false);
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+-- AUTH 
 
 CREATE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
@@ -41,28 +25,104 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
---
+-- TODO create test data on create, like category, etc
+
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+-- PUBLIC
+
+CREATE TABLE profiles (
+  id SERIAL PRIMARY KEY,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  name text,
+  avatar_url text
+);
+
+ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
+
+----------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE currencies (
+  id SERIAL PRIMARY KEY,
+  name text NOT NULL,
+  decimal_precision smallint NOT NULL,
+  symbol text NOT NULL
+);
+ALTER TABLE currencies ENABLE ROW LEVEL SECURITY;
+
+----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   name text NOT NULL,
-   currency currencies NOT NULL,
+  currency_id int REFERENCES currencies(id) NOT NULL,
   -- icon int references account_icons(id) NOT NULL,
   init_balance_amount numeric(12, 3) DEFAULT 0,
   init_balance_date timestamp  NOT NULL,
   include_in_balance boolean DEFAULT TRUE
 );
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
+
+----------------------------------------------------------------------------------------------------------------
+
+CREATE TABLE category_icons (
+  id SERIAL PRIMARY KEY,
+  name text NOT NULL
+);
+ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE category_colors (
+  id SERIAL PRIMARY KEY,
+  code text NOT NULL
+);
+ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   name text  NOT NULL,
-  -- icon int references category_icons(id)  NOT NULL,
+  icon_id int references category_icons(id) NOT NULL,
+  color_id int references category_colors(id) NOT NULL,
   type category_type  NOT NULL
 );
+ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
 
---
+CREATE OR REPLACE FUNCTION create_category(
+  icon_id int,
+  color_id int,
+  category_name text,
+  category_type category_type
+) RETURNS uuid AS $$
+DECLARE
+  category_id uuid;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in. Please log in';
+  END IF;
+
+  INSERT INTO categories (user_id, name, icon_id, color_id, type)
+  VALUES (auth.id(), category_name, icon_id, color_id, category_type)
+  RETURNING id INTO category_id;
+
+  RETURN category_id;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE VIEW view_categories AS
+  SELECT c.id, c.name, c.icon_id, c.color_id, c.type
+  FROM categories c
+  WHERE c.user_id = auth.uid();
+
+CREATE OR REPLACE VIEW view_category_icons AS
+  SELECT c.id, c.name
+  FROM category_icons c;
+
+CREATE OR REPLACE VIEW view_category_colors AS
+  SELECT c.id, c.code
+  FROM category_colors c;
+
+----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
@@ -70,11 +130,12 @@ CREATE TABLE bookings (
   booking_date date NOT NULL,
   description text,
   amount numeric(12, 3) DEFAULT 0 NOT NULL,
-  category_id int references categories(id) NOT NULL,
-  account_id int references accounts(id) NOT NULL,
+  category_id int REFERENCES categories(id) NOT NULL,
+  account_id int REFERENCES accounts(id) NOT NULL,
   is_deleted boolean DEFAULT FALSE,
   updated_at timestamp DEFAULT now()
 );
+ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_bookings AS
   SELECT b.id, b.booking_date, b.description, b.amount, b.category_id, b.account_id, b.is_deleted
@@ -109,11 +170,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
 
-ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Nobody can view bookings" ON bookings FOR SELECT USING (false);
-CREATE POLICY "Nobody can insert bookings" ON bookings FOR INSERT WITH CHECK (false);
-CREATE POLICY "Nobody can update bookings" ON bookings FOR UPDATE USING (false);
-CREATE POLICY "Nobody can delete bookings" ON bookings FOR DELETE USING (false);
+
 
 
 -- 
@@ -154,3 +211,15 @@ CREATE POLICY "Nobody can delete bookings" ON bookings FOR DELETE USING (false);
 -- CREATE TABLE settings (
 --   id SERIAL PRIMARY KEY
 -- );
+
+
+DROP VIEW view_bookings;
+DROP VIEW view_categories;
+DROP TABLE bookings;
+DROP TABLE categories;
+DROP TABLE accounts;
+DROP TABLE profiles;
+DROP TABLE currencies;
+DROP TABLE category_colors;
+DROP TABLE category_icons;
+DROP FUNCTION create_booking;

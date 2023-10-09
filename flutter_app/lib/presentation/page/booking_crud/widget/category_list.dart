@@ -11,12 +11,12 @@ class CategoryList extends StatelessWidget {
   const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
 
   _onCategoryTap(BuildContext context, CategoryModel category) {
-    model.dataModel.categoryId = category.dataModel.id;
+    model.dataModel.categoryId = category.id;
     onCategoryTap();
   }
 
   _createCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(CategoryType.outcome));
+    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(categoryType: CategoryType.outcome));
   }
 
   @override
@@ -51,7 +51,7 @@ class CategoryList extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Image.network(category.imageUrl),
-            Text(category.dataModel.name ?? ""),
+            Text(category.name ?? "unkown"),
           ],
         ),
       ),

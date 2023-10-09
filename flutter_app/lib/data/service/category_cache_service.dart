@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_app/data/data.dart';
 
 class CategoryCacheService {
-  final BookingClient bookingClient;
+  final CategoryClient categoryClient;
 
   List<CategoryDataModel>? _cachedCategories;
   DateTime? _lastCacheTime;
@@ -11,7 +11,7 @@ class CategoryCacheService {
   final Duration cacheDuration = const Duration(minutes: 5);
   final Completer<List<CategoryDataModel>> _categoriesFetchCompleter = Completer<List<CategoryDataModel>>();
 
-  CategoryCacheService(this.bookingClient);
+  CategoryCacheService(this.categoryClient);
 
   Future<List<CategoryDataModel>> getAllCategories() async {
     if (_cachedCategories != null && _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= cacheDuration) {
@@ -25,7 +25,7 @@ class CategoryCacheService {
     _isFetchingCategories = true;
 
     try {
-      final categories = await bookingClient.getAllCategories();
+      final categories = await categoryClient.getAllCategories();
 
       _cachedCategories = categories;
       _lastCacheTime = DateTime.now();

@@ -10,6 +10,7 @@ part 'main_paginator_state.dart';
 class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   final BookingRepository bookingRepo;
   final BookingPeriodConverter _converter = BookingPeriodConverter();
+  final CategoryConverter _categoryConverter = CategoryConverter();
   BudgetPeriod _currentBudgetPeriod = BudgetPeriod.month;
 
   MainPaginatorBloc(this.bookingRepo) : super(MainPaginatorInitState()) {
@@ -67,9 +68,12 @@ class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
   _calculateBookModel(BudgetPeriod period) async {
     final currentPeriod = period;
     // final accounts = [] as List<AccountModel>;
-    final bookings = await bookingRepo.getAllBookings();
-    final categories = await bookingRepo.getAllCategories();
-    final periodModels = _converter.convertBookings(currentPeriod, bookings, categories);
+    final bookingDataModels = await bookingRepo.getAllBookings();
+    final categoryDataModels = await bookingRepo.getAllCategories();
+    final iconCache = await bookingRepo.getIconCache();
+
+    final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
+    final periodModels = _converter.convertBookings(currentPeriod, bookingDataModels, categories);
     return BudgetBookModel(
       currentPeriod: currentPeriod,
       periodModels: periodModels,

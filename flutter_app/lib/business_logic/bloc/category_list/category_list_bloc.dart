@@ -11,6 +11,7 @@ part 'category_list_state.dart';
 
 class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
   final BookingRepository repo;
+  final CategoryConverter _categoryConverter = CategoryConverter();
 
   CategoryListBloc(this.repo) : super(CategoryListInitState()) {
     on<LoadCategoryListEvent>(_onLoadCategoryListEvent);
@@ -19,9 +20,10 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
   _onLoadCategoryListEvent(LoadCategoryListEvent event, Emitter<CategoryListState> emit) async {
     try {
       emit(CategoryLoadingState());
-      final dataModels = await repo.getAllCategories();
-      // TODO use converter
-      emit(CategoryLoadedState(dataModels.map((e) => CategoryModel(e, e.categoryType)).toList()));
+      final categoryDataModels = await repo.getAllCategories();
+      final iconCache = await repo.getIconCache();
+      final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
+      emit(CategoryLoadedState(categories));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(CategoryErrorState("TODO internet error message"));

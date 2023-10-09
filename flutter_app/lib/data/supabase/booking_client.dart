@@ -12,13 +12,6 @@ class BookingClient {
     return List.from(response).map((item) => BookingDataModel.fromJson(item)).toList();
   }
 
-  Future<List<CategoryDataModel>> getAllCategories() async {
-    Stopwatch stopwatch = Stopwatch()..start();
-    var response = await supabase.from('view_categories').select('id, name, type').order('name', ascending: true);
-    BudgetLogger.instance.d("view_categories took ${stopwatch.elapsed.inMilliseconds} ms");
-    return List.from(response).map((item) => CategoryDataModel.fromJson(item)).toList();
-  }
-
   Future<void> uploadBooking(BookingDataModel model) async {
     // TODO upload account id
     Stopwatch stopwatch = Stopwatch()..start();

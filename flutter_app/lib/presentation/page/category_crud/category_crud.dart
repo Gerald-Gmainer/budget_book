@@ -23,6 +23,6 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   bool _isCreating() {
-    return widget.model.dataModel.id == null;
+    return widget.model.id == null;
   }
 }
