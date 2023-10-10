@@ -9,7 +9,10 @@ class ColorConverter {
     return stringToColor(iconColor.code!);
   }
 
-  static Color stringToColor(String hex) {
+  static Color stringToColor(String? hex) {
+    if(hex == null) {
+      return Colors.white;
+    }
     String cleanHex = hex.toUpperCase().replaceAll("#", "");
     if (cleanHex.length == 6) {
       cleanHex = "FF$cleanHex";
