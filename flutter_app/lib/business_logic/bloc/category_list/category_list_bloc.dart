@@ -20,7 +20,7 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
   _onLoadCategoryListEvent(LoadCategoryListEvent event, Emitter<CategoryListState> emit) async {
     try {
       emit(CategoryLoadingState());
-      final categoryDataModels = await repo.getAllCategories();
+      final categoryDataModels = await repo.getAllCategories(forceReload: event.forceReload);
       final iconCache = await repo.getIconCache();
       final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
       emit(CategoryLoadedState(categories));

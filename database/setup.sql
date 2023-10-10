@@ -88,22 +88,22 @@ CREATE TABLE categories (
 );
 ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
 
-CREATE OR REPLACE FUNCTION create_category(
-  icon_id int,
-  color_id int,
-  category_name text,
-  category_type category_type
-) RETURNS uuid AS $$
+CREATE OR REPLACE FUNCTION create_category(p_category jsonb) RETURNS INTEGER AS $$
 DECLARE
-  category_id uuid;
+  category_id INTEGER;
 BEGIN
   IF auth.uid() IS NULL THEN
     RAISE EXCEPTION 'User is not logged in. Please log in';
   END IF;
 
   INSERT INTO categories (user_id, name, icon_id, color_id, type)
-  VALUES (auth.id(), category_name, icon_id, color_id, category_type)
-  RETURNING id INTO category_id;
+  SELECT 
+    auth.uid(), 
+    p_category->>'name', 
+    (p_category->>'icon_id')::int, 
+    (p_category->>'color_id')::int, 
+    (p_category->>'type')::category_type
+    RETURNING id INTO category_id;
 
   RETURN category_id;
 END;
@@ -157,13 +157,13 @@ BEGIN
 
   INSERT INTO bookings (user_id, booking_date, description, amount, category_id, account_id)
   SELECT
-      _user_id,
-      (p_booking->>'booking_date')::DATE,
-      p_booking->>'description'::TEXT,
-      (p_booking->>'amount')::NUMERIC,
-      (p_booking->>'category_id')::INTEGER,
-      -- (p_booking->>'account_id')::INTEGER
-      1
+    _user_id,
+    (p_booking->>'booking_date')::DATE,
+    p_booking->>'description'::TEXT,
+    (p_booking->>'amount')::NUMERIC,
+    (p_booking->>'category_id')::INTEGER,
+    -- (p_booking->>'account_id')::INTEGER
+    1
   RETURNING id INTO _new_booking_id;
 
   RETURN _new_booking_id;

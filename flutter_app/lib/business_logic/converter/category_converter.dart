@@ -18,20 +18,38 @@ class CategoryConverter {
     );
   }
 
-  IconData? _iconNameFromId(int? iconId, List<CategoryIconDataModel> icons) {
+  IconDataModel? _iconNameFromId(int? iconId, List<CategoryIconDataModel> icons) {
     final iconModel = icons.firstWhereOrNull((iconModel) => iconModel.id == iconId);
     if (iconModel == null || iconModel.name == null) {
       BudgetLogger.instance.i("cannot convert iconId $iconId");
       return null;
     }
-    return IconData(iconModel.name!);
+    return IconDataModel(id: iconModel.id!, name: iconModel.name!);
   }
 
-  IconColor? _iconColorFromId(int? colorId, List<CategoryColorDataModel> colors) {
+  IconColorModel? _iconColorFromId(int? colorId, List<CategoryColorDataModel> colors) {
     final colorModel = colors.firstWhereOrNull((colorModel) => colorModel.id == colorId);
     if (colorModel == null) {
       return null;
     }
-    return IconColor(colorModel.code);
+    return IconColorModel(id: colorModel.id!, code: colorModel.code!);
+  }
+
+  List<IconDataModel> fromIconDataModels(List<CategoryIconDataModel> models) {
+    return models.map((e) => IconDataModel(id: e.id!, name: e.name!)).toList();
+  }
+
+  List<IconColorModel> fromColorDataModels(List<CategoryColorDataModel> models) {
+    return models.map((e) => IconColorModel(id: e.id!, code: e.code!)).toList();
+  }
+
+  CategoryDataModel toDataModel(CategoryModel oldModel) {
+    return CategoryDataModel(
+      id: oldModel.id,
+      name: oldModel.name,
+      iconId: oldModel.iconColor?.id,
+      colorId: oldModel.iconColor?.id,
+      categoryType: oldModel.categoryType,
+    );
   }
 }

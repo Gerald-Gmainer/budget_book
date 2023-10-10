@@ -22,6 +22,16 @@ class CategoryDataModel extends DataModel {
         categoryType: json['type'] == "income" ? CategoryType.income : CategoryType.outcome,
       );
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'icon_id': iconId,
+      'color_id': colorId,
+      'type': categoryType == CategoryType.income ? "income" : "outcome",
+    };
+  }
+
   @override
   String toString() {
     return [

@@ -17,15 +17,19 @@ class BookingRepository {
     return await _client.getAllBookings();
   }
 
-  Future<List<CategoryDataModel>> getAllCategories() async {
-    return await _categoryCacheService.getAllCategories();
+  Future<List<CategoryDataModel>> getAllCategories({bool forceReload = false}) async {
+    return await _categoryCacheService.getAllCategories(forceReload);
   }
 
   Future<IconCacheModel> getIconCache() async {
     return await _iconCacheService.getIconCache();
   }
 
-  Future<void> uploadBooking(BookingDataModel model) async {
+  Future<void> createBooking(BookingDataModel model) async {
     await _client.uploadBooking(model);
+  }
+
+  Future<void> createCategory(CategoryDataModel model) async {
+    await _client.createCategory(model);
   }
 }

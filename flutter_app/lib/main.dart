@@ -54,6 +54,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
             BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),
             BlocProvider<CategoryIconBloc>(create: (context) => CategoryIconBloc(_bookingRepo)),
+            BlocProvider<CategoryCrudBloc>(create: (context) => CategoryCrudBloc(_bookingRepo)),
           ],
           child: MaterialApp(
             title: 'Budget book',

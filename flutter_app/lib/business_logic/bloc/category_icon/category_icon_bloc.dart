@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ part 'category_icon_state.dart';
 
 class CategoryIconBloc extends Bloc<CategoryIconEvent, CategoryIconState> {
   final BookingRepository repo;
+  final CategoryConverter _converter = CategoryConverter();
 
   CategoryIconBloc(this.repo) : super(CategoryIconInitState()) {
     on<LoadCategoryIconEvent>(_onLoadCategoryIconEvent);
@@ -19,7 +21,9 @@ class CategoryIconBloc extends Bloc<CategoryIconEvent, CategoryIconState> {
     try {
       emit(CategoryIconLoadingState());
       final IconCacheModel cacheModel = await repo.getIconCache();
-      emit(CategoryIconLoadedState(cacheModel.categoryIcons, cacheModel.categoryColors));
+      final icons = _converter.fromIconDataModels(cacheModel.categoryIcons);
+      final colors = _converter.fromColorDataModels(cacheModel.categoryColors);
+      emit(CategoryIconLoadedState(icons, colors));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(CategoryIconErrorState("TODO internet error message"));

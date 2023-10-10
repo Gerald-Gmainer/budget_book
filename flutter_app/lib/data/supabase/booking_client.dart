@@ -18,4 +18,10 @@ class BookingClient {
     await supabase.rpc("create_booking", params: {"p_booking": model.toJson()});
     BudgetLogger.instance.d("uploadBooking took ${stopwatch.elapsed.inMilliseconds} ms");
   }
+
+  Future<void> createCategory(CategoryDataModel model) async {
+    Stopwatch stopwatch = Stopwatch()..start();
+    await supabase.rpc("create_category", params: {"p_category": model.toJson()});
+    BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
 }

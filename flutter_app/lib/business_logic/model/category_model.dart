@@ -4,17 +4,17 @@ import 'package:flutter_app/data/data.dart';
 class CategoryModel {
   int? id;
   String? name;
-  IconData? iconData;
-  IconColor? iconColor;
+  IconDataModel? iconData;
+  IconColorModel? iconColor;
   CategoryType categoryType;
 
   CategoryModel.empty({required this.categoryType});
 
   CategoryModel({
-    this.id,
-    this.name,
-    this.iconData,
-    this.iconColor,
+    required this.id,
+    required this.name,
+    required this.iconData,
+    required this.iconColor,
     required this.categoryType,
   });
 }

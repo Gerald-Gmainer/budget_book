@@ -8,8 +8,8 @@ class CategoryIconInitState extends CategoryIconState {}
 class CategoryIconLoadingState extends CategoryIconState{}
 
 class CategoryIconLoadedState extends CategoryIconState {
-  final List<CategoryIconDataModel> categoryIcons;
-  final List<CategoryColorDataModel> categoryColors;
+  final List<IconDataModel> categoryIcons;
+  final List<IconColorModel> categoryColors;
 
   CategoryIconLoadedState(this.categoryIcons, this.categoryColors);
 }

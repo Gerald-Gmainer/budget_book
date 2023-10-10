@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 
 class ColorConverter {
-  static Color iconColorToColor(IconColor? iconColor) {
+  static Color iconColorToColor(IconColorModel? iconColor) {
     if (iconColor == null || iconColor.code == null) {
       return Colors.white;
     }

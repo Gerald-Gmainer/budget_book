@@ -19,17 +19,39 @@ class CategoryCrudPage extends StatefulWidget {
 class _CategoryCrudPageState extends State<CategoryCrudPage> {
   final TextEditingController _nameController = TextEditingController();
   CategoryType _selectedType = CategoryType.outcome;
-  CategoryIconDataModel? _selectedIcon;
-  CategoryColorDataModel? _selectedColor;
+  IconDataModel? _selectedIcon;
+  IconColorModel? _selectedColor;
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<CategoryCrudBloc>(context).add(InitCategoryCrudEvent());
     _load();
   }
 
   _load() {
     BlocProvider.of<CategoryIconBloc>(context).add(LoadCategoryIconEvent());
+  }
+
+  _upload() {
+    final model = CategoryModel(
+      id: widget.model.id,
+      name: _nameController.text,
+      iconData: _selectedIcon,
+      iconColor: _selectedColor,
+      categoryType: _selectedType,
+    );
+    BlocProvider.of<CategoryCrudBloc>(context).add(UploadCategoryCrudEvent(model));
+  }
+
+  _onUploadSuccess() {
+    showSnackBar(context, "success");
+    BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent(forceReload: true));
+    Navigator.of(context).pop();
+  }
+
+  _onUploadError(String message) {
+    showErrorSnackBar(context, message);
   }
 
   @override
@@ -38,21 +60,30 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
       appBar: AppBar(
         title: Text(_isCreating() ? "New Category" : "Edit Category"),
       ),
-      body: BlocBuilder<CategoryIconBloc, CategoryIconState>(
-        builder: (context, state) {
-          if (state is CategoryIconErrorState) {
-            return ErrorText(message: state.message, onReload: _load);
+      body: BlocListener<CategoryCrudBloc, CategoryCrudState>(
+        listener: (context, state) {
+          if (state is CategoryCrudFinishedState) {
+            _onUploadSuccess();
+          } else if (state is CategoryCrudErrorState) {
+            _onUploadError(state.message);
           }
-          if (state is CategoryIconLoadedState) {
-            return _buildView(state.categoryIcons, state.categoryColors);
-          }
-          return const Center(child: CircularProgressIndicator());
         },
+        child: BlocBuilder<CategoryIconBloc, CategoryIconState>(
+          builder: (context, state) {
+            if (state is CategoryIconErrorState) {
+              return ErrorText(message: state.message, onReload: _load);
+            }
+            if (state is CategoryIconLoadedState) {
+              return _buildView(state.categoryIcons, state.categoryColors);
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildView(List<CategoryIconDataModel> categoryIcons, List<CategoryColorDataModel> categoryColors) {
+  Widget _buildView(List<IconDataModel> categoryIcons, List<IconColorModel> categoryColors) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding, horizontal: AppDimensions.horizontalPadding),
       child: SingleChildScrollView(
@@ -149,7 +180,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     );
   }
 
-  Widget _buildIcons(List<CategoryIconDataModel> categoryIcons) {
+  Widget _buildIcons(List<IconDataModel> categoryIcons) {
     const rowsCount = 3;
 
     return Column(
@@ -180,12 +211,11 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     );
   }
 
-  Widget _buildIcon(CategoryIconDataModel icon) {
+  Widget _buildIcon(IconDataModel icon) {
     Color color = AppColors.secondaryColor;
-    bool showBorder = false;
+    bool showBorder = _selectedIcon == icon;
     if (_selectedIcon == icon && _selectedColor != null) {
       color = ColorConverter.stringToColor(_selectedColor!.code);
-      showBorder = true;
     }
     return InkWell(
       onTap: () {
@@ -223,14 +253,11 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     );
   }
 
-  Widget _buildColors(List<CategoryColorDataModel> categoryColors) {
+  Widget _buildColors(List<IconColorModel> categoryColors) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text(
-          'Select a Color',
-          style: TextStyle(fontSize: 16),
-        ),
+        const Text('Select a Color', style: TextStyle(fontSize: 16)),
         SizedBox(
           height: 60, // Adjust the height as needed
           child: ListView.builder(
@@ -250,7 +277,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     );
   }
 
-  Widget _buildColor(CategoryColorDataModel color) {
+  Widget _buildColor(IconColorModel color) {
     return InkWell(
       onTap: () {
         setState(() {
@@ -284,18 +311,24 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   Widget _buildSaveButton() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+    return BlocBuilder<CategoryCrudBloc, CategoryCrudState>(
+      builder: (context, state) {
+        final isLoading = state is CategoryCrudLoadingState;
+
+        return SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: isLoading ? null : _upload,
+            style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              padding: const EdgeInsets.all(16),
+            ),
+            child: Text(_isCreating() ? "Add" : "Edit", style: const TextStyle(fontSize: 16)),
           ),
-          padding: const EdgeInsets.all(16),
-        ),
-        child: const Text("Add", style: TextStyle(fontSize: 16)),
-      ),
+        );
+      },
     );
   }
 

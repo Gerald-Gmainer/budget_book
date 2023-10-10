@@ -13,8 +13,8 @@ class CategoryCacheService {
 
   CategoryCacheService(this.categoryClient);
 
-  Future<List<CategoryDataModel>> getAllCategories() async {
-    if (_cachedCategories != null && _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= cacheDuration) {
+  Future<List<CategoryDataModel>> getAllCategories(bool forceReload) async {
+    if (!forceReload && _canUseCache()) {
       return _cachedCategories!;
     }
 
@@ -40,5 +40,9 @@ class CategoryCacheService {
 
       rethrow;
     }
+  }
+
+  bool _canUseCache() {
+    return _cachedCategories != null && _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= cacheDuration;
   }
 }
