@@ -31,12 +31,16 @@ class CategoryCacheService {
       _lastCacheTime = DateTime.now();
 
       _isFetchingCategories = false;
-      _categoriesFetchCompleter.complete(_cachedCategories);
+      if (!_categoriesFetchCompleter.isCompleted) {
+        _categoriesFetchCompleter.complete(_cachedCategories);
+      }
 
       return categories;
     } catch (e) {
       _isFetchingCategories = false;
-      _categoriesFetchCompleter.completeError(e);
+      if (!_categoriesFetchCompleter.isCompleted) {
+        _categoriesFetchCompleter.completeError(e);
+      }
 
       rethrow;
     }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
-import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +45,5 @@ class BookingCrudTab2 extends StatelessWidget {
         Expanded(child: CategoryList(model: model, onCategoryTap: onUpload, categories: categories)),
       ],
     );
-    // return CategoryList(model: crudModel, onCategoryTap: onUpload, categories: categories);
   }
 }

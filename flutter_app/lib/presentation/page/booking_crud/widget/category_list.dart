@@ -18,7 +18,7 @@ class CategoryList extends StatelessWidget {
   }
 
   _createCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(categoryType: CategoryType.outcome));
+    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(categoryType: model.categoryType));
   }
 
   @override

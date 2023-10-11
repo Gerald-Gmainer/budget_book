@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 import 'calculator/calculator.dart';
@@ -31,8 +32,8 @@ class BookingCrudTab1 extends StatelessWidget {
           DescriptionInput(model: model),
           const Spacer(),
           Calculator(model: model),
-          const SizedBox(height: AppDimensions.verticalPadding),
-          ChooseCategoryButton(model: model, onPressed: onCategoryTap),
+          const SizedBox(height: AppDimensions.verticalPadding * 2),
+          SaveButton(text: "choose category", onTap: onCategoryTap),
           const SizedBox(height: AppDimensions.verticalPadding),
         ],
       );
