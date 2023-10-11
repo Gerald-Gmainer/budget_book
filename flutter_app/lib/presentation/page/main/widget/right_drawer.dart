@@ -4,15 +4,16 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RightDrawer extends StatelessWidget {
-  _openSettings(BuildContext context) {
+  _goToPage(BuildContext context, String route) {
     Navigator.pop(context);
-    Navigator.of(context).pushNamed(SettingsPage.route);
+    Navigator.of(context).pushNamed(route);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Drawer(
+        width: 230,
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
@@ -46,10 +47,24 @@ class RightDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: Icon(Icons.category),
+              title: Text('Categories'),
+              onTap: () {
+                // _goToPage(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.account_balance_wallet),
+              title: Text('Accounts'),
+              onTap: () {
+                // _goToPage(context);
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.settings),
               title: Text('Settings'),
               onTap: () {
-                _openSettings(context);
+                _goToPage(context, SettingsPage.route);
               },
             ),
           ],

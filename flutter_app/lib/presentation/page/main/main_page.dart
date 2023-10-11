@@ -11,6 +11,7 @@ import 'widget/left_drawer_button.dart';
 import 'widget/refresh_button.dart';
 import 'widget/right_drawer.dart';
 import 'widget/right_drawer_button.dart';
+import 'widget/transfer_button.dart';
 
 class MainPage extends StatefulWidget {
   static const String route = "MainPage";
@@ -58,7 +59,14 @@ class _MainPageState extends State<MainPage> {
             ],
           );
         }),
-        floatingActionButton: CreateBookingButton(),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TransferButton(),
+            SizedBox(height: AppDimensions.verticalPadding*2),
+            CreateBookingButton(),
+          ],
+        ),
       ),
     );
   }
