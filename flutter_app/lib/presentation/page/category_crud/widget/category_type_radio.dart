@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/enum/enum.dart';
 
 class CategoryTypeRadio extends StatelessWidget {
   final String text;

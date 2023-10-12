@@ -37,7 +37,6 @@ CREATE TABLE profiles (
   name text,
   avatar_url text
 );
-
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 ----------------------------------------------------------------------------------------------------------------
@@ -46,9 +45,31 @@ CREATE TABLE currencies (
   id SERIAL PRIMARY KEY,
   name text NOT NULL,
   decimal_precision smallint NOT NULL,
+  unit_position_front BOOLEAN DEFAULT TRUE,
   symbol text NOT NULL
 );
 ALTER TABLE currencies ENABLE ROW LEVEL SECURITY;
+
+CREATE OR REPLACE VIEW view_currencies AS
+  SELECT c.id, c.name, c.decimal_precision, c.unit_position_front, c.symbol
+  FROM currencies c
+  WHERE auth.role() = 'authenticated';
+
+----------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE FUNCTION get_default_currency()
+RETURNS int AS
+$$
+  SELECT id FROM currencies WHERE name = 'Euro';
+$$
+LANGUAGE SQL;
+
+CREATE TABLE profile_settings (
+  id SERIAL PRIMARY KEY,
+  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  currency_id INT REFERENCES currencies(id) DEFAULT get_default_currency()
+);
+ALTER TABLE profile_settings ENABLE ROW LEVEL SECURITY;
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -56,7 +77,6 @@ CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   name text NOT NULL,
-  currency_id int REFERENCES currencies(id) NOT NULL,
   -- icon int references account_icons(id) NOT NULL,
   init_balance_amount numeric(12, 3) DEFAULT 0,
   init_balance_date timestamp  NOT NULL,
@@ -178,16 +198,14 @@ $$ LANGUAGE plpgsql SECURITY definer;
 
 
 -- functions
--- create_profile
 -- create_account
--- create_category
 
 -- edit_profile
 -- edit_account
 -- edit_category
 -- edit_booking
+-- edit_profile_setting
 
--- delete_account
 -- delete_account
 -- delete_category
 -- delete_booking
@@ -212,16 +230,3 @@ $$ LANGUAGE plpgsql SECURITY definer;
 --   id SERIAL PRIMARY KEY
 -- );
 
-
-DROP VIEW view_bookings;
-DROP VIEW view_categories;
-DROP VIEW view_category_icons;
-DROP VIEW view_category_colors;
-DROP TABLE bookings;
-DROP TABLE categories;
-DROP TABLE accounts;
-DROP TABLE profiles;
-DROP TABLE currencies;
-DROP TABLE category_colors;
-DROP TABLE category_icons;
-DROP FUNCTION create_booking;

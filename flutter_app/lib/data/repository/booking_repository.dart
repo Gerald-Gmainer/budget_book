@@ -1,6 +1,4 @@
 import 'package:flutter_app/data/data.dart';
-import 'package:flutter_app/data/service/category_cache_service.dart';
-import 'package:flutter_app/data/service/icon_cache_service.dart';
 
 class BookingRepository {
   final BookingClient _client = BookingClient();

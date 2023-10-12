@@ -1,4 +1,5 @@
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/enum/enum.dart';
 
 class CategoryDataModel extends DataModel {
   String? name;

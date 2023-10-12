@@ -37,24 +37,27 @@ INSERT INTO category_icons (name) VALUES
   ('shopping-music');
 
 INSERT INTO currencies (name, decimal_precision, symbol)
-VALUES ('Euro', 2, '€');
+  VALUES ('Euro', 2, '€');
 INSERT INTO currencies (name, decimal_precision, symbol)
-VALUES ('Japanese Yen', 0, '¥');
+  VALUES ('Japanese Yen', 0, '¥');
 INSERT INTO currencies (name, decimal_precision, symbol)
-VALUES ('US Dollar', 2, '$');
+  VALUES ('US Dollar', 2, '$');
 
 
 ----------------------------------------------------------------------------------------------------------------
 
 insert into profiles (user_id, name)
-select u.id, 'test name' 
-from auth.users u where u.email='gerald_gmainer@designium.jp';      
+  select u.id, 'test name' 
+  from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-insert into accounts(user_id, name, currency_id, init_balance_amount, init_balance_date, include_in_balance)
-select u.id, 'cash', c.id, 0, now(), true
+insert into profile_settings(user_id)
+  select u.id
+  from auth.users u where u.email='gerald_gmainer@designium.jp';      
+
+insert into accounts(user_id, name, init_balance_amount, init_balance_date, include_in_balance)
+select u.id, 'cash', 0, now(), true
 from auth.users u 
-JOIN currencies c ON c.name = 'Japanese Yen'
 where u.email='gerald_gmainer@designium.jp';
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
