@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/connectivity_singleton.dart';
 import 'package:flutter_app/utils/logger.dart';
@@ -9,6 +10,7 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepo;
+  final ProfileConverter _profileConverter = ProfileConverter();
 
   LoginBloc(this.userRepo) : super(LoginInitState()) {
     on<InitLoginEvent>(_onInitLoginEvent);
@@ -26,8 +28,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with google");
       final response = await userRepo.googleLogin();
+
+
       if (response) {
-        emit(LoginSuccessState());
+        final currencyDataModels = await userRepo.getCurrencies();
+        final profileDataModel = await userRepo.getProfile();
+        final profileSettingDataModel = await userRepo.getProfileSetting();
+
+        final profile = _profileConverter.fromProfileData(profileDataModel);
+        final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel, currencyDataModels);
+
+        emit(LoginSuccessState(profile, profileSetting));
       } else {
         emit(LoginErrorState("TODO error message"));
       }
@@ -46,9 +57,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with credentials ${event.email}");
       final response = await userRepo.credentialsLogin(event.email, event.password);
+      final currencyDataModels = await userRepo.getCurrencies();
+      final profileDataModel = await userRepo.getProfile();
+      final profileSettingDataModel = await userRepo.getProfileSetting();
+
+      final profile = _profileConverter.fromProfileData(profileDataModel);
+      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel, currencyDataModels);
 
       if (response) {
-        emit(LoginSuccessState());
+        emit(LoginSuccessState(profile, profileSetting));
       } else {
         emit(LoginErrorState("TODO error message"));
       }

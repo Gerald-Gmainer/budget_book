@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
+import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -20,8 +21,8 @@ class GraphPanel extends StatelessWidget {
           // margin: EdgeInsets.zero,
           annotations: <CircularChartAnnotation>[
             CircularChartAnnotation(
-              widget: Text(
-                periodModel.balance.toString(),
+              widget: CurrencyText(
+                value: periodModel.balance,
                 style: TextStyle(
                   color: periodModel.balance.isNegative ? AppColors.outcomeColor : AppColors.incomeColor,
                   fontSize: 20,

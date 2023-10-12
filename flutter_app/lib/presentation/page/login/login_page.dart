@@ -49,8 +49,8 @@ class _LoginPageState extends State<LoginPage> {
     Navigator.of(context).pushNamed(SignUpPage.route);
   }
 
-  _onSuccess() {
-    showSnackBar(context, "success");
+  _onSuccess(ProfileModel profile, ProfileSettingModel profileSetting) {
+    BlocProvider.of<ProfileBloc>(context).add(SetProfileEvent(profile, profileSetting));
     Navigator.of(context).pushNamedAndRemoveUntil(MainPage.route, (route) => false);
   }
 
@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
         return BlocConsumer<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccessState) {
-              _onSuccess();
+              _onSuccess(state.profile, state.profileSettingModel);
             } else if (state is LoginErrorState) {
               _onError(state.message);
             }

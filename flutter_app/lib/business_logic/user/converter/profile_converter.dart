@@ -11,23 +11,23 @@ class ProfileConverter {
     );
   }
 
-  ProfileSettingModel fromProfileSettingData(ProfileSettingDataModel dataModel, List<CurrencyModel> currencies) {
+  ProfileSettingModel fromProfileSettingData(ProfileSettingDataModel dataModel, List<CurrencyDataModel> currencies) {
     return ProfileSettingModel(
       currency: _currencyFromId(dataModel.currencyId, currencies),
     );
   }
 
-  CurrencyModel _currencyFromId(int? id, List<CurrencyModel> currencies) {
+  CurrencyModel _currencyFromId(int? id, List<CurrencyDataModel> currencies) {
     final currencyModel = currencies.firstWhereOrNull((model) => model.id == id);
     if (currencyModel == null) {
       throw "cannot convert currencyId $id";
     }
     return CurrencyModel(
-      id: currencyModel.id,
+      id: currencyModel.id!,
       name: currencyModel.name!,
       decimalPrecision: currencyModel.decimalPrecision,
       isUnitPositionFront: currencyModel.isUnitPositionFront,
-      symbol: currencyModel.symbol
+      symbol: currencyModel.symbol!,
     );
   }
 }

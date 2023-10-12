@@ -31,14 +31,14 @@ class DetailPanel extends StatelessWidget {
 
   Widget _buildTrailing(CategoryModel category, double amount) {
     final color = category.categoryType == CategoryType.income ? AppColors.incomeColor : AppColors.outcomeColor;
-    return Text(CurrencyConverter.format(amount), style: TextStyle(color: color));
+    return CurrencyText(value: amount, style: TextStyle(color: color));
   }
 
   Widget _buildBody(List<BookingModel> bookings) {
     return Column(
       children: bookings.map((booking) {
         return ListTile(
-          title: Text(CurrencyConverter.format(booking.dataModel.amount)),
+          title: CurrencyText(value: booking.dataModel.amount),
           trailing: Text(DateTimeConverter.toMMMMdd(booking.dataModel.bookingDate)),
         );
       }).toList(),

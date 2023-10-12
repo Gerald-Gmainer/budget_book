@@ -42,13 +42,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profileBloc = ProfileBloc(_userRepo);
+
     return SupabaseContainer(
       navigatorKey: _navigatorKey,
+      profileBloc: profileBloc,
       child: InternetConnectivity(
         child: MultiBlocProvider(
           providers: [
             BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
+            BlocProvider<ProfileBloc>(create: (context) => profileBloc),
             BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
+            // --
             BlocProvider<MainPaginatorBloc>(create: (context) => MainPaginatorBloc(_bookingRepo)),
             BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
             BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),

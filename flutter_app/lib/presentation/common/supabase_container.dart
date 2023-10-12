@@ -3,17 +3,20 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:provider/provider.dart' as prov;
 
 class SupabaseContainer extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
+  final ProfileBloc profileBloc;
   final Widget child;
 
-  const SupabaseContainer({required this.child, required this.navigatorKey});
+  const SupabaseContainer({required this.child, required this.navigatorKey, required this.profileBloc});
 
   @override
   State<SupabaseContainer> createState() => _SupabaseContainerState();
@@ -62,6 +65,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
   void _onAuthenticated(Session session) {
     if (mounted) {
       BudgetLogger.instance.d("onAuthenticated: ${session.user.id}");
+      widget.profileBloc.add(LoadProfileEvent());
     }
   }
 

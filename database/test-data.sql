@@ -36,8 +36,8 @@ INSERT INTO category_icons (name) VALUES
   ('ticket-account'),
   ('shopping-music');
 
-INSERT INTO currencies (name, decimal_precision, symbol)
-  VALUES ('Euro', 2, '€');
+INSERT INTO currencies (name, decimal_precision, symbol, unit_position_front)
+  VALUES ('Euro', 2, '€', false);
 INSERT INTO currencies (name, decimal_precision, symbol)
   VALUES ('Japanese Yen', 0, '¥');
 INSERT INTO currencies (name, decimal_precision, symbol)

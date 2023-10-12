@@ -41,9 +41,7 @@ class CrudOverview extends StatelessWidget {
   }
 
   _buildAmount() {
-    double result = model.dataModel.amount ?? 0;
-    String resultFormatted = result == result.truncate() ? result.toStringAsFixed(0) : result.toStringAsFixed(2);
-    return Text("€$resultFormatted", style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
+    return CurrencyText(value: model.dataModel.amount, style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
   }
 
   _buildNote() {

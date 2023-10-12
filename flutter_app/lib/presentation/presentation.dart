@@ -14,7 +14,6 @@ export 'page/category_crud/category_crud.dart';
 export 'router/app_router.dart';
 
 export 'service/datetime_converter.dart';
-export 'service/currency_converter.dart';
 export 'service/icon_converter.dart';
 export 'service/color_converter.dart';
 
@@ -24,3 +23,4 @@ export 'widget/collapseable.dart';
 export 'widget/error_text.dart';
 export 'widget/category_icon.dart';
 export 'widget/save_button.dart';
+export 'widget/currency_text.dart';

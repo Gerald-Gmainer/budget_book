@@ -23,7 +23,7 @@ class AmountDisplay extends StatelessWidget {
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text("€", style: TextStyle(fontSize: 24, color: AppColors.primaryTextColor)),
+                _buildCurrency(context),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -36,6 +36,18 @@ class AmountDisplay extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+
+  Widget _buildCurrency(BuildContext context) {
+    return BlocBuilder<ProfileBloc, ProfileState>(
+      builder: (context, state) {
+        String value = "";
+        if (state is ProfileLoadedState) {
+          value = state.profileSetting.currency.symbol;
+        }
+        return Text(value, style: TextStyle(fontSize: 24, color: AppColors.primaryTextColor));
+      },
     );
   }
 
