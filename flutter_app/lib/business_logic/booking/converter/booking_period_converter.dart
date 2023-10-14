@@ -48,42 +48,108 @@ class BookingPeriodConverter {
     }
 
     List<BudgetPeriodModel> models = [];
-    bookingsByCategory.forEach((monthKey, groupedBookings) {
-      final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
-      List<CategoryBookingGroupModel> groupModels = [];
+    // bookingsByCategory.forEach((monthKey, groupedBookings) {
+    //   final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
+    //   List<CategoryBookingGroupModel> groupModels = [];
+    //
+    //   groupedBookings.forEach((categoryId, dataModels) {
+    //     final category = _findCategory(categories, categoryId);
+    //     final bookings = _convertDataModels(dataModels, category);
+    //     final amount = _calculateAmount(dataModels);
+    //     groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
+    //   });
+    //
+    //   groupModels.sort((a, b) {
+    //     final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
+    //     final nameA = a.category.name ?? "";
+    //     final nameB = b.category.name ?? "";
+    //     return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
+    //   });
+    //
+    //   final income = _calculateTotal(groupModels, CategoryType.income);
+    //   final outcome = _calculateTotal(groupModels, CategoryType.outcome);
+    //   final balance = income - outcome;
+    //
+    //   models.insert(
+    //     0,
+    //     BudgetPeriodModel(
+    //       period: BudgetPeriod.month,
+    //       dateTime: month,
+    //       dateTimeFrom: null,
+    //       dateTimeTo: null,
+    //       income: income,
+    //       outcome: outcome,
+    //       balance: balance,
+    //       categoryBookingGroupModels: groupModels,
+    //     ),
+    //   );
+    // });
 
-      groupedBookings.forEach((categoryId, dataModels) {
-        final category = _findCategory(categories, categoryId);
-        final bookings = _convertDataModels(dataModels, category);
-        final amount = _calculateAmount(dataModels);
-        groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
-      });
+    DateTime startDate = bookingDataModels
+        .map((booking) => booking.bookingDate)
+        .where((date) => date != null)
+        .map((date) => date!)
+        .reduce((earliest, date) => date.isBefore(earliest) ? date : earliest);
 
-      groupModels.sort((a, b) {
-        final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
-        final nameA = a.category.name ?? "";
-        final nameB = b.category.name ?? "";
-        return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
-      });
+    DateTime endDate = DateTime.now();
 
-      final income = _calculateTotal(groupModels, CategoryType.income);
-      final outcome = _calculateTotal(groupModels, CategoryType.outcome);
-      final balance = income - outcome;
+    DateTime currentMonth = DateTime(startDate.year, startDate.month);
+    while (currentMonth.isBefore(endDate) || currentMonth.isAtSameMomentAs(endDate)) {
+      final monthKey = currentMonth.millisecondsSinceEpoch;
 
-      models.insert(
-        0,
-        BudgetPeriodModel(
-          period: BudgetPeriod.month,
-          dateTime: month,
-          dateTimeFrom: null,
-          dateTimeTo: null,
-          income: income,
-          outcome: outcome,
-          balance: balance,
-          categoryBookingGroupModels: groupModels,
-        ),
-      );
-    });
+      // Check if there are bookings for this month
+      if (!bookingsByCategory.containsKey(monthKey)) {
+        models.insert(
+          0,
+          BudgetPeriodModel(
+            period: BudgetPeriod.month,
+            dateTime: currentMonth,
+            dateTimeFrom: null,
+            dateTimeTo: null,
+            income: 0,
+            outcome: 0,
+            balance: 0,
+            categoryBookingGroupModels: [],
+          ),
+        );
+      } else {
+        final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
+        List<CategoryBookingGroupModel> groupModels = [];
+
+        bookingsByCategory[monthKey]?.forEach((categoryId, dataModels) {
+          final category = _findCategory(categories, categoryId);
+          final bookings = _convertDataModels(dataModels, category);
+          final amount = _calculateAmount(dataModels);
+          groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
+        });
+
+        groupModels.sort((a, b) {
+          final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
+          final nameA = a.category.name ?? "";
+          final nameB = b.category.name ?? "";
+          return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
+        });
+
+        final income = _calculateTotal(groupModels, CategoryType.income);
+        final outcome = _calculateTotal(groupModels, CategoryType.outcome);
+        final balance = income - outcome;
+
+        models.insert(
+          0,
+          BudgetPeriodModel(
+            period: BudgetPeriod.month,
+            dateTime: month,
+            dateTimeFrom: null,
+            dateTimeTo: null,
+            income: income,
+            outcome: outcome,
+            balance: balance,
+            categoryBookingGroupModels: groupModels,
+          ),
+        );
+      }
+      currentMonth = DateTime(currentMonth.year, currentMonth.month + 1);
+    }
 
     return models;
   }

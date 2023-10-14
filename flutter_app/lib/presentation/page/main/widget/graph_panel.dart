@@ -35,22 +35,35 @@ class GraphPanel extends StatelessWidget {
               ),
             )
           ],
-          series: <CircularSeries<_PieData, String>>[
-            DoughnutSeries<_PieData, String>(
-                dataSource: _mapToPieData(periodModel.categoryBookingGroupModels),
-                xValueMapper: (_PieData data, _) => data.xData,
-                yValueMapper: (_PieData data, _) => data.yData,
-                dataLabelMapper: (_PieData data, _) => data.text,
-                pointColorMapper: (_PieData data, _) => data.color,
-                radius: '100%',
-                innerRadius: '60%',
-                dataLabelSettings: const DataLabelSettings(isVisible: true),
-                strokeColor: AppColors.primaryColor,
-                strokeWidth: 4),
-          ],
+          series: _generateSeries(),
         ),
       ),
     );
+  }
+
+  List<CircularSeries<dynamic, dynamic>>? _generateSeries() {
+    List<_PieData> data;
+    if (periodModel.categoryBookingGroupModels.isEmpty) {
+      data =  [_PieData(" ", 100, " ", AppColors.secondaryColor)];
+    }
+    else {
+      data = _mapToPieData(periodModel.categoryBookingGroupModels);
+    }
+    return <CircularSeries<_PieData, String>>[
+      DoughnutSeries<_PieData, String>(
+          dataSource: data,
+          animationDuration: periodModel.categoryBookingGroupModels.isEmpty ? 0 : 1000,
+          animationDelay: 100,
+          xValueMapper: (_PieData data, _) => data.xData,
+          yValueMapper: (_PieData data, _) => data.yData,
+          dataLabelMapper: (_PieData data, _) => data.text,
+          pointColorMapper: (_PieData data, _) => data.color,
+          radius: '100%',
+          innerRadius: '60%',
+          dataLabelSettings: const DataLabelSettings(isVisible: true),
+          strokeColor: AppColors.primaryColor,
+          strokeWidth: 4),
+    ];
   }
 
   List<_PieData> _mapToPieData(List<CategoryBookingGroupModel> models) {
