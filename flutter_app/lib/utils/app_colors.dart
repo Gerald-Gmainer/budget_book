@@ -9,6 +9,7 @@ class AppColors {
   static const Color primaryTextColor = Color(0xFFEAEAEA);
   static const Color secondaryTextColor = Colors.white54;
   static const Color thirdTextColor = Colors.white30;
+  static const Color cardColor = Color(0xFF404040);
   static const Color cardAccentColor = Color(0x88fc6944);
   static const Color errorColor = Color(0xFFff0033);
   static const Color warningColor = Color(0xFFB13434);

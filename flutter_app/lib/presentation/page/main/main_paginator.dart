@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/presentation/page/main/widget/balance_text.dart';
 import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/utils/app_dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'widget/date_panel.dart';
 import 'widget/detail_panel.dart';
@@ -68,7 +70,14 @@ class _MainPaginatorState extends State<MainPaginator> {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DatePanel(periodModel: bookModel.periodModels[index]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DatePanel(periodModel: bookModel.periodModels[index]),
+                SizedBox(width: AppDimensions.horizontalPadding),
+                BalanceText(periodModel: bookModel.periodModels[index]),
+              ],
+            ),
             GraphPanel(periodModel: bookModel.periodModels[index]),
             DetailPanel(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
           ],

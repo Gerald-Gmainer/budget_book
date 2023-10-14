@@ -66,7 +66,9 @@ class BookingPeriodConverter {
         return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
       });
 
-      final balance = _calculateBalance(groupModels);
+      final income = _calculateTotal(groupModels, CategoryType.income);
+      final outcome = _calculateTotal(groupModels, CategoryType.outcome);
+      final balance = income - outcome;
 
       models.insert(
         0,
@@ -75,6 +77,8 @@ class BookingPeriodConverter {
           dateTime: month,
           dateTimeFrom: null,
           dateTimeTo: null,
+          income: income,
+          outcome: outcome,
           balance: balance,
           categoryBookingGroupModels: groupModels,
         ),
@@ -94,16 +98,14 @@ class BookingPeriodConverter {
     });
   }
 
-  double _calculateBalance(List<CategoryBookingGroupModel> groupModels) {
-    double balance = 0.0;
+  double _calculateTotal(List<CategoryBookingGroupModel> groupModels, CategoryType categoryType) {
+    double total = 0.0;
     for (var model in groupModels) {
-      if (model.category.categoryType == CategoryType.income) {
-        balance += model.amount;
-      } else if (model.category.categoryType == CategoryType.outcome) {
-        balance -= model.amount;
+      if (model.category.categoryType == categoryType) {
+        total += model.amount;
       }
     }
-    return balance;
+    return total;
   }
 
   List<BudgetPeriodModel> _convertToYear(List<BookingDataModel> bookings, List<CategoryModel> categories) {
@@ -117,6 +119,8 @@ class BookingPeriodConverter {
         dateTime: DateTime.now(),
         dateTimeFrom: null,
         dateTimeTo: null,
+        income: -1,
+        outcome: -1,
         balance: -1,
         categoryBookingGroupModels: [],
       )

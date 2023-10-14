@@ -98,6 +98,7 @@ class MyApp extends StatelessWidget {
         bodyText1: TextStyle(fontSize: 16, color: AppColors.primaryTextColor, fontWeight: FontWeight.normal),
         bodyText2: TextStyle(fontSize: 15, color: AppColors.secondaryTextColor, fontWeight: FontWeight.normal),
       ),
+      cardTheme: CardTheme(color: AppColors.cardColor),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: AppColors.accentColor, foregroundColor: AppColors.primaryTextColor),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

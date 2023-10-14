@@ -13,20 +13,29 @@ class DetailPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Flexible(
-      child: CollapseableList(
-        items: periodModel.categoryBookingGroupModels
-            .map((e) => CollapseableItem(
-                  header: _buildHeader(e.category),
-                  trailing: _buildTrailing(e.category, e.amount),
-                  body: _buildBody(e.bookings),
-                ))
-            .toList(),
+      child: ListView.builder(
+        itemCount: periodModel.categoryBookingGroupModels.length,
+        itemBuilder: (context, index) {
+          final item = periodModel.categoryBookingGroupModels[index];
+          return Card(
+            child: ListTile(
+              title: _buildHeader(item.category),
+              trailing: _buildTrailing(item.category, item.amount),
+            ),
+          );
+        },
       ),
     );
   }
 
   Widget _buildHeader(CategoryModel category) {
-    return Text(category.name ?? "");
+    return Row(
+      children: [
+        Icon(IconConverter.getIconData(category.iconData?.name), color: ColorConverter.iconColorToColor(category.iconColor)),
+        SizedBox(width: AppDimensions.horizontalPadding / 2),
+        Text(category.name ?? ""),
+      ],
+    );
   }
 
   Widget _buildTrailing(CategoryModel category, double amount) {

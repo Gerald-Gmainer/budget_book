@@ -24,8 +24,13 @@ class _DatePanelState extends State<DatePanel> {
 
   Widget _buildDate() {
     return Text(
-      _determineText(),
-      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.accentColor),
+      _determineText().toUpperCase(),
+      style: const TextStyle(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: AppColors.accentColor,
+        fontFamily: 'KaushanScript',
+      ),
     );
   }
 

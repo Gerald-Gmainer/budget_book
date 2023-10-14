@@ -33,7 +33,7 @@ class _CollapseableListState extends State<CollapseableList> {
       title: item.header,
       leading: AnimatedRotationIcon(
         isExpanded: item.isExpanded,
-        duration: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 300),
       ),
       trailing: item.trailing,
       minLeadingWidth: 10,
@@ -83,8 +83,8 @@ class _AnimatedRotationIconState extends State<AnimatedRotationIcon> with Single
       duration: widget.duration,
     );
     _rotationAnimation = Tween<double>(
-      begin: 0,
-      end: 0.5,
+      begin: 0.5,
+      end: 1,
     ).animate(_controller);
   }
 
@@ -112,9 +112,9 @@ class _AnimatedRotationIconState extends State<AnimatedRotationIcon> with Single
       animation: _rotationAnimation,
       builder: (context, child) {
         return Transform.rotate(
-          angle: _rotationAnimation.value * 2 * pi,
+          angle: _rotationAnimation.value * pi,
           child: Icon(
-            widget.isExpanded ? Icons.expand_less : Icons.expand_more,
+            Icons.expand_less,
           ),
         );
       },

@@ -7,6 +7,9 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import 'balance_text.dart';
+import 'total_text.dart';
+
 class GraphPanel extends StatelessWidget {
   final BudgetPeriodModel periodModel;
 
@@ -21,11 +24,13 @@ class GraphPanel extends StatelessWidget {
           // margin: EdgeInsets.zero,
           annotations: <CircularChartAnnotation>[
             CircularChartAnnotation(
-              widget: CurrencyText(
-                value: periodModel.balance,
-                style: TextStyle(
-                  color: periodModel.balance.isNegative ? AppColors.outcomeColor : AppColors.incomeColor,
-                  fontSize: 20,
+              widget: IntrinsicHeight(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TotalText(periodModel: periodModel, categoryType: CategoryType.income),
+                    TotalText(periodModel: periodModel, categoryType: CategoryType.outcome),
+                  ],
                 ),
               ),
             )
@@ -38,10 +43,10 @@ class GraphPanel extends StatelessWidget {
                 dataLabelMapper: (_PieData data, _) => data.text,
                 pointColorMapper: (_PieData data, _) => data.color,
                 radius: '100%',
-                innerRadius: '50%',
+                innerRadius: '60%',
                 dataLabelSettings: const DataLabelSettings(isVisible: true),
                 strokeColor: AppColors.primaryColor,
-                strokeWidth: 5),
+                strokeWidth: 4),
           ],
         ),
       ),
@@ -66,7 +71,7 @@ class GraphPanel extends StatelessWidget {
         categoryName,
         totalAmount,
         model.category.name ?? "unknown",
-        Colors.primaries[Random().nextInt(Colors.primaries.length)],
+        ColorConverter.iconColorToColor(model.category.iconColor),
       );
       pieDataList.add(pieData);
     }

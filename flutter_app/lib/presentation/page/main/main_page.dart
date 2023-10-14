@@ -35,7 +35,13 @@ class _MainPageState extends State<MainPage> {
       create: (_) => LeftDrawerMenuState(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Budget Book"),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text("Budget Book", style: TextStyle(fontSize: 16, fontFamily: 'KaushanScript')),
+              Text("All Accounts", style: TextStyle(fontSize: 13, color: AppColors.thirdTextColor)),
+            ],
+          ),
           leading: LeftDrawerButton(),
           actions: [RefreshButton(), RightDrawerButton()],
         ),
@@ -59,11 +65,11 @@ class _MainPageState extends State<MainPage> {
             ],
           );
         }),
-        floatingActionButton: Column(
+        floatingActionButton: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             TransferButton(),
-            SizedBox(height: AppDimensions.verticalPadding*2),
+            SizedBox(width: AppDimensions.horizontalPadding),
             CreateBookingButton(),
           ],
         ),

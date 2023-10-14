@@ -101,7 +101,7 @@ FROM user_data ud;
 -- April 2023
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT  ud.user_id,  TO_TIMESTAMP('2023-04-14', 'YYYY-MM-DD'), 65999, c.id, a.id
+SELECT  ud.user_id,  TO_TIMESTAMP('2023-04-14', 'YYYY-MM-DD'), 800, c.id, a.id
 FROM  user_data ud
 JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
@@ -109,21 +109,21 @@ JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 -- May 2023
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id,  TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 300000, c.id, a.id
+SELECT ud.user_id,  TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 2300, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'work' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 70000, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-05-10', 'YYYY-MM-DD'), 800, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT  ud.user_id, TO_TIMESTAMP('2023-05-28', 'YYYY-MM-DD'), 10000, c.id, a.id
+SELECT  ud.user_id, TO_TIMESTAMP('2023-05-28', 'YYYY-MM-DD'), 195.12, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'car' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
@@ -137,7 +137,7 @@ JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-05-15', 'YYYY-MM-DD'), 2500, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-05-15', 'YYYY-MM-DD'), 43.55, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'food' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
@@ -145,42 +145,42 @@ JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 -- June 2023
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 300000, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 2300, c.id, a.id
 FROM user_data ud
   JOIN categories c ON c.name = 'work' AND c.user_id = ud.user_id
   JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 70000, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-10', 'YYYY-MM-DD'), 800, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'house' AND c.user_id = ud.user_id
 JOIN accounts a ON a.name = 'cash' AND a.user_id = ud.user_id;
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-28', 'YYYY-MM-DD'), 10000, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-28', 'YYYY-MM-DD'), 195.12, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'car'
 JOIN accounts a ON a.name = 'cash';
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-01', 'YYYY-MM-DD'), 1005, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-01', 'YYYY-MM-DD'), 78.21, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'food'
 JOIN accounts a ON a.name = 'cash';
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-02', 'YYYY-MM-DD'), 100, c.id,  a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-02', 'YYYY-MM-DD'), 4.1, c.id,  a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'food'
 JOIN accounts a ON a.name = 'cash';
 
 WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
 INSERT INTO bookings (user_id, booking_date, amount, category_id, account_id)
-SELECT ud.user_id, TO_TIMESTAMP('2023-06-1', 'YYYY-MM-DD'), 1234, c.id, a.id
+SELECT ud.user_id, TO_TIMESTAMP('2023-06-1', 'YYYY-MM-DD'), 321, c.id, a.id
 FROM user_data ud
 JOIN categories c ON c.name = 'saving'
 JOIN accounts a ON a.name = 'cash';
