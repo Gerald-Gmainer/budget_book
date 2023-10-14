@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
@@ -5,63 +7,63 @@ import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'main_paginator_event.dart';
-part 'main_paginator_state.dart';
+part 'graph_view_event.dart';
+part 'graph_view_state.dart';
 
-class MainPaginatorBloc extends Bloc<MainPaginatorEvent, MainPaginatorState> {
+class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
   final BookingRepository bookingRepo;
   final BookingPeriodConverter _converter = BookingPeriodConverter();
   final CategoryConverter _categoryConverter = CategoryConverter();
   BudgetPeriod _currentBudgetPeriod = BudgetPeriod.month;
 
-  MainPaginatorBloc(this.bookingRepo) : super(MainPaginatorInitState()) {
-    on<InitMainPaginatorEvent>(_onInitMainPaginatorEvent);
-    on<ChangePeriodMainPaginatorEvent>(_onChangePeriodMainPaginatorEvent);
-    on<RefreshMainPaginatorEvent>(_onRefreshMainPaginatorEvent);
+  GraphViewBloc(this.bookingRepo) : super(GraphViewInitState()) {
+    on<InitGraphViewEvent>(_onInitGraphViewEvent);
+    on<ChangePeriodGraphViewEvent>(_onChangePeriodGraphViewEvent);
+    on<RefreshGraphViewEvent>(_onRefreshGraphViewEvent);
   }
 
-  _onInitMainPaginatorEvent(InitMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
+  _onInitGraphViewEvent(InitGraphViewEvent event, Emitter<GraphViewState> emit) async {
     try {
-      emit(MainPaginatorLoadingState());
+      emit(GraphViewLoadingState());
       final bookModel = await _calculateBookModel(_currentBudgetPeriod);
-      emit(MainPaginatorLoadedState(bookModel));
+      emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(MainPaginatorErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(MainPaginatorErrorState(e.toString()));
+        emit(GraphViewErrorState(e.toString()));
       }
     }
   }
 
-  _onChangePeriodMainPaginatorEvent(ChangePeriodMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
+  _onChangePeriodGraphViewEvent(ChangePeriodGraphViewEvent event, Emitter<GraphViewState> emit) async {
     try {
-      emit(MainPaginatorLoadingState());
+      emit(GraphViewLoadingState());
       _currentBudgetPeriod = event.period;
       final bookModel = await _calculateBookModel(event.period);
-      emit(MainPaginatorLoadedState(bookModel));
+      emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(MainPaginatorErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(MainPaginatorErrorState(e.toString()));
+        emit(GraphViewErrorState(e.toString()));
       }
     }
   }
 
-  _onRefreshMainPaginatorEvent(RefreshMainPaginatorEvent event, Emitter<MainPaginatorState> emit) async {
+  _onRefreshGraphViewEvent(RefreshGraphViewEvent event, Emitter<GraphViewState> emit) async {
     try {
-      emit(MainPaginatorLoadingState());
+      emit(GraphViewLoadingState());
       final bookModel = await _calculateBookModel(_currentBudgetPeriod);
-      emit(MainPaginatorLoadedState(bookModel));
+      emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(MainPaginatorErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(MainPaginatorErrorState(e.toString()));
+        emit(GraphViewErrorState(e.toString()));
       }
     }
   }

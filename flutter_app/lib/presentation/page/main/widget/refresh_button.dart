@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RefreshButton extends StatelessWidget {
   _refresh(BuildContext context) {
-    BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
+    BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
   }
 
   @override

@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<ProfileBloc>(create: (context) => profileBloc),
             BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
             // --
-            BlocProvider<MainPaginatorBloc>(create: (context) => MainPaginatorBloc(_bookingRepo)),
+            BlocProvider<GraphViewBloc>(create: (context) => GraphViewBloc(_bookingRepo)),
             BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
             BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
             BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),

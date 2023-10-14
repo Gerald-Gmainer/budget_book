@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
-import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/page/main/widget/balance_text.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
@@ -9,12 +8,12 @@ import 'widget/date_panel.dart';
 import 'widget/detail_panel.dart';
 import 'widget/graph_panel.dart';
 
-class MainPaginator extends StatefulWidget {
+class GraphView extends StatefulWidget {
   @override
-  State<MainPaginator> createState() => _MainPaginatorState();
+  State<GraphView> createState() => _GraphViewState();
 }
 
-class _MainPaginatorState extends State<MainPaginator> {
+class _GraphViewState extends State<GraphView> {
   late PageController _pageController;
   late int _currentIndex;
 
@@ -32,17 +31,17 @@ class _MainPaginatorState extends State<MainPaginator> {
   }
 
   _reload() {
-    BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
+    BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainPaginatorBloc, MainPaginatorState>(
+    return BlocBuilder<GraphViewBloc, GraphViewState>(
       builder: (context, state) {
-        if (state is MainPaginatorErrorState) {
+        if (state is GraphViewErrorState) {
           return ErrorText(message: state.message, onReload: _reload);
         }
-        if (state is MainPaginatorLoadedState) {
+        if (state is GraphViewLoadedState) {
           return _buildView(state.bookModel);
         }
         return _buildLoading();

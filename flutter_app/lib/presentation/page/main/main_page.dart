@@ -5,7 +5,7 @@ import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
-import 'main_paginator.dart';
+import 'graph_view.dart';
 import 'widget/left_drawer.dart';
 import 'widget/left_drawer_button.dart';
 import 'widget/refresh_button.dart';
@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<MainPaginatorBloc>(context).add(InitMainPaginatorEvent());
+    BlocProvider.of<GraphViewBloc>(context).add(InitGraphViewEvent());
   }
 
   @override
@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
                 padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding, horizontal: AppDimensions.horizontalPadding),
                 child: Column(
                   children: [
-                    Expanded(child: MainPaginator()),
+                    Expanded(child: GraphView()),
                     // BalanceButtonRow(),
                   ],
                 ),

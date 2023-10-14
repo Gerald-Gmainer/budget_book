@@ -1,4 +1,4 @@
-export 'booking/bloc/main_paginator/main_paginator_bloc.dart';
+export 'booking/bloc/graph_view/graph_view_bloc.dart';
 export 'booking/bloc/booking_crud/booking_crud_bloc.dart';
 export 'booking/bloc/calculator/calculator_bloc.dart';
 export 'booking/bloc/category_list/category_list_bloc.dart';

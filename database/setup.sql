@@ -51,14 +51,16 @@ CREATE TABLE currencies (
   name text NOT NULL,
   decimal_precision smallint NOT NULL,
   unit_position_front BOOLEAN DEFAULT TRUE,
-  symbol text NOT NULL
+  symbol text NOT NULL,
+  ui_order int
 );
 ALTER TABLE currencies ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_currencies AS
   SELECT c.id, c.name, c.decimal_precision, c.unit_position_front, c.symbol
   FROM currencies c
-  WHERE auth.role() = 'authenticated';
+  WHERE auth.role() = 'authenticated'
+  ORDER BY c.ui_order;
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -98,13 +100,15 @@ ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE category_icons (
   id SERIAL PRIMARY KEY,
-  name text NOT NULL
+  name text NOT NULL,
+  ui_order int
 );
 ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE category_colors (
   id SERIAL PRIMARY KEY,
-  code text NOT NULL
+  code text NOT NULL,
+  ui_order int
 );
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
@@ -142,15 +146,18 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE VIEW view_categories AS
   SELECT c.id, c.name, c.icon_id, c.color_id, c.type
   FROM categories c
-  WHERE c.user_id = auth.uid();
+  WHERE c.user_id = auth.uid()
+  ORDER BY c.name;
 
 CREATE OR REPLACE VIEW view_category_icons AS
   SELECT c.id, c.name
-  FROM category_icons c;
+  FROM category_icons c
+  ORDER BY c.ui_order;
 
 CREATE OR REPLACE VIEW view_category_colors AS
   SELECT c.id, c.code
-  FROM category_colors c;
+  FROM category_colors c
+  ORDER BY c.ui_order;
 
 ----------------------------------------------------------------------------------------------------------------
 

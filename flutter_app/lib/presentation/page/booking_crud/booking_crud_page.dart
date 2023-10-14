@@ -60,7 +60,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _onUploadSuccess() {
-    BlocProvider.of<MainPaginatorBloc>(context).add(RefreshMainPaginatorEvent());
+    BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
     Navigator.of(context).pop();
   }
 
