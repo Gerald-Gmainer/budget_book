@@ -26,7 +26,7 @@ class UserRepository {
   }
 
   Future<List<CurrencyDataModel>> getCurrencies() async {
-    return await _currencyCache.getCurrencyCache();
+    return await _currencyCache.getData();
   }
 
   Future<ProfileDataModel> getProfile() async {

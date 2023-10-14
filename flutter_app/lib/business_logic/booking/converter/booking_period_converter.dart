@@ -97,7 +97,6 @@ class BookingPeriodConverter {
     while (currentMonth.isBefore(endDate) || currentMonth.isAtSameMomentAs(endDate)) {
       final monthKey = currentMonth.millisecondsSinceEpoch;
 
-      // Check if there are bookings for this month
       if (!bookingsByCategory.containsKey(monthKey)) {
         models.insert(
           0,

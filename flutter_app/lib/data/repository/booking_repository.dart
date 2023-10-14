@@ -16,7 +16,7 @@ class BookingRepository {
   }
 
   Future<List<CategoryDataModel>> getAllCategories({bool forceReload = false}) async {
-    return await _categoryCacheService.getAllCategories(forceReload);
+    return await _categoryCacheService.getData(forceReload: forceReload);
   }
 
   Future<IconCacheModel> getIconCache() async {

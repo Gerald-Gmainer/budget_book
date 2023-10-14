@@ -2,51 +2,20 @@ import 'dart:async';
 
 import 'package:flutter_app/data/data.dart';
 
-class CategoryCacheService {
-  final CategoryClient categoryClient;
+import 'base/base_cache_service.dart';
 
-  List<CategoryDataModel>? _cachedCategories;
-  DateTime? _lastCacheTime;
-  bool _isFetchingCategories = false;
-  final Duration cacheDuration = const Duration(minutes: 5);
-  final Completer<List<CategoryDataModel>> _categoriesFetchCompleter = Completer<List<CategoryDataModel>>();
+class CategoryCacheService extends BaseCacheService<List<CategoryDataModel>> {
+  final CategoryClient categoryClient;
 
   CategoryCacheService(this.categoryClient);
 
-  Future<List<CategoryDataModel>> getAllCategories(bool forceReload) async {
-    if (!forceReload && _canUseCache()) {
-      return _cachedCategories!;
-    }
-
-    if (_isFetchingCategories) {
-      return _categoriesFetchCompleter.future;
-    }
-
-    _isFetchingCategories = true;
-
-    try {
-      final categories = await categoryClient.getAllCategories();
-
-      _cachedCategories = categories;
-      _lastCacheTime = DateTime.now();
-
-      _isFetchingCategories = false;
-      if (!_categoriesFetchCompleter.isCompleted) {
-        _categoriesFetchCompleter.complete(_cachedCategories);
-      }
-
-      return categories;
-    } catch (e) {
-      _isFetchingCategories = false;
-      if (!_categoriesFetchCompleter.isCompleted) {
-        _categoriesFetchCompleter.completeError(e);
-      }
-
-      rethrow;
-    }
+  @override
+  Future<List<CategoryDataModel>> fetchData() async {
+    return await categoryClient.getAllCategories();
   }
 
-  bool _canUseCache() {
-    return _cachedCategories != null && _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= cacheDuration;
+  @override
+  Duration? getCacheDuration() {
+    return const Duration(minutes: 5);
   }
 }
