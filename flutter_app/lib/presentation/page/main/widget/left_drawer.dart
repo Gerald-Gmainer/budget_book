@@ -11,10 +11,9 @@ class LeftDrawer extends StatefulWidget {
 }
 
 class _LeftDrawerState extends State<LeftDrawer> {
-  final double _menuWidth = 180.0;
-
   @override
   Widget build(BuildContext context) {
+    const double menuWidth = 200.0;
     final menuState = Provider.of<LeftDrawerMenuState>(context);
 
     return Stack(
@@ -26,7 +25,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
               menuState.toggleMenu();
             },
             child: Container(
-              color: menuState.isMenuOpen ? Colors.black12 : Colors.transparent,
+              color: menuState.isMenuOpen ? Colors.black38 : Colors.transparent,
             ),
           ),
         ),
@@ -34,11 +33,11 @@ class _LeftDrawerState extends State<LeftDrawer> {
           duration: const Duration(milliseconds: 200),
           top: 0,
           bottom: 0,
-          left: menuState.isMenuOpen ? 0 : -_menuWidth,
+          left: menuState.isMenuOpen ? 0 : -menuWidth,
           curve: Curves.easeInOut,
           child: Container(
-            width: _menuWidth,
-            color: AppColors.secondaryColor,
+            width: menuWidth,
+            // color: AppColors.secondaryColor,
             child: _buildContent(),
           ),
         ),
@@ -53,13 +52,16 @@ class _LeftDrawerState extends State<LeftDrawer> {
           padding: EdgeInsets.zero,
           children: [
             SizedBox(height: AppDimensions.verticalPadding),
-            buildLabel("Period"),
+            _buildLabel("Account"),
+            _buildAccountDropdown(),
+            SizedBox(height: AppDimensions.verticalPadding),
+            _buildLabel("Period"),
             _buildPeriodButton(BudgetPeriod.day, "Day", false),
             _buildPeriodButton(BudgetPeriod.month, "Month", true),
             _buildPeriodButton(BudgetPeriod.year, "Year", false),
             _buildPeriodButton(BudgetPeriod.all, "All", false),
             SizedBox(height: AppDimensions.verticalPadding),
-            buildLabel("View"),
+            _buildLabel("View"),
             _buildChangeViewButton(Icons.pie_chart, 'Graph', true),
             _buildChangeViewButton(Icons.calendar_today, 'Calendar', false),
             _buildChangeViewButton(Icons.list, 'List', false),
@@ -69,10 +71,34 @@ class _LeftDrawerState extends State<LeftDrawer> {
     );
   }
 
-  Widget buildLabel(String text) {
+  Widget _buildLabel(String text) {
     return Padding(
-      padding:EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding / 2, horizontal: AppDimensions.horizontalPadding/2),
+      padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding / 2, horizontal: AppDimensions.horizontalPadding / 2),
       child: Text(text),
+    );
+  }
+
+  Widget _buildAccountDropdown() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: AppDimensions.verticalPadding / 2,
+        horizontal: AppDimensions.horizontalPadding,
+      ),
+      child: DropdownButtonFormField<String>(
+        isExpanded: true,
+        decoration: const InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding),
+          border: OutlineInputBorder(),
+        ),
+        value: "All Accounts",
+        items: ["All Accounts"].map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value, style: TextStyle(color: AppColors.secondaryTextColor, fontSize: 14)),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {},
+      ),
     );
   }
 
@@ -84,7 +110,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           primary: AppColors.accentColor,
           side: BorderSide(
             color: isSelected ? AppColors.accentColor : AppColors.secondaryColor,
-            width: 2,
+            width: 1,
           ),
           padding: EdgeInsets.all(12),
         ),
