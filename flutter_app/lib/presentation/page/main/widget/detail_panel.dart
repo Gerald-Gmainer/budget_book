@@ -12,19 +12,15 @@ class DetailPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: ListView.builder(
-        itemCount: periodModel.categoryBookingGroupModels.length,
-        itemBuilder: (context, index) {
-          final item = periodModel.categoryBookingGroupModels[index];
-          return Card(
-            child: ListTile(
-              title: _buildHeader(item.category),
-              trailing: _buildTrailing(item.category, item.amount),
-            ),
-          );
-        },
-      ),
+    return Column(
+      children: periodModel.categoryBookingGroupModels.map((item) {
+        return Card(
+          child: ListTile(
+            title: _buildHeader(item.category),
+            trailing: _buildTrailing(item.category, item.amount),
+          ),
+        );
+      }).toList(),
     );
   }
 

@@ -165,7 +165,7 @@ CREATE TABLE bookings (
   id SERIAL PRIMARY KEY,
   user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
   booking_date date NOT NULL,
-  description text,
+  description varchar(20),
   amount numeric(12, 3) DEFAULT 0 NOT NULL,
   category_id int REFERENCES categories(id) NOT NULL,
   account_id int REFERENCES accounts(id) NOT NULL,

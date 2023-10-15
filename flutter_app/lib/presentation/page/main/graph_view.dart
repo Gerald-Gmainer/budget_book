@@ -66,8 +66,8 @@ class _GraphViewState extends State<GraphView> {
       onPageChanged: _onPageChanged,
       reverse: true,
       itemBuilder: (context, index) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        return ListView(
+          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -79,6 +79,7 @@ class _GraphViewState extends State<GraphView> {
             ),
             GraphPanel(periodModel: bookModel.periodModels[index]),
             DetailPanel(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
+            SizedBox(height: AppDimensions.verticalPadding),
           ],
         );
       },
