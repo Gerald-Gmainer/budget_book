@@ -40,6 +40,10 @@ class AppRouter {
         return MyCustomRoute(
           builder: (context) => CategoryCrudPage(model: settings.arguments as CategoryModel),
         );
+      case BookingListPage.route:
+        return MyCustomRoute(
+          builder: (context) => BookingListPage(pageModel: settings.arguments as BookingListPageModel),
+        );
       default:
         return MaterialPageRoute(
           builder: (context) => SplashScreen(),

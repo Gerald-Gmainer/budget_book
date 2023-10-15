@@ -10,6 +10,13 @@ class DetailPanel extends StatelessWidget {
 
   const DetailPanel({required this.periodModel, required this.categories});
 
+  _onTap(BuildContext context, CategoryBookingGroupModel item) {
+    final model = BookingListPageModel(
+      categoryGroupModel: item,
+    );
+    Navigator.of(context).pushNamed(BookingListPage.route, arguments: model);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,6 +25,9 @@ class DetailPanel extends StatelessWidget {
           child: ListTile(
             title: _buildHeader(item.category),
             trailing: _buildTrailing(item.category, item.amount),
+            onTap: () {
+              _onTap(context, item);
+            },
           ),
         );
       }).toList(),
