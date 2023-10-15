@@ -11,7 +11,7 @@ class ProfileClient {
 
   Future<ProfileDataModel> getProfile() async {
     Stopwatch stopwatch = Stopwatch()..start();
-    var response = await supabase.from('view_profiles').select('id, name, avatar_url').single();
+    var response = await supabase.from('view_profiles').select('id, name, email, avatar_url').single();
     BudgetLogger.instance.d("view_profiles took ${stopwatch.elapsed.inMilliseconds} ms");
     return ProfileDataModel.fromJson(response);
   }

@@ -7,6 +7,7 @@ class ProfileConverter {
   ProfileModel fromProfileData(ProfileDataModel dataModel) {
     return ProfileModel(
       name: dataModel.name!,
+      email: dataModel.email,
       avatarUrl: dataModel.avatarUrl,
     );
   }

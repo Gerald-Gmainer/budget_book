@@ -48,7 +48,7 @@ INSERT INTO currencies (name, decimal_precision, symbol, ui_order)
 ----------------------------------------------------------------------------------------------------------------
 
 insert into profiles (user_id, name)
-  select u.id, 'test name' 
+  select u.id, 'Gerald Gmainer' 
   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
@@ -132,6 +132,14 @@ SELECT ud.user_id,  'other', 'outcome'::category_type,
   (SELECT id FROM category_colors WHERE code = '#99FF33')
 FROM user_data ud;
 
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2022-12');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-01');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-02');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-03');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-04');
 SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-05');
 SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-06');
 SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-07');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-08');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-09');
+SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-10');

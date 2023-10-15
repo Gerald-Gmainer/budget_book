@@ -40,7 +40,7 @@ CREATE TABLE profiles (
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_profiles AS
-  SELECT p.id, p.name, p.avatar_url
+  SELECT p.id, p.name, auth.email() as email, p.avatar_url
   FROM profiles p
   WHERE p.user_id = auth.uid();
 
