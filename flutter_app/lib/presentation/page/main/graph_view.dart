@@ -79,7 +79,7 @@ class _GraphViewState extends State<GraphView> {
             ),
             GraphPanel(periodModel: bookModel.periodModels[index]),
             BookingOverview(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
-            SizedBox(height: AppDimensions.verticalPadding),
+            SizedBox(height: 80),
           ],
         );
       },

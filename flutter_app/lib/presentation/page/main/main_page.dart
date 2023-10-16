@@ -3,6 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/page/main/widget/create_booking_button.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'graph_view.dart';
@@ -37,8 +38,8 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text("Budget Book", style: TextStyle(fontSize: 16, fontFamily: 'KaushanScript')),
+            children: [
+              Text("Budget Book", style: TextStyle(fontSize: 16, fontFamily: GoogleFonts.kaushanScript().fontFamily)),
               Text("All Accounts", style: TextStyle(fontSize: 13, color: AppColors.thirdTextColor)),
             ],
           ),

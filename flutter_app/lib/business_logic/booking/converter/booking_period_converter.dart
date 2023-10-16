@@ -50,42 +50,6 @@ class BookingPeriodConverter {
     }
 
     List<BudgetPeriodModel> models = [];
-    // bookingsByCategory.forEach((monthKey, groupedBookings) {
-    //   final DateTime month = DateTime.fromMillisecondsSinceEpoch(monthKey);
-    //   List<CategoryBookingGroupModel> groupModels = [];
-    //
-    //   groupedBookings.forEach((categoryId, dataModels) {
-    //     final category = _findCategory(categories, categoryId);
-    //     final bookings = _convertDataModels(dataModels, category);
-    //     final amount = _calculateAmount(dataModels);
-    //     groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
-    //   });
-    //
-    //   groupModels.sort((a, b) {
-    //     final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
-    //     final nameA = a.category.name ?? "";
-    //     final nameB = b.category.name ?? "";
-    //     return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
-    //   });
-    //
-    //   final income = _calculateTotal(groupModels, CategoryType.income);
-    //   final outcome = _calculateTotal(groupModels, CategoryType.outcome);
-    //   final balance = income - outcome;
-    //
-    //   models.insert(
-    //     0,
-    //     BudgetPeriodModel(
-    //       period: BudgetPeriod.month,
-    //       dateTime: month,
-    //       dateTimeFrom: null,
-    //       dateTimeTo: null,
-    //       income: income,
-    //       outcome: outcome,
-    //       balance: balance,
-    //       categoryBookingGroupModels: groupModels,
-    //     ),
-    //   );
-    // });
 
     DateTime startDate = bookingDataModels
         .map((booking) => booking.bookingDate)
@@ -126,9 +90,20 @@ class BookingPeriodConverter {
 
         groupModels.sort((a, b) {
           final typeComparison = a.category.categoryType.index.compareTo(b.category.categoryType.index);
-          final nameA = a.category.name ?? "";
-          final nameB = b.category.name ?? "";
-          return typeComparison != 0 ? typeComparison : nameA.compareTo(nameB);
+
+          // Sort by amount in descending order
+          final amountComparison = b.amount.compareTo(a.amount);
+
+          if (typeComparison != 0) {
+            return typeComparison; // First, sort by category type
+          } else if (amountComparison != 0) {
+            return amountComparison; // If category types are the same, sort by amount
+          } else {
+            // If both category type and amount are the same, sort by category name
+            final nameA = a.category.name ?? "";
+            final nameB = b.category.name ?? "";
+            return nameA.compareTo(nameB);
+          }
         });
 
         final income = _calculateTotal(groupModels, CategoryType.income);

@@ -45,7 +45,7 @@ class CategoryIconInput extends StatelessWidget {
             color: color,
           ),
           child: Icon(
-            IconConverter.getIconData(iconModel.name),
+            IconConverter.getIconFromModel(iconModel),
             color: Colors.white,
             size: 24,
           ),

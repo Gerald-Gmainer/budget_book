@@ -61,6 +61,7 @@ dependencies:
   syncfusion_flutter_charts: ^21.2.4
   community_material_icon: ^5.9.55
   collection: ^1.16.0
+  google_fonts: ^4.0.4
 
 dev_dependencies:
   flutter_test:
@@ -110,7 +111,4 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
-  fonts:
-    - family: KaushanScript
-      fonts:
-        - asset: fonts/KaushanScript-Regular.ttf
+#  fonts:

@@ -64,7 +64,7 @@ class GraphPanel extends StatelessWidget {
             builder: (dynamic data, dynamic point, dynamic series, int pointIndex, int seriesIndex) {
               final pieData = data as _PieData;
               if (pieData.icon != null) {
-                return Icon(IconConverter.getIconData(pieData.icon));
+                return Icon(IconConverter.getIconFromString(pieData.icon));
               } else {
                 return SizedBox.shrink();
               }

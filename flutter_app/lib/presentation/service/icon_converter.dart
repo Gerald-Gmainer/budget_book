@@ -1,5 +1,6 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/utils/logger.dart';
 
 class IconConverter {
@@ -30,7 +31,11 @@ class IconConverter {
     'shopping-music': CommunityMaterialIcons.shopping_music,
   };
 
-  static IconData getIconData(String? iconName) {
+  static IconData getIconFromModel(IconDataModel? icon) {
+    return getIconFromString(icon?.name);
+  }
+
+  static IconData getIconFromString(String? iconName) {
     return _iconDataMap[iconName] ?? CommunityMaterialIcons.help;
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DatePanel extends StatefulWidget {
   final BudgetPeriodModel periodModel;
@@ -25,11 +26,11 @@ class _DatePanelState extends State<DatePanel> {
   Widget _buildDate() {
     return Text(
       _determineText().toUpperCase(),
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 20,
         fontWeight: FontWeight.bold,
         color: AppColors.accentColor,
-        fontFamily: 'KaushanScript',
+        fontFamily: GoogleFonts.kaushanScript().fontFamily,
       ),
     );
   }

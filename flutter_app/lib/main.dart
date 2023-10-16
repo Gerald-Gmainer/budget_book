@@ -10,6 +10,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'presentation/presentation.dart';
 import 'utils/utils.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -85,7 +86,10 @@ class MyApp extends StatelessWidget {
   ThemeData _createTheme(BuildContext context) {
     return ThemeData(
       brightness: Brightness.dark,
-      fontFamily: "Noto Sans JP",
+      // fontFamily: GoogleFonts.raleway().fontFamily,
+      fontFamily: GoogleFonts.poppins().fontFamily,
+      // fontFamily: GoogleFonts.notoSans().fontFamily,
+      // fontFamily: GoogleFonts.arimo().fontFamily,
       primaryColor: AppColors.accentColor,
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         selectedItemColor: AppColors.accentColor,

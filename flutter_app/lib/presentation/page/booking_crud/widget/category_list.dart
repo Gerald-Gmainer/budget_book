@@ -32,7 +32,7 @@ class CategoryList extends StatelessWidget {
       children: [
         for (int index = 0; index < trimmedList.length; index++)
           CategoryIcon(
-            icon: IconConverter.getIconData(trimmedList[index].iconData?.name),
+            icon: IconConverter.getIconFromModel(trimmedList[index].iconData),
             text: trimmedList[index].name,
             color: ColorConverter.iconColorToColor(trimmedList[index].iconColor),
             isSelected: model.category == trimmedList[index],
