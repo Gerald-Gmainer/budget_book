@@ -67,7 +67,6 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
 
   _calculateResult(Emitter<CalculatorState> emit) {
     if (_history.isEmpty) {
-      BudgetLogger.instance.d("zero");
       _updateState(0, emit);
       return;
     }

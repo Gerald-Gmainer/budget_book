@@ -11,6 +11,7 @@ part 'booking_crud_state.dart';
 
 class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
   final BookingRepository bookingRepo;
+  final BookingConverter _converter = BookingConverter();
 
   BookingCrudBloc(this.bookingRepo) : super(BookingCrudInitState()) {
     on<InitBookingCrudEvent>(_onInitBookingCrudEvent);
@@ -23,9 +24,9 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
 
   _onUploadBookingCrudEvent(UploadBookingCrudEvent event, Emitter<BookingCrudState> emit) async {
     try {
-      BudgetLogger.instance.d("upload ${event.model.dataModel.toJson()}");
       emit(BookingCrudLoadingState());
-      await bookingRepo.createBooking(event.model.dataModel);
+      final model = _converter.toDataModel(event.model);
+      await bookingRepo.createBooking(model);
       emit(BookingCrudUploadedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

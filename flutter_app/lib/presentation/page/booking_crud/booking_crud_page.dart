@@ -38,7 +38,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    if (widget.model.dataModel.amount != null && widget.model.dataModel.amount! > 0) {
+    if (widget.model.amount != null && widget.model.amount! > 0) {
       _animateToPage(1);
     }
   }
@@ -125,6 +125,6 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   bool _isCreating() {
-    return widget.model.dataModel.id == null;
+    return widget.model.id == null;
   }
 }

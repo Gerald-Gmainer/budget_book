@@ -20,8 +20,8 @@ class _DateInputState extends State<DateInput> {
   @override
   void initState() {
     super.initState();
-    widget.model.dataModel.bookingDate ??= DateTime.now();
-    _selectedDate = widget.model.dataModel.bookingDate!;
+    widget.model.bookingDate ??= DateTime.now();
+    _selectedDate = widget.model.bookingDate!;
   }
 
   _onDatePicker(BuildContext context) async {
@@ -36,7 +36,7 @@ class _DateInputState extends State<DateInput> {
       setState(() {
         _selectedDate = picked;
       });
-      widget.model.dataModel.bookingDate = picked;
+      widget.model.bookingDate = picked;
     }
   }
 
@@ -44,7 +44,7 @@ class _DateInputState extends State<DateInput> {
     setState(() {
       _selectedDate = date;
     });
-    widget.model.dataModel.bookingDate = date;
+    widget.model.bookingDate = date;
   }
 
   @override

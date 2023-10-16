@@ -30,23 +30,23 @@ class CrudOverview extends StatelessWidget {
   }
 
   _hasDescription() {
-    return model.dataModel.description != null && model.dataModel.description!.isNotEmpty;
+    return model.description != null && model.description!.isNotEmpty;
   }
 
   _buildDate() {
     return Text(
-      DateTimeConverter.toEEEEdMMMM(model.dataModel.bookingDate),
+      DateTimeConverter.toEEEEdMMMM(model.bookingDate),
       style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
     );
   }
 
   _buildAmount() {
-    return CurrencyText(value: model.dataModel.amount, style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
+    return CurrencyText(value: model.amount, style: const TextStyle(fontSize: 38, color: AppColors.primaryTextColor));
   }
 
   _buildNote() {
     return Text(
-      model.dataModel.description ?? "",
+      model.description ?? "",
       style: const TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
     );
   }

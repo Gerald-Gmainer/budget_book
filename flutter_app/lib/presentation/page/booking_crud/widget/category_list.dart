@@ -13,7 +13,7 @@ class CategoryList extends StatelessWidget {
   const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
 
   _onCategoryTap(BuildContext context, CategoryModel category) {
-    model.dataModel.categoryId = category.id;
+    model.category = category;
     onCategoryTap();
   }
 

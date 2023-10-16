@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
-import 'package:flutter_app/data/data.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'calculator_key.dart';
 import 'calculator_keyboard.dart';
@@ -37,7 +36,7 @@ class _CalculatorState extends State<Calculator> {
   }
 
   _onValueChange(double value) {
-    widget.model.dataModel.amount = value;
+    widget.model.amount = value;
   }
 
   @override

@@ -4,11 +4,11 @@ import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class DetailPanel extends StatelessWidget {
+class BookingOverview extends StatelessWidget {
   final BudgetPeriodModel periodModel;
   final List<CategoryModel> categories;
 
-  const DetailPanel({required this.periodModel, required this.categories});
+  const BookingOverview({required this.periodModel, required this.categories});
 
   _onTap(BuildContext context, CategoryBookingGroupModel item) {
     final model = BookingListPageModel(
@@ -46,16 +46,5 @@ class DetailPanel extends StatelessWidget {
 
   Widget _buildTrailing(CategoryModel category, double amount) {
     return CurrencyText(value: amount, style: TextStyle(color: category.categoryType.color));
-  }
-
-  Widget _buildBody(List<BookingModel> bookings) {
-    return Column(
-      children: bookings.map((booking) {
-        return ListTile(
-          title: CurrencyText(value: booking.dataModel.amount),
-          trailing: Text(DateTimeConverter.toMMMMdd(booking.dataModel.bookingDate)),
-        );
-      }).toList(),
-    );
   }
 }

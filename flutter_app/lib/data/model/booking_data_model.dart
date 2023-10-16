@@ -8,8 +8,6 @@ class BookingDataModel extends DataModel {
   int? accountId;
   bool? isDeleted;
 
-  BookingDataModel.empty() : super(null);
-
   BookingDataModel({
     int? id,
     required this.bookingDate,

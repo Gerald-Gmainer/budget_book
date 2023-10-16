@@ -7,6 +7,7 @@ export 'booking/bloc/category_crud/category_crud_bloc.dart';
 
 export 'booking/converter/booking_period_converter.dart';
 export 'booking/converter/category_converter.dart';
+export 'booking/converter/booking_converter.dart';
 
 export 'booking/model/account_model.dart';
 export 'booking/model/budget_book_model.dart';

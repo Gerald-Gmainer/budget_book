@@ -35,7 +35,7 @@ class _BookingListPageState extends State<BookingListPage> {
   _groupBookings() {
     List<BookingModel> items = _prepareBookings();
     final grouped = groupBy(items, (booking) {
-      final date = booking.dataModel.bookingDate;
+      final date = booking.bookingDate;
       if (date != null) {
         return DateTime(date.year, date.month, date.day);
       }
@@ -58,7 +58,7 @@ class _BookingListPageState extends State<BookingListPage> {
     } else if (bookings != null) {
       items = bookings!;
     }
-    items.sort((a, b) => (b.dataModel.bookingDate ?? DateTime(0)).compareTo(a.dataModel.bookingDate ?? DateTime(0)));
+    items.sort((a, b) => (b.bookingDate ?? DateTime(0)).compareTo(a.bookingDate ?? DateTime(0)));
     return items;
   }
 
@@ -66,7 +66,7 @@ class _BookingListPageState extends State<BookingListPage> {
     BookingModel booking = BookingModel.empty();
     if (categoryGroupModel != null) {
       booking.categoryType = categoryGroupModel!.category.categoryType;
-      booking.dataModel.categoryId = categoryGroupModel!.category.id;
+      booking.category = categoryGroupModel!.category;
     }
     Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: booking);
   }
@@ -102,8 +102,7 @@ class _BookingListPageState extends State<BookingListPage> {
           SizedBox(width: 8),
           CurrencyText(
             value: categoryGroupModel!.amount,
-            style: TextStyle(
-                fontSize: 20, color: categoryGroupModel!.category.categoryType.color),
+            style: TextStyle(fontSize: 20, color: categoryGroupModel!.category.categoryType.color),
           )
         ],
       );

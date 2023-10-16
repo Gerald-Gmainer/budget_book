@@ -5,6 +5,8 @@ import 'package:flutter_app/utils/logger.dart';
 
 // TODO strategy pattern?
 class BookingPeriodConverter {
+  final BookingConverter _bookingConverter = BookingConverter();
+
   List<BudgetPeriodModel> convertBookings(BudgetPeriod period, List<BookingDataModel> bookings, List<CategoryModel> categories) {
     switch (period) {
       case BudgetPeriod.day:
@@ -116,8 +118,8 @@ class BookingPeriodConverter {
         List<CategoryBookingGroupModel> groupModels = [];
 
         bookingsByCategory[monthKey]?.forEach((categoryId, dataModels) {
-          final category = _findCategory(categories, categoryId);
-          final bookings = _convertDataModels(dataModels, category);
+          final category = _bookingConverter.findCategory(categories, categoryId);
+          final bookings = _bookingConverter.fromDataModels(dataModels, category);
           final amount = _calculateAmount(dataModels);
           groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
         });
@@ -153,10 +155,6 @@ class BookingPeriodConverter {
     return models;
   }
 
-  CategoryModel _findCategory(List<CategoryModel> categories, int categoryId) {
-    return categories.firstWhere((e) => e.id == categoryId);
-  }
-
   double _calculateAmount(List<BookingDataModel> bookings) {
     return bookings.fold(0.0, (double totalAmount, BookingDataModel booking) {
       return totalAmount + (booking.amount ?? 0);
@@ -190,16 +188,5 @@ class BookingPeriodConverter {
         categoryBookingGroupModels: [],
       )
     ];
-  }
-
-  List<BookingModel> _convertDataModels(List<BookingDataModel> dataModels, CategoryModel categoryModel) {
-    return dataModels
-        .map(
-          (e) => BookingModel(
-            dataModel: e,
-            categoryType: categoryModel.categoryType,
-          ),
-        )
-        .toList();
   }
 }

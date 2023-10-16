@@ -5,10 +5,10 @@ class DescriptionInput extends StatelessWidget {
   final BookingModel model;
   final TextEditingController controller;
 
-  DescriptionInput({required this.model}): controller = TextEditingController(text: model.dataModel.description);
+  DescriptionInput({required this.model}) : controller = TextEditingController(text: model.description);
 
   _onChanged(String value) {
-    model.dataModel.description = value;
+    model.description = value;
   }
 
   @override

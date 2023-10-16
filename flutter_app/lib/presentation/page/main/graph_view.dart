@@ -4,8 +4,8 @@ import 'package:flutter_app/presentation/page/main/widget/balance_text.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'widget/booking_overview.dart';
 import 'widget/date_panel.dart';
-import 'widget/detail_panel.dart';
 import 'widget/graph_panel.dart';
 
 class GraphView extends StatefulWidget {
@@ -78,7 +78,7 @@ class _GraphViewState extends State<GraphView> {
               ],
             ),
             GraphPanel(periodModel: bookModel.periodModels[index]),
-            DetailPanel(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
+            BookingOverview(periodModel: bookModel.periodModels[index], categories: bookModel.categories),
             SizedBox(height: AppDimensions.verticalPadding),
           ],
         );

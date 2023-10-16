@@ -13,9 +13,9 @@ class BookingListItem extends StatelessWidget {
     return ListTile(
       leading: Icon(IconConverter.getIconData(null)),
       title: Text("omg", style: TextStyle(fontWeight: FontWeight.normal, fontSize: 16)),
-      subtitle: Text(booking.dataModel.description ?? ''),
+      subtitle: Text(booking.description ?? ''),
       trailing: CurrencyText(
-        value: booking.dataModel.amount,
+        value: booking.amount,
         style: TextStyle(color: AppColors.primaryTextColor, fontSize: 16),
       ),
       dense: true,
