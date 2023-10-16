@@ -6,6 +6,7 @@ class TransferButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: "TransferButton",
       onPressed: () {
         // Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: BookingModel.empty());
       },

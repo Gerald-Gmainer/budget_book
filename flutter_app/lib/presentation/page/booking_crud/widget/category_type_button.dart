@@ -20,10 +20,10 @@ class CategoryTypeButton extends StatelessWidget {
       onPressed: _onPressed,
       child: Container(
         padding: const EdgeInsets.only(bottom: 4.0),
-        decoration: _buildDecoration(model.categoryType == categoryType, _getColor()),
+        decoration: _buildDecoration(model.categoryType == categoryType, categoryType.color),
         child: Text(
           categoryType.name.toUpperCase(),
-          style: TextStyle(color: _getColor()),
+          style: TextStyle(color: categoryType.color),
         ),
       ),
     );
@@ -38,9 +38,5 @@ class CategoryTypeButton extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  _getColor() {
-    return categoryType == CategoryType.income ? AppColors.incomeColor : AppColors.outcomeColor;
   }
 }

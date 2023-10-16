@@ -15,7 +15,7 @@ class TotalText extends StatelessWidget {
     return CurrencyText(
       value: categoryType == CategoryType.outcome ? periodModel.outcome : periodModel.income,
       style: TextStyle(
-        color: categoryType == CategoryType.outcome ? AppColors.outcomeColor : AppColors.incomeColor,
+        color: categoryType.color,
         fontSize: 18,
       ),
     );

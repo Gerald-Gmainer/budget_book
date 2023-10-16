@@ -111,7 +111,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   Widget _buildView() {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding, vertical: AppDimensions.verticalPadding),
+        padding: AppDimensions.pagePadding,
         child: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),

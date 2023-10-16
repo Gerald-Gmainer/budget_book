@@ -6,4 +6,5 @@ class AppDimensions {
 
   static const double formWidth = 400.0;
   static const EdgeInsets formPadding = EdgeInsets.all(40.0);
+  static const EdgeInsets pagePadding = EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: verticalPadding);
 }

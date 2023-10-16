@@ -45,8 +45,7 @@ class DetailPanel extends StatelessWidget {
   }
 
   Widget _buildTrailing(CategoryModel category, double amount) {
-    final color = category.categoryType == CategoryType.income ? AppColors.incomeColor : AppColors.outcomeColor;
-    return CurrencyText(value: amount, style: TextStyle(color: color));
+    return CurrencyText(value: amount, style: TextStyle(color: category.categoryType.color));
   }
 
   Widget _buildBody(List<BookingModel> bookings) {
