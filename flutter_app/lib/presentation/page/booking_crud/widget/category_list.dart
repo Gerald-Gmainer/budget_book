@@ -26,40 +26,29 @@ class CategoryList extends StatelessWidget {
     var trimmedList = [...categories];
     trimmedList.removeWhere((category) => category.categoryType != model.categoryType);
 
-    const double spacing = 40;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: spacing, vertical: spacing / 2),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          crossAxisSpacing: spacing,
-          mainAxisSpacing: spacing / 2,
-          childAspectRatio: 0.7,
-        ),
-        itemCount: trimmedList.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          if (index == trimmedList.length) {
-            return CategoryIcon(
-              icon: CommunityMaterialIcons.plus,
-              color: AppColors.accentColor,
-              text: "New",
-              onTap: () {
-                _createCategory(context);
-              },
-            );
-          }
-          final category = trimmedList[index];
-          return CategoryIcon(
-            icon: IconConverter.getIconData(category.iconData?.name),
-            color: ColorConverter.iconColorToColor(category.iconColor),
-            text: category.name,
+    return Wrap(
+      runSpacing: CategoryIcon.padding,
+      spacing: CategoryIcon.padding,
+      children: [
+        for (int index = 0; index < trimmedList.length; index++)
+          CategoryIcon(
+            icon: IconConverter.getIconData(trimmedList[index].iconData?.name),
+            text: trimmedList[index].name,
+            color: ColorConverter.iconColorToColor(trimmedList[index].iconColor),
+            isSelected: model.category == trimmedList[index],
             onTap: () {
-              _onCategoryTap(context, category);
+              _onCategoryTap(context, trimmedList[index]);
             },
-          );
-        },
-      ),
+          ),
+        CategoryIcon(
+          icon: CommunityMaterialIcons.plus,
+          color: AppColors.accentColor,
+          text: "New",
+          onTap: () {
+            _createCategory(context);
+          },
+        ),
+      ],
     );
   }
 }

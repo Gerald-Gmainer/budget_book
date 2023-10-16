@@ -3,6 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
+import 'package:flutter_app/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'booking_crud_tab1.dart';
@@ -29,6 +30,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
+    BudgetLogger.instance.d(widget.model.category);
   }
 
   @override

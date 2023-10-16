@@ -17,4 +17,20 @@ class CategoryModel {
     required this.iconColor,
     required this.categoryType,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is CategoryModel && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode;
+  }
+
+  @override
+  String toString() {
+    return "CategoryModel id: $id / name: $name / icon: ${iconData?.name} / categoryType: $categoryType";
+  }
 }
