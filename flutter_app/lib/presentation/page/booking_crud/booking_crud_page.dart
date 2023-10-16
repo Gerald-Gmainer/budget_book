@@ -30,7 +30,6 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
-    BudgetLogger.instance.d(widget.model.category);
   }
 
   @override
@@ -40,7 +39,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _openCategories() {
-    if (widget.model.amount != null && widget.model.amount! > 0) {
+    if (widget.model.amount! > 0) {
       _animateToPage(1);
     }
   }
@@ -90,6 +89,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
             CategoryTypeButton(model: widget.model, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
           ],
         ),
+        resizeToAvoidBottomInset: false,
         body: BlocConsumer<BookingCrudBloc, BookingCrudState>(
           listener: (context, state) {
             if (state is BookingCrudUploadedState) {
