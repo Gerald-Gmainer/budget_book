@@ -1,8 +1,11 @@
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class BookingClient {
+import 'base/base_client.dart';
+
+class BookingClient extends BaseClient{
   Future<List<BookingDataModel>> getAllBookings() async {
+    await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
     var response = await supabase
         .from('view_bookings')
@@ -13,6 +16,7 @@ class BookingClient {
   }
 
   Future<void> uploadBooking(BookingDataModel model) async {
+    await checkToken();
     // TODO upload account id
     Stopwatch stopwatch = Stopwatch()..start();
     await supabase.rpc("create_booking", params: {"p_booking": model.toJson()});
@@ -20,6 +24,7 @@ class BookingClient {
   }
 
   Future<void> createCategory(CategoryDataModel model) async {
+    await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
     await supabase.rpc("create_category", params: {"p_category": model.toJson()});
     BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");

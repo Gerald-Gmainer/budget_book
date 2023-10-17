@@ -1,7 +1,9 @@
 import 'package:flutter_app/utils/utils.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class UserClient {
+import 'base/base_client.dart';
+
+class UserClient extends BaseClient {
   static const String callbackUrl = "com.gmainer.budgetbook://login-callback";
 
   Future<bool> googleLogin() async {

@@ -1,8 +1,11 @@
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class ProfileClient {
+import 'base/base_client.dart';
+
+class ProfileClient extends BaseClient {
   Future<List<CurrencyDataModel>> getCurrencies() async {
+    await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
     var response = await supabase.from('view_currencies').select('id, name, decimal_precision, symbol, unit_position_front');
     BudgetLogger.instance.d("view_currencies took ${stopwatch.elapsed.inMilliseconds} ms");
@@ -10,6 +13,7 @@ class ProfileClient {
   }
 
   Future<ProfileDataModel> getProfile() async {
+    await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
     var response = await supabase.from('view_profiles').select('id, name, email, avatar_url').single();
     BudgetLogger.instance.d("view_profiles took ${stopwatch.elapsed.inMilliseconds} ms");
@@ -17,6 +21,7 @@ class ProfileClient {
   }
 
   Future<ProfileSettingDataModel> getProfileSetting() async {
+    await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
     var response = await supabase.from('view_profile_settings').select('id, currency_id').single();
     BudgetLogger.instance.d("view_profile_settings took ${stopwatch.elapsed.inMilliseconds} ms");

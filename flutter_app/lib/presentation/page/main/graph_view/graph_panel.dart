@@ -7,7 +7,6 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import 'balance_text.dart';
 import 'total_text.dart';
 
 class GraphPanel extends StatelessWidget {

@@ -3,6 +3,7 @@ import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 
+import 'account_select.dart';
 import 'left_drawer_button.dart';
 
 class LeftDrawer extends StatefulWidget {
@@ -35,7 +36,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           bottom: 0,
           left: menuState.isMenuOpen ? 0 : -menuWidth,
           curve: Curves.easeInOut,
-          child: Container(
+          child: SizedBox(
             width: menuWidth,
             // color: AppColors.secondaryColor,
             child: _buildContent(),
@@ -53,7 +54,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           children: [
             SizedBox(height: AppDimensions.verticalPadding),
             _buildLabel("Account"),
-            _buildAccountDropdown(),
+            AccountSelect(),
             SizedBox(height: AppDimensions.verticalPadding),
             _buildLabel("Period"),
             _buildPeriodButton(BudgetPeriod.day, "Day", false),
@@ -75,30 +76,6 @@ class _LeftDrawerState extends State<LeftDrawer> {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding / 2, horizontal: AppDimensions.horizontalPadding / 2),
       child: Text(text),
-    );
-  }
-
-  Widget _buildAccountDropdown() {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: AppDimensions.verticalPadding / 2,
-        horizontal: AppDimensions.horizontalPadding,
-      ),
-      child: DropdownButtonFormField<String>(
-        isExpanded: true,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: AppDimensions.horizontalPadding),
-          border: OutlineInputBorder(),
-        ),
-        value: "All Accounts",
-        items: ["All Accounts"].map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value, style: TextStyle(color: AppColors.secondaryTextColor, fontSize: 14)),
-          );
-        }).toList(),
-        onChanged: (String? newValue) {},
-      ),
     );
   }
 

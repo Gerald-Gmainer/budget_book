@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
-import 'package:flutter_app/presentation/page/main/widget/balance_text.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'widget/booking_overview.dart';
-import 'widget/date_panel.dart';
-import 'widget/graph_panel.dart';
+import 'graph_view/balance_text.dart';
+import 'graph_view/booking_overview.dart';
+import 'graph_view/date_panel.dart';
+import 'graph_view/graph_panel.dart';
 
 class GraphView extends StatefulWidget {
   @override
