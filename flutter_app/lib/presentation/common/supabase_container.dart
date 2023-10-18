@@ -49,6 +49,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
         break;
 
       case AuthChangeEvent.tokenRefreshed:
+        _onTokenRefreshed(session!);
         break;
 
       default:
@@ -62,11 +63,16 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
     }
   }
 
-  void _onAuthenticated(Session session) {
+  _onAuthenticated(Session session) {
     if (mounted) {
       BudgetLogger.instance.d("onAuthenticated: ${session.user.id}");
       widget.profileBloc.add(LoadProfileEvent());
     }
+  }
+
+  _onTokenRefreshed(Session session) {
+    BudgetLogger.instance.d("onTokenRefreshed: ${session.user.id}");
+    widget.profileBloc.add(LoadProfileEvent());
   }
 
   _onPasswordRecovery(Session session) {

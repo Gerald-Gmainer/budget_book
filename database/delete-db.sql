@@ -19,3 +19,6 @@ DROP TABLE category_icons;
 
 DROP FUNCTION create_booking;
 DROP FUNCTION create_category;
+DROP FUNCTION get_default_currency;
+DROP FUNCTION delete_profile;
+DROP FUNCTION setup_profile;

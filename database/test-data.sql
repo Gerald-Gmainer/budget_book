@@ -52,10 +52,6 @@ insert into profiles (user_id, name)
   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-insert into profile_settings(profile_id)
-  select p.id
-  from profiles p where p.name='Gerald Gmainer';      
-
 insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
   select p.id, 'cash', 0, now(), true
   from profiles p where p.name='Gerald Gmainer';     
@@ -90,10 +86,6 @@ insert into profiles (user_id, name)
   select u.id, 'Max Mustermann' 
   from auth.users u where u.email='max_mustermann@mustermann.com';      
 -- PW: aaaaaaA1
-
-insert into profile_settings(profile_id)
-  select p.id
-  from profiles p where p.name='Max Mustermann';      
 
 insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
   select p.id, 'cash', 0, now(), true

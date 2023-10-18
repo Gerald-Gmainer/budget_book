@@ -37,14 +37,16 @@ CREATE TABLE profiles (
 );
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
-CREATE OR REPLACE FUNCTION create_bookings_partition()
+CREATE OR REPLACE FUNCTION setup_profile()
 RETURNS TRIGGER AS $$
 DECLARE
   _profile_id INT;
 BEGIN
   _profile_id := NEW.id;
-  RAISE LOG 'create bookings_partition_%', _profile_id;
+  RAISE LOG 'create profile_setting%', _profile_id;
+  INSERT INTO profile_settings(profile_id) VALUES (_profile_id);  
 
+  RAISE LOG 'create bookings_partition_%', _profile_id;
   BEGIN
     EXECUTE 'CREATE TABLE public.bookings_partition_' || _profile_id || ' PARTITION OF public.bookings FOR VALUES FROM (' || _profile_id || ') TO (' || (_profile_id + 1) || ')';
   EXCEPTION
@@ -55,19 +57,20 @@ BEGIN
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER create_bookings_partition_trigger AFTER INSERT ON profiles
-  FOR EACH ROW EXECUTE FUNCTION create_bookings_partition();
+CREATE TRIGGER trigger_setup_profile AFTER INSERT ON profiles
+  FOR EACH ROW EXECUTE FUNCTION setup_profile();
 
-CREATE OR REPLACE FUNCTION delete_bookings_partition()
+CREATE OR REPLACE FUNCTION delete_profile()
 RETURNS TRIGGER AS $$
 BEGIN
   EXECUTE 'DROP TABLE IF EXISTS bookings_partition_' || OLD.id;
+  DELETE FROM auth.users WHERE id = OLD.user_id;
 
   RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
-CREATE TRIGGER before_profile_deleted BEFORE DELETE ON profiles
-  FOR EACH ROW EXECUTE FUNCTION delete_bookings_partition();
+CREATE TRIGGER trigger_delete_profile BEFORE DELETE ON profiles
+  FOR EACH ROW EXECUTE FUNCTION delete_profile();
 
 CREATE OR REPLACE VIEW view_profiles AS
   SELECT p.id, p.name, auth.email() as email, p.avatar_url
