@@ -11,11 +11,11 @@ CREATE TYPE category_type AS ENUM
 ----------------------------------------------------------------------------------------------------------------
 -- AUTH 
 
-CREATE FUNCTION handle_new_user()
+CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO profiles (id, email, username, full_name, avatar_url)
-  VALUES (new.id);
+  INSERT INTO public.profiles (user_id, name)
+  VALUES (new.id, 'Username');
 
   RETURN new;
 END;
@@ -24,8 +24,6 @@ $$ LANGUAGE plpgsql SECURITY definer;
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
-
--- TODO create test data on create, like category, etc
 
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
@@ -39,10 +37,43 @@ CREATE TABLE profiles (
 );
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
+CREATE OR REPLACE FUNCTION create_bookings_partition()
+RETURNS TRIGGER AS $$
+DECLARE
+  _profile_id INT;
+BEGIN
+  _profile_id := NEW.id;
+  RAISE LOG 'create bookings_partition_%', _profile_id;
+
+  BEGIN
+    EXECUTE 'CREATE TABLE public.bookings_partition_' || _profile_id || ' PARTITION OF public.bookings FOR VALUES FROM (' || _profile_id || ') TO (' || (_profile_id + 1) || ')';
+  EXCEPTION
+    WHEN OTHERS THEN
+      RAISE EXCEPTION 'Error creating bookings partition for profile %: %', _profile_id, SQLERRM;
+  END;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER create_bookings_partition_trigger AFTER INSERT ON profiles
+  FOR EACH ROW EXECUTE FUNCTION create_bookings_partition();
+
+CREATE OR REPLACE FUNCTION delete_bookings_partition()
+RETURNS TRIGGER AS $$
+BEGIN
+  EXECUTE 'DROP TABLE IF EXISTS bookings_partition_' || OLD.id;
+
+  RETURN OLD;
+END;
+$$ LANGUAGE plpgsql;
+CREATE TRIGGER before_profile_deleted BEFORE DELETE ON profiles
+  FOR EACH ROW EXECUTE FUNCTION delete_bookings_partition();
+
 CREATE OR REPLACE VIEW view_profiles AS
   SELECT p.id, p.name, auth.email() as email, p.avatar_url
   FROM profiles p
   WHERE p.user_id = auth.uid();
+
 
 ----------------------------------------------------------------------------------------------------------------
 
@@ -73,7 +104,7 @@ LANGUAGE SQL;
 
 CREATE TABLE profile_settings (
   id SERIAL PRIMARY KEY,
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   currency_id INT REFERENCES currencies(id) DEFAULT get_default_currency()
 );
 ALTER TABLE profile_settings ENABLE ROW LEVEL SECURITY;
@@ -81,13 +112,13 @@ ALTER TABLE profile_settings ENABLE ROW LEVEL SECURITY;
 CREATE OR REPLACE VIEW view_profile_settings AS
   SELECT p.id, p.currency_id
   FROM profile_settings p
-  WHERE p.user_id = auth.uid();
+  WHERE p.profile_id = (select pp.id from profiles pp where pp.user_id = auth.uid());
 
 ----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   name text NOT NULL,
   -- icon int references account_icons(id) NOT NULL,
   init_balance_amount numeric(12, 3) DEFAULT 0,
@@ -114,7 +145,7 @@ ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
 CREATE TABLE categories (
   id SERIAL PRIMARY KEY,
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   name text  NOT NULL,
   icon_id int references category_icons(id) NOT NULL,
   color_id int references category_colors(id) NOT NULL,
@@ -130,9 +161,9 @@ BEGIN
     RAISE EXCEPTION 'User is not logged in. Please log in';
   END IF;
 
-  INSERT INTO categories (user_id, name, icon_id, color_id, type)
+  INSERT INTO categories (profile_id, name, icon_id, color_id, type)
   SELECT 
-    auth.uid(), 
+    (select p.id from profiles p where p.user_id = auth.uid()), 
     p_category->>'name', 
     (p_category->>'icon_id')::int, 
     (p_category->>'color_id')::int, 
@@ -146,7 +177,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE VIEW view_categories AS
   SELECT c.id, c.name, c.icon_id, c.color_id, c.type
   FROM categories c
-  WHERE c.user_id = auth.uid()
+  WHERE c.profile_id = (select p.id from profiles p where p.user_id = auth.uid())
   ORDER BY c.name;
 
 CREATE OR REPLACE VIEW view_category_icons AS
@@ -162,39 +193,41 @@ CREATE OR REPLACE VIEW view_category_colors AS
 ----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE bookings (
-  id SERIAL PRIMARY KEY,
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE,
+  id SERIAL,
+  profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   booking_date date NOT NULL,
   description varchar(20),
   amount numeric(12, 3) DEFAULT 0 NOT NULL,
   category_id int REFERENCES categories(id) NOT NULL,
   account_id int REFERENCES accounts(id) NOT NULL,
   is_deleted boolean DEFAULT FALSE,
-  updated_at timestamp DEFAULT now()
-);
+  updated_at timestamp DEFAULT now(),
+  PRIMARY KEY (id, profile_id)
+) PARTITION BY RANGE (profile_id);
+CREATE INDEX bookings_profile_id_index ON bookings (profile_id);
 ALTER TABLE bookings ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_bookings AS
   SELECT b.id, b.booking_date, b.description, b.amount, b.category_id, b.account_id, b.is_deleted
   FROM bookings b
-  WHERE b.user_id = auth.uid();
+  WHERE b.profile_id = (select p.id from profiles p where p.user_id = auth.uid());
 
 CREATE OR REPLACE FUNCTION create_booking(p_booking JSON) RETURNS INTEGER AS $$
 DECLARE
   _new_booking_id INTEGER;
-  _user_id uuid;
+  _profile_id uuid;
 BEGIN
-  SELECT auth.uid() INTO _user_id;
-  RAISE LOG 'create booking by user_id: %', _user_id;
-  RAISE LOG '%', p_booking;
-
   IF auth.uid() IS NULL THEN
     RAISE EXCEPTION 'User is not logged in. Please log in to create a booking.';
   END IF;
 
-  INSERT INTO bookings (user_id, booking_date, description, amount, category_id, account_id)
+  SELECT p.id INTO _profile_id FROM profiles p WHERE p.user_id = auth.uid();
+   RAISE LOG '%', p_booking;
+  RAISE LOG 'create booking by user_id: %', _user_id;
+
+  INSERT INTO bookings (profile_id, booking_date, description, amount, category_id, account_id)
   SELECT
-    _user_id,
+    _profile_id,
     (p_booking->>'booking_date')::DATE,
     p_booking->>'description'::TEXT,
     (p_booking->>'amount')::NUMERIC,
@@ -209,8 +242,20 @@ $$ LANGUAGE plpgsql SECURITY definer;
 
 
 
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------
+-- show all bookings partitions
 
--- 
+-- SELECT
+--   n.nspname AS schema_name, p.relname AS parent_table, c.relname AS partition_name, p.relispartition AS is_partition,
+--   pg_get_expr(p.relpartbound, p.oid) AS partition_bound
+-- FROM pg_inherits i
+-- INNER JOIN pg_class p ON i.inhrelid = p.oid
+-- INNER JOIN pg_namespace n ON p.relnamespace = n.oid
+-- LEFT JOIN pg_class c ON i.inhparent = c.oid
+-- WHERE n.nspname = 'public'   AND c.relname = 'bookings' 
+-- ORDER BY p.relname;
 
 
 

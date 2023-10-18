@@ -52,94 +52,71 @@ insert into profiles (user_id, name)
   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-insert into profile_settings(user_id)
-  select u.id
-  from auth.users u where u.email='gerald_gmainer@designium.jp';      
+insert into profile_settings(profile_id)
+  select p.id
+  from profiles p where p.name='Gerald Gmainer';      
 
-insert into accounts(user_id, name, init_balance_amount, init_balance_date, include_in_balance)
-select u.id, 'cash', 0, now(), true
-from auth.users u 
-where u.email='gerald_gmainer@designium.jp';
+insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
+  select p.id, 'cash', 0, now(), true
+  from profiles p where p.name='Gerald Gmainer';     
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id, 'work', 'income'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'book'),
-  (SELECT id FROM category_colors WHERE code = '#FF5733') 
-FROM user_data ud;
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT
-  ud.user_id, 'saving', 'income'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'wallet-giftcard'),  
-  (SELECT id FROM category_colors WHERE code = '#33FF57')
-FROM user_data ud;
+SELECT insert_test_data_category('Gerald Gmainer', 'work', 'income'::category_type, 'book', '#FF5733');
+SELECT insert_test_data_category('Gerald Gmainer', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
+SELECT insert_test_data_category('Gerald Gmainer', 'house', 'outcome'::category_type, 'home', '#3366FF');
+SELECT insert_test_data_category('Gerald Gmainer', 'car', 'outcome'::category_type, 'car', '#FFFF33');
+SELECT insert_test_data_category('Gerald Gmainer', 'food', 'outcome'::category_type, 'food', '#FF33FF');
+SELECT insert_test_data_category('Gerald Gmainer', 'baby', 'outcome'::category_type, 'school', '#FF6633');
+SELECT insert_test_data_category('Gerald Gmainer', 'entertainment', 'outcome'::category_type, 'music', '#9933FF');
+SELECT insert_test_data_category('Gerald Gmainer', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
+SELECT insert_test_data_category('Gerald Gmainer', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id, 'house', 'outcome'::category_type, 
-  (SELECT id FROM category_icons WHERE name = 'home'),  
-  (SELECT id FROM category_colors WHERE code = '#3366FF')
-FROM user_data ud;
+SELECT insert_test_data_month('Gerald Gmainer', '2022-12');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-01');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-02');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-03');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-04');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-05');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-06');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-07');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-08');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-09');
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id, 'car', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'car'),  
-  (SELECT id FROM category_colors WHERE code = '#FFFF33')
-FROM user_data ud;
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'food', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'food'),  
-  (SELECT id FROM category_colors WHERE code = '#FF33FF')
-FROM user_data ud;
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'baby', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'school'),  
-  (SELECT id FROM category_colors WHERE code = '#FF6633')
-FROM user_data ud;
+----------------------------------------------------------------------------------------------------------------
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'entertainment', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'music'),  
-  (SELECT id FROM category_colors WHERE code = '#9933FF')
-FROM user_data ud;
+insert into profiles (user_id, name)
+  select u.id, 'Max Mustermann' 
+  from auth.users u where u.email='max_mustermann@mustermann.com';      
+-- PW: aaaaaaA1
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'gift', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'gift'),  
-  (SELECT id FROM category_colors WHERE code = '#33FFFF')
-FROM user_data ud;
+insert into profile_settings(profile_id)
+  select p.id
+  from profiles p where p.name='Max Mustermann';      
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'eating out', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'food'),  
-  (SELECT id FROM category_colors WHERE code = '#FF9966')
-FROM user_data ud;
+insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
+  select p.id, 'cash', 0, now(), true
+  from profiles p where p.name='Max Mustermann';     
 
-WITH user_data AS ( SELECT u.id AS user_id FROM auth.users u WHERE u.email = 'gerald_gmainer@designium.jp')
-INSERT INTO categories (user_id, name, type, icon_id, color_id)
-SELECT ud.user_id,  'other', 'outcome'::category_type,
-  (SELECT id FROM category_icons WHERE name = 'umbrella-outline'),  
-  (SELECT id FROM category_colors WHERE code = '#99FF33')
-FROM user_data ud;
 
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2022-12');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-01');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-02');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-03');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-04');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-05');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-06');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-07');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-08');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-09');
-SELECT insert_test_data_month('gerald_gmainer@designium.jp', '2023-10');
+SELECT insert_test_data_category('Max Mustermann', 'work', 'income'::category_type, 'book', '#FF5733');
+SELECT insert_test_data_category('Max Mustermann', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
+SELECT insert_test_data_category('Max Mustermann', 'house', 'outcome'::category_type, 'home', '#3366FF');
+SELECT insert_test_data_category('Max Mustermann', 'car', 'outcome'::category_type, 'car', '#FFFF33');
+SELECT insert_test_data_category('Max Mustermann', 'food', 'outcome'::category_type, 'food', '#FF33FF');
+SELECT insert_test_data_category('Max Mustermann', 'baby', 'outcome'::category_type, 'school', '#FF6633');
+SELECT insert_test_data_category('Max Mustermann', 'entertainment', 'outcome'::category_type, 'music', '#9933FF');
+SELECT insert_test_data_category('Max Mustermann', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
+SELECT insert_test_data_category('Max Mustermann', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
+
+SELECT insert_test_data_month('Max Mustermann', '2022-12');
+SELECT insert_test_data_month('Max Mustermann', '2023-01');
+SELECT insert_test_data_month('Max Mustermann', '2023-02');
+SELECT insert_test_data_month('Max Mustermann', '2023-03');
+SELECT insert_test_data_month('Max Mustermann', '2023-04');
+SELECT insert_test_data_month('Max Mustermann', '2023-05');
+SELECT insert_test_data_month('Max Mustermann', '2023-06');
+SELECT insert_test_data_month('Max Mustermann', '2023-07');
+SELECT insert_test_data_month('Max Mustermann', '2023-08');
+SELECT insert_test_data_month('Max Mustermann', '2023-09');

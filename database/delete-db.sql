@@ -7,11 +7,12 @@ DROP VIEW view_currencies;
 DROP VIEW view_profiles;
 DROP VIEW view_profile_settings;
 
-DROP TABLE bookings;
+DROP TABLE bookings CASCADE;
 DROP TABLE categories;
 DROP TABLE accounts;
-DROP TABLE profiles;
 DROP TABLE profile_settings;
+DROP TABLE profiles;
+
 DROP TABLE currencies;
 DROP TABLE category_colors;
 DROP TABLE category_icons;
