@@ -12,23 +12,22 @@ class ProfileConverter {
     );
   }
 
-  ProfileSettingModel fromProfileSettingData(ProfileSettingDataModel dataModel, List<CurrencyDataModel> currencies) {
+  ProfileSettingModel fromProfileSettingData(ProfileSettingDataModel dataModel) {
     return ProfileSettingModel(
-      currency: _currencyFromId(dataModel.currencyId, currencies),
+      currency: _convertCurrency(dataModel.currency),
     );
   }
 
-  CurrencyModel _currencyFromId(int? id, List<CurrencyDataModel> currencies) {
-    final currencyModel = currencies.firstWhereOrNull((model) => model.id == id);
-    if (currencyModel == null) {
-      throw "cannot convert currencyId $id";
+  CurrencyModel _convertCurrency(CurrencyDataModel? old) {
+    if (old == null) {
+      throw "cannot convert currency from NULL";
     }
     return CurrencyModel(
-      id: currencyModel.id!,
-      name: currencyModel.name!,
-      decimalPrecision: currencyModel.decimalPrecision,
-      isUnitPositionFront: currencyModel.isUnitPositionFront,
-      symbol: currencyModel.symbol!,
+      id: old.id!,
+      name: old.name!,
+      decimalPrecision: old.decimalPrecision,
+      isUnitPositionFront: old.isUnitPositionFront,
+      symbol: old.symbol!,
     );
   }
 }

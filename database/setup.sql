@@ -121,8 +121,11 @@ CREATE TABLE profile_settings (
 ALTER TABLE profile_settings ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_profile_settings AS
-  SELECT p.id, p.currency_id
+  SELECT p.id, p.currency_id,
+    jsonb_build_object('id', c.id, 'name', c.name, 'decimal_precision', c.decimal_precision, 
+      'symbol', c.symbol, 'unit_position_front', c.unit_position_front) AS currency
   FROM profile_settings p
+  LEFT OUTER JOIN currencies c ON c.id = p.currency_id
   WHERE p.profile_id = (select pp.id from profiles pp where pp.user_id = auth.uid());
 
 ----------------------------------------------------------------------------------------------------------------
@@ -136,6 +139,7 @@ CREATE TABLE accounts (
   init_balance_date timestamp  NOT NULL,
   include_in_balance boolean DEFAULT TRUE
 );
+CREATE INDEX accounts_profile_id_index ON accounts (profile_id);
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
 ----------------------------------------------------------------------------------------------------------------
@@ -162,6 +166,7 @@ CREATE TABLE categories (
   color_id int references category_colors(id) NOT NULL,
   type category_type  NOT NULL
 );
+CREATE INDEX categories_profile_id_index ON categories (profile_id);
 ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE FUNCTION create_category(p_category jsonb) RETURNS INTEGER AS $$

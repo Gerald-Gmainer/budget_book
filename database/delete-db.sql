@@ -22,4 +22,4 @@ DROP FUNCTION create_category;
 DROP FUNCTION get_default_currency;
 DROP FUNCTION delete_profile;
 DROP FUNCTION setup_profile;
-DROP FUNCTION refresh_suggestions_mat_view;
+DROP FUNCTION refresh_mat_view_suggestions;

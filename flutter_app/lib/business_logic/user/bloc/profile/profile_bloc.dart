@@ -22,12 +22,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   _onLoadProfileEvent(LoadProfileEvent event, Emitter<ProfileState> emit) async {
     try {
       emit(ProfileLoadingState());
-      final currencyDataModels = await userRepo.getCurrencies();
+      // final currencyDataModels = await userRepo.getCurrencies();
       final profileDataModel = await userRepo.getProfile();
       final profileSettingDataModel = await userRepo.getProfileSetting();
 
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel, currencyDataModels);
+      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
       emit(ProfileLoadedState(profile, profileSetting));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

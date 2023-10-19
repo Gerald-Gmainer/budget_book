@@ -23,7 +23,7 @@ class ProfileClient extends BaseClient {
   Future<ProfileSettingDataModel> getProfileSetting() async {
     await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
-    var response = await supabase.from('view_profile_settings').select('id, currency_id').single();
+    var response = await supabase.from('view_profile_settings').select('id, currency_id, currency').single();
     BudgetLogger.instance.d("view_profile_settings took ${stopwatch.elapsed.inMilliseconds} ms");
     return ProfileSettingDataModel.fromJson(response);
   }

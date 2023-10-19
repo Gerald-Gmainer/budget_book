@@ -31,12 +31,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
 
       if (response) {
-        final currencyDataModels = await userRepo.getCurrencies();
+        // final currencyDataModels = await userRepo.getCurrencies();
         final profileDataModel = await userRepo.getProfile();
         final profileSettingDataModel = await userRepo.getProfileSetting();
 
         final profile = _profileConverter.fromProfileData(profileDataModel);
-        final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel, currencyDataModels);
+        final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
 
         emit(LoginSuccessState(profile, profileSetting));
       } else {
@@ -57,12 +57,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with credentials ${event.email}");
       final response = await userRepo.credentialsLogin(event.email, event.password);
-      final currencyDataModels = await userRepo.getCurrencies();
+      // final currencyDataModels = await userRepo.getCurrencies();
       final profileDataModel = await userRepo.getProfile();
       final profileSettingDataModel = await userRepo.getProfileSetting();
 
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel, currencyDataModels);
+      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
 
       if (response) {
         emit(LoginSuccessState(profile, profileSetting));
