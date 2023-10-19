@@ -54,6 +54,14 @@ BEGIN
       RAISE EXCEPTION 'Error creating bookings partition for profile %: %', _profile_id, SQLERRM;
   END;
 
+  EXECUTE 'CREATE MATERIALIZED VIEW mat_view_suggestions_' || _profile_id || ' AS
+    SELECT DISTINCT ON (b.description)
+          b.id, b.description, (select c.type from categories c where c.id = b.category_id) as category_type
+    FROM bookings b
+    WHERE b.profile_id = ' || _profile_id || ' AND b.description IS NOT NULL';
+
+  EXECUTE 'CREATE UNIQUE INDEX idx_suggestion_id_' || _profile_id || ' ON mat_view_suggestions_' || _profile_id || ' (id)';
+
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
@@ -242,6 +250,27 @@ BEGIN
   RETURN _new_booking_id;
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
+
+CREATE OR REPLACE FUNCTION refresh_mat_view_suggestions()
+RETURNS TRIGGER AS $$
+DECLARE
+  _profile_id INT;
+BEGIN
+  IF TG_OP = 'INSERT' OR TG_OP = 'UPDATE' THEN
+    _profile_id := NEW.profile_id;
+  ELSIF TG_OP = 'DELETE' THEN
+    _profile_id := OLD.profile_id;
+  END IF;
+  
+  RAISE LOG 'refresh mat_view_suggestions for Profile ID: %', _profile_id;
+
+  EXECUTE 'REFRESH MATERIALIZED VIEW CONCURRENTLY mat_view_suggestions_' || _profile_id;
+  RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trigger_refresh_mat_view_suggestions AFTER INSERT OR UPDATE OR DELETE ON bookings
+  FOR EACH ROW EXECUTE FUNCTION refresh_mat_view_suggestions();
 
 
 
