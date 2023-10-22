@@ -7,6 +7,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:provider/provider.dart' as prov;
@@ -30,6 +31,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
     _authSubscription = supabase.auth.onAuthStateChange.listen(_onAuthStateChange);
     startDeeplinkObserver();
     super.initState();
+    FlutterNativeSplash.remove();
   }
 
   _onAuthStateChange(AuthState state) {
