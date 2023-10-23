@@ -44,7 +44,7 @@ class BookingCrudTab2 extends StatelessWidget {
         CrudOverview(model: model),
         const SizedBox(height: AppDimensions.verticalPadding),
         DescriptionInput(model: model),
-        const SizedBox(height: AppDimensions.verticalPadding),
+        const SizedBox(height: AppDimensions.verticalPadding * 3),
         Expanded(child: CategoryList(model: model, onCategoryTap: onUpload, categories: categories)),
       ],
     );

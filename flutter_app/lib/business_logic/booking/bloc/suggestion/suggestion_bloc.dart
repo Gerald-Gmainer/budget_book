@@ -21,7 +21,6 @@ class SuggestionBloc extends Bloc<SuggestionEvent, SuggestionState> {
     try {
       emit(SuggestionLoadingState());
       final suggestions = await repo.getSuggestions(forceReload: true);
-      BudgetLogger.instance.i(suggestions);
       emit(SuggestionLoadedState(suggestions));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

@@ -10,7 +10,6 @@ class AmountDisplay extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(4),
-        // color: AppColors.secondaryColor,
         color: const Color(0x885F6971),
       ),
       child: Padding(

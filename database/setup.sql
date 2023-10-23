@@ -243,15 +243,15 @@ CREATE OR REPLACE VIEW view_bookings AS
 CREATE OR REPLACE FUNCTION create_booking(p_booking JSON) RETURNS INTEGER AS $$
 DECLARE
   _new_booking_id INTEGER;
-  _profile_id uuid;
+  _profile_id int;
 BEGIN
   IF auth.uid() IS NULL THEN
     RAISE EXCEPTION 'User is not logged in. Please log in to create a booking.';
   END IF;
 
   SELECT p.id INTO _profile_id FROM profiles p WHERE p.user_id = auth.uid();
-   RAISE LOG '%', p_booking;
-  RAISE LOG 'create booking by user_id: %', _user_id;
+  RAISE LOG '%', p_booking;
+  RAISE LOG 'create booking for profile_id: %', _profile_id;
 
   INSERT INTO bookings (profile_id, booking_date, description, amount, category_id, account_id)
   SELECT

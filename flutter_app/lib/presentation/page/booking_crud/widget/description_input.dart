@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -14,7 +15,7 @@ class DescriptionInput extends StatelessWidget {
   }
 
   _onSelect(String value) {
-    // controller.text = value;
+    controller.text = value;
     model.description = value;
   }
 
@@ -32,9 +33,13 @@ class DescriptionInput extends StatelessWidget {
 
   Widget _buildInput(List<String> suggestions) {
     return TypeAheadFormField<String>(
+      debounceDuration: const Duration(milliseconds: 0),
+      minCharsForSuggestions: 1,
+      hideOnEmpty: true,
       textFieldConfiguration: TextFieldConfiguration(
         controller: controller,
         onChanged: _onChanged,
+        maxLength: 20,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.edit),
           labelText: 'Note',
