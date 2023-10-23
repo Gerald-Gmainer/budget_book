@@ -3,11 +3,11 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
-import 'package:flutter_app/utils/logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'booking_crud_tab1.dart';
 import 'booking_crud_tab2.dart';
+import 'widget/amount_display.dart';
 import 'widget/category_type_button.dart';
 
 class BookingCrudPage extends StatefulWidget {
@@ -22,6 +22,7 @@ class BookingCrudPage extends StatefulWidget {
 
 class _BookingCrudPageState extends State<BookingCrudPage> {
   final PageController _pageController = PageController(initialPage: 0);
+  final GlobalKey<AmountDisplayState> _amountDisplayKey = GlobalKey<AmountDisplayState>();
   int _currentPage = 0;
 
   @override
@@ -42,6 +43,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   _openCategories() {
     if (widget.model.amount! > 0) {
       _animateToPage(1);
+    } else {
+      _amountDisplayKey.currentState?.triggerShakeAnimation();
     }
   }
 
@@ -119,7 +122,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
-            BookingCrudTab1(model: widget.model, onCategoryTap: _openCategories),
+            BookingCrudTab1(model: widget.model, onCategoryTap: _openCategories, amountDisplayKey: _amountDisplayKey),
             BookingCrudTab2(model: widget.model, onUpload: _upload),
           ],
         ),

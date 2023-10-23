@@ -5,15 +5,14 @@ import 'package:flutter_app/utils/utils.dart';
 
 import 'calculator/calculator.dart';
 import 'widget/amount_display.dart';
-import 'widget/choose_category_button.dart';
 import 'widget/date_input.dart';
-import 'widget/description_input.dart';
 
 class BookingCrudTab1 extends StatelessWidget {
   final BookingModel model;
   final VoidCallback onCategoryTap;
+  final GlobalKey<AmountDisplayState> amountDisplayKey;
 
-  const BookingCrudTab1({required this.model, required this.onCategoryTap});
+  const BookingCrudTab1({required this.model, required this.onCategoryTap, required this.amountDisplayKey});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,7 @@ class BookingCrudTab1 extends StatelessWidget {
         children: [
           DateInput(model: model, hideQuickButtons: hideQuickButtons),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
-          AmountDisplay(),
+          AmountDisplay(key: amountDisplayKey),
           const Spacer(),
           Calculator(model: model),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
