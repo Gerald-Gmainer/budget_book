@@ -20,7 +20,7 @@ class SuggestionBloc extends Bloc<SuggestionEvent, SuggestionState> {
   _onLoadSuggestionEvent(LoadSuggestionEvent event, Emitter<SuggestionState> emit) async {
     try {
       emit(SuggestionLoadingState());
-      final suggestions = await repo.getSuggestions(forceReload: false);
+      final suggestions = await repo.getSuggestions(forceReload: true);
       BudgetLogger.instance.i(suggestions);
       emit(SuggestionLoadedState(suggestions));
     } catch (e) {

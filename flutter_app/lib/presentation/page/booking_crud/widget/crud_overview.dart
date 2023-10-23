@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/scheduler/ticker.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -10,6 +11,18 @@ class CrudOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
+
+    return AnimatedSize(
+      duration: Duration(milliseconds: 100),
+      child: SizedBox(
+        height: keyboardIsOpen ? 0.0 : null,
+        child: _buildView(),
+      ),
+    );
+  }
+
+  Widget _buildView() {
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -20,8 +33,8 @@ class CrudOverview extends StatelessWidget {
               _buildDate(),
               const SizedBox(height: AppDimensions.verticalPadding),
               _buildAmount(),
-              if (_hasDescription()) const SizedBox(height: AppDimensions.verticalPadding),
-              if (_hasDescription()) _buildNote(),
+              // if (_hasDescription()) const SizedBox(height: AppDimensions.verticalPadding),
+              // if (_hasDescription()) _buildNote(),
             ],
           ),
         ),

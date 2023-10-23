@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/category_list.dart';
 import 'widget/crud_overview.dart';
+import 'widget/description_input.dart';
 
 class BookingCrudTab2 extends StatelessWidget {
   final BookingModel model;
@@ -30,17 +31,19 @@ class BookingCrudTab2 extends StatelessWidget {
           );
         }
         if (state is CategoryLoadedState) {
-          return _buildView(state.categories);
+          return _buildView(context, state.categories);
         }
         return const Center(child: CircularProgressIndicator());
       },
     );
   }
 
-  Widget _buildView(List<CategoryModel> categories) {
+  Widget _buildView(BuildContext context, List<CategoryModel> categories) {
     return Column(
       children: [
         CrudOverview(model: model),
+        const SizedBox(height: AppDimensions.verticalPadding),
+        DescriptionInput(model: model),
         const SizedBox(height: AppDimensions.verticalPadding),
         Expanded(child: CategoryList(model: model, onCategoryTap: onUpload, categories: categories)),
       ],

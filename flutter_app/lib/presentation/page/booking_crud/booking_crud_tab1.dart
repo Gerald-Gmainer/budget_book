@@ -28,8 +28,6 @@ class BookingCrudTab1 extends StatelessWidget {
           DateInput(model: model, hideQuickButtons: hideQuickButtons),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
           AmountDisplay(),
-          const SizedBox(height: AppDimensions.verticalPadding),
-          DescriptionInput(model: model),
           const Spacer(),
           Calculator(model: model),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
