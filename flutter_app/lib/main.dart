@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),
             BlocProvider<CategoryIconBloc>(create: (context) => CategoryIconBloc(_bookingRepo)),
             BlocProvider<CategoryCrudBloc>(create: (context) => CategoryCrudBloc(_bookingRepo)),
+            BlocProvider<SuggestionBloc>(create: (context) => SuggestionBloc(_bookingRepo, _userRepo)),
           ],
           child: MaterialApp(
             title: 'Budget book',

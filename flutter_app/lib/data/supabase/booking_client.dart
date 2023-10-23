@@ -3,7 +3,7 @@ import 'package:flutter_app/utils/utils.dart';
 
 import 'base/base_client.dart';
 
-class BookingClient extends BaseClient{
+class BookingClient extends BaseClient {
   Future<List<BookingDataModel>> getAllBookings() async {
     await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
@@ -28,5 +28,22 @@ class BookingClient extends BaseClient{
     Stopwatch stopwatch = Stopwatch()..start();
     await supabase.rpc("create_category", params: {"p_category": model.toJson()});
     BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<List<String>> getSuggestions() async {
+    await checkToken();
+    final profileId = getProfileId();
+    Stopwatch stopwatch = Stopwatch()..start();
+    var response = await supabase.from('mat_view_suggestions_$profileId').select('id, description').order('description', ascending: true);
+    BudgetLogger.instance.d("mat_view_suggestions_$profileId took ${stopwatch.elapsed.inMilliseconds} ms");
+    List<String> descriptions = [];
+    for (var item in response) {
+      if (item['description'] is String) {
+        descriptions.add(item['description']);
+      } else {
+        descriptions.add(item['description'].toString());
+      }
+    }
+    return descriptions;
   }
 }

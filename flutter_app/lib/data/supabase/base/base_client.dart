@@ -37,8 +37,20 @@ abstract class BaseClient {
 
   String getUserId() {
     if (supabase.auth.currentUser == null) {
-      throw "cannot load measurement data, user is NULL";
+      throw "BaseClient getUserId: currentUser is NULL";
     }
     return supabase.auth.currentUser!.id;
+  }
+
+  int getProfileId() {
+    if (supabase.auth.currentUser == null) {
+      throw "BaseClient getProfileId: currentUser is NULL";
+    }
+    final User user = supabase.auth!.currentUser!;
+    if (user.userMetadata == null || user.userMetadata!.isEmpty || user.userMetadata!["profile_id"] == null) {
+      throw "BaseClient getProfileId: userMetadata is NULL";
+    }
+
+    return user.userMetadata!["profile_id"]! as int;
   }
 }

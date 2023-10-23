@@ -13,9 +13,12 @@ CREATE TYPE category_type AS ENUM
 
 CREATE OR REPLACE FUNCTION handle_new_user()
 RETURNS TRIGGER AS $$
+DECLARE
+  profile_id integer;
 BEGIN
   INSERT INTO public.profiles (user_id, name)
-  VALUES (new.id, 'Username');
+  VALUES (new.id, 'Username')
+  RETURNING id INTO profile_id;
 
   RETURN new;
 END;
@@ -45,6 +48,15 @@ BEGIN
   _profile_id := NEW.id;
   RAISE LOG 'create profile_setting%', _profile_id;
   INSERT INTO profile_settings(profile_id) VALUES (_profile_id);  
+
+  RAISE LOG 'update auth.users raw_user_meta_data, set profile_id: %', _profile_id;
+  UPDATE auth.users
+  SET raw_user_meta_data = jsonb_set(
+    COALESCE(raw_user_meta_data, '{}'::jsonb),
+    '{profile_id}',
+    to_jsonb(_profile_id)
+  )
+  WHERE id = new.user_id;
 
   RAISE LOG 'create bookings_partition_%', _profile_id;
   BEGIN

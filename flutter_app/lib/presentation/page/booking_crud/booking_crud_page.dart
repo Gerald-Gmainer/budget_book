@@ -30,6 +30,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
+    BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent());
   }
 
   @override

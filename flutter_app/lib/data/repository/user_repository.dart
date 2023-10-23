@@ -3,10 +3,13 @@ import 'package:flutter_app/data/data.dart';
 class UserRepository {
   final UserClient _userClient = UserClient();
   final ProfileClient _profileClient = ProfileClient();
+  late final ProfileCacheService _profileCacheService;
+
   late final CurrencyCacheService _currencyCache;
 
   UserRepository() {
     _currencyCache = CurrencyCacheService(_profileClient);
+    _profileCacheService = ProfileCacheService(_profileClient);
   }
 
   Future<bool> googleLogin() async {
@@ -29,8 +32,8 @@ class UserRepository {
     return await _currencyCache.getData();
   }
 
-  Future<ProfileDataModel> getProfile() async {
-    return await _profileClient.getProfile();
+  Future<ProfileDataModel> getProfile({bool forceReload = false}) async {
+    return await _profileCacheService.getData(forceReload: forceReload);
   }
 
   Future<ProfileSettingDataModel> getProfileSetting() async {

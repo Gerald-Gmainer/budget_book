@@ -4,6 +4,7 @@ export 'booking/bloc/calculator/calculator_bloc.dart';
 export 'booking/bloc/category_list/category_list_bloc.dart';
 export 'booking/bloc/category_icon/category_icon_bloc.dart';
 export 'booking/bloc/category_crud/category_crud_bloc.dart';
+export 'booking/bloc/suggestion/suggestion_bloc.dart';
 
 export 'booking/converter/booking_period_converter.dart';
 export 'booking/converter/category_converter.dart';
