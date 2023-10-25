@@ -8,6 +8,20 @@ class CategoryBookingGroupModel {
   CategoryBookingGroupModel({required this.category, required this.bookings, required this.amount});
 
   @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is CategoryBookingGroupModel) {
+      return category.id == other.category.id;
+    }
+    return false;
+  }
+
+  @override
+  int get hashCode {
+    return category.id.hashCode;
+  }
+
+  @override
   String toString() {
     return [
       "category: $category",

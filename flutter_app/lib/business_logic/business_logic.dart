@@ -13,6 +13,7 @@ export 'booking/converter/booking_converter.dart';
 export 'booking/model/account_model.dart';
 export 'booking/model/budget_book_model.dart';
 export 'booking/model/budget_period_model.dart';
+export 'booking/model/buget_period_filter.dart';
 export 'booking/model/category_model.dart';
 export 'booking/model/category_booking_group_model.dart';
 export 'booking/model/booking_model.dart';

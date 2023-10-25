@@ -64,13 +64,16 @@ class BookingPeriodConverter {
       final monthKey = currentMonth.millisecondsSinceEpoch;
 
       if (!bookingsByCategory.containsKey(monthKey)) {
+        final periodFilter = BudgetPeriodFilter(
+          period: BudgetPeriod.month,
+          dateTime: currentMonth,
+          dateTimeFrom: null,
+          dateTimeTo: null,
+        );
         models.insert(
           0,
           BudgetPeriodModel(
-            period: BudgetPeriod.month,
-            dateTime: currentMonth,
-            dateTimeFrom: null,
-            dateTimeTo: null,
+            periodFilter: periodFilter,
             income: 0,
             outcome: 0,
             balance: 0,
@@ -110,13 +113,17 @@ class BookingPeriodConverter {
         final outcome = _calculateTotal(groupModels, CategoryType.outcome);
         final balance = income - outcome;
 
+        final periodFilter = BudgetPeriodFilter(
+          period: BudgetPeriod.month,
+          dateTime: month,
+          dateTimeFrom: null,
+          dateTimeTo: null,
+        );
+
         models.insert(
           0,
           BudgetPeriodModel(
-            period: BudgetPeriod.month,
-            dateTime: month,
-            dateTimeFrom: null,
-            dateTimeTo: null,
+            periodFilter: periodFilter,
             income: income,
             outcome: outcome,
             balance: balance,
@@ -153,10 +160,12 @@ class BookingPeriodConverter {
   List<BudgetPeriodModel> _convertToAll(List<BookingDataModel> bookings, List<CategoryModel> categories) {
     return [
       BudgetPeriodModel(
-        period: BudgetPeriod.all,
-        dateTime: DateTime.now(),
-        dateTimeFrom: null,
-        dateTimeTo: null,
+        periodFilter: BudgetPeriodFilter(
+          period: BudgetPeriod.all,
+          dateTime: DateTime.now(),
+          dateTimeFrom: null,
+          dateTimeTo: null,
+        ),
         income: -1,
         outcome: -1,
         balance: -1,

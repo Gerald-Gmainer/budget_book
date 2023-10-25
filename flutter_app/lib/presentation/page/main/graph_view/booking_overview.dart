@@ -14,6 +14,7 @@ class BookingOverview extends StatelessWidget {
   _onTap(BuildContext context, CategoryBookingGroupModel item) {
     final model = BookingListPageModel(
       categoryGroupModel: item,
+      periodFilter: periodModel.periodFilter,
     );
     Navigator.of(context).pushNamed(BookingListPage.route, arguments: model);
   }

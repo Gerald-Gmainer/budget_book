@@ -4,6 +4,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/category_type.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'widget/booking_list_date.dart';
 import 'widget/booking_list_item.dart';
@@ -22,26 +23,20 @@ class BookingListPage extends StatefulWidget {
 }
 
 class _BookingListPageState extends State<BookingListPage> {
-  CategoryBookingGroupModel? get categoryGroupModel => widget.pageModel.categoryGroupModel;
-  List<BookingModel>? get bookings => widget.pageModel.bookings;
+  late CategoryBookingGroupModel _categoryBookingGroupModel;
   Map<DateTime, List<BookingModel>> _groupedBookings = {};
 
   @override
   void initState() {
     super.initState();
-    _groupBookings();
+    _initBookings(widget.pageModel.categoryGroupModel);
   }
 
-  _groupBookings() {
-    List<BookingModel> items = _prepareBookings();
-    final grouped = groupBy(items, (booking) {
-      final date = booking.bookingDate;
-      if (date != null) {
-        return DateTime(date.year, date.month, date.day);
-      }
-      return null;
+  _initBookings(CategoryBookingGroupModel groupModel) {
+    setState(() {
+      _categoryBookingGroupModel = groupModel;
     });
-
+    final grouped = _groupBookings(groupModel.bookings);
     final result = Map<DateTime, List<BookingModel>>.fromEntries(
       grouped.entries.map((entry) => MapEntry(entry.key!, entry.value)),
     );
@@ -51,24 +46,39 @@ class _BookingListPageState extends State<BookingListPage> {
     });
   }
 
-  List<BookingModel> _prepareBookings() {
-    List<BookingModel> items = [];
-    if (categoryGroupModel != null) {
-      items = categoryGroupModel!.bookings;
-    } else if (bookings != null) {
-      items = bookings!;
-    }
-    items.sort((a, b) => (b.bookingDate ?? DateTime(0)).compareTo(a.bookingDate ?? DateTime(0)));
-    return items;
+  Map<DateTime?, List<BookingModel>> _groupBookings(List<BookingModel> bookings) {
+    bookings.sort((a, b) => (b.bookingDate ?? DateTime(0)).compareTo(a.bookingDate ?? DateTime(0)));
+    final Map<DateTime?, List<BookingModel>> grouped = groupBy(bookings, (booking) {
+      final date = booking.bookingDate;
+      if (date != null) {
+        return DateTime(date.year, date.month, date.day);
+      }
+      return null;
+    });
+    return grouped;
   }
 
   _createBooking() {
     BookingModel booking = BookingModel.empty();
-    if (categoryGroupModel != null) {
-      booking.categoryType = categoryGroupModel!.category.categoryType;
-      booking.category = categoryGroupModel!.category;
-    }
+    booking.categoryType = _categoryBookingGroupModel.category.categoryType;
+    booking.category = _categoryBookingGroupModel.category;
     Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: booking);
+  }
+
+  _reloadBookings(BudgetBookModel bookModel) {
+    for (BudgetPeriodModel periodModel in bookModel.periodModels) {
+      if (periodModel.periodFilter != widget.pageModel.periodFilter) {
+        continue;
+      }
+
+      var foundModel = periodModel.categoryBookingGroupModels.firstWhereOrNull((e) => e == widget.pageModel.categoryGroupModel);
+      if (foundModel != null) {
+        setState(() {
+          _initBookings(foundModel!);
+        });
+        break;
+      }
+    }
   }
 
   @override
@@ -77,10 +87,17 @@ class _BookingListPageState extends State<BookingListPage> {
       appBar: AppBar(
         title: _getAppBarText(),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: AppDimensions.pagePadding,
-          child: _buildList(_groupedBookings),
+      body: BlocListener<GraphViewBloc, GraphViewState>(
+        listener: (context, state) {
+          if (state is GraphViewLoadedState) {
+            _reloadBookings(state.bookModel);
+          }
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: AppDimensions.pagePadding,
+            child: _buildList(_groupedBookings),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -94,23 +111,16 @@ class _BookingListPageState extends State<BookingListPage> {
   }
 
   Widget _getAppBarText() {
-    if (categoryGroupModel != null) {
-      final String categoryName = categoryGroupModel!.category.name ?? "Unknown";
-      return Row(
-        children: [
-          Text(categoryName),
-          SizedBox(width: 8),
-          CurrencyText(
-            value: categoryGroupModel!.amount,
-            style: TextStyle(fontSize: 20, color: categoryGroupModel!.category.categoryType.color),
-          )
-        ],
-      );
-    }
-    if (bookings != null) {
-      return Text("Bookings");
-    }
-    return Text("Unknown");
+    return Row(
+      children: [
+        Text(_categoryBookingGroupModel.category.name ?? "Unknown"),
+        SizedBox(width: 8),
+        CurrencyText(
+          value: _categoryBookingGroupModel.amount,
+          style: TextStyle(fontSize: 20, color: _categoryBookingGroupModel.category.categoryType.color),
+        )
+      ],
+    );
   }
 
   Widget _buildList(Map<DateTime, List<BookingModel>> groupedBookings) {
