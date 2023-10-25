@@ -15,12 +15,20 @@ class BookingClient extends BaseClient {
     return List.from(response).map((item) => BookingDataModel.fromJson(item)).toList();
   }
 
-  Future<void> uploadBooking(BookingDataModel model) async {
+  Future<void> createBooking(BookingDataModel model) async {
     await checkToken();
     // TODO upload account id
     Stopwatch stopwatch = Stopwatch()..start();
     await supabase.rpc("create_booking", params: {"p_booking": model.toJson()});
-    BudgetLogger.instance.d("uploadBooking took ${stopwatch.elapsed.inMilliseconds} ms");
+    BudgetLogger.instance.d("createBooking took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<void> updateBooking(BookingDataModel model) async {
+    await checkToken();
+    // TODO upload account id
+    Stopwatch stopwatch = Stopwatch()..start();
+    await supabase.rpc("update_booking", params: {"p_booking": model.toJson()});
+    BudgetLogger.instance.d("updateBooking took ${stopwatch.elapsed.inMilliseconds} ms");
   }
 
   Future<void> createCategory(CategoryDataModel model) async {

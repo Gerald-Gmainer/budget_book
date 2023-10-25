@@ -26,7 +26,11 @@ class BookingRepository {
   }
 
   Future<void> createBooking(BookingDataModel model) async {
-    await _client.uploadBooking(model);
+    await _client.createBooking(model);
+  }
+
+  Future<void> updateBooking(BookingDataModel model) async {
+    await _client.updateBooking(model);
   }
 
   Future<void> createCategory(CategoryDataModel model) async {

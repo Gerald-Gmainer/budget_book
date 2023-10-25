@@ -91,7 +91,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
   _onDeleteSuccess() {
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
-    Navigator.of(context).pushNamedAndRemoveUntil(MainPage.route, (route) => false);
+    Navigator.of(context).pop();
   }
 
   @override

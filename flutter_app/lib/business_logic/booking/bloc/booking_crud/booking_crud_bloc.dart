@@ -27,7 +27,11 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
     try {
       emit(BookingCrudLoadingState());
       final model = _converter.toDataModel(event.model);
-      await bookingRepo.createBooking(model);
+      if (model.id == null) {
+        await bookingRepo.createBooking(model);
+      } else {
+        await bookingRepo.updateBooking(model);
+      }
       emit(BookingCrudUploadedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

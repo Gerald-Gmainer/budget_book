@@ -35,7 +35,7 @@ class BookingDataModel extends DataModel {
       'description': description,
       'amount': amount,
       'category_id': categoryId,
-      // 'account_id': accountId,
+      'account_id': accountId,
       // 'is_deleted': isDeleted,
     };
   }

@@ -265,8 +265,7 @@ BEGIN
     RAISE EXCEPTION 'User is not logged in. Please log in to create a booking.';
   END IF;
 
-  SELECT p.id INTO _profile_id FROM profiles p WHERE p.user_id = auth.uid();
-  RAISE LOG '%', p_booking;
+  SELECT auth.get_profile_id() INTO _profile_id;
   RAISE LOG 'create booking for profile_id: %', _profile_id;
 
   INSERT INTO bookings (profile_id, booking_date, description, amount, category_id, account_id)
@@ -281,6 +280,36 @@ BEGIN
   RETURNING id INTO _new_booking_id;
 
   RETURN _new_booking_id;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+CREATE OR REPLACE FUNCTION update_booking(p_booking JSON) RETURNS INTEGER AS $$
+DECLARE
+  _profile_id INTEGER;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in. Please log in to update a booking.';
+  END IF;
+
+  SELECT auth.get_profile_id() INTO _profile_id;
+  RAISE LOG 'update booking for profile_id: %', _profile_id;
+
+  UPDATE bookings
+  SET
+    booking_date = (p_booking->>'booking_date')::DATE,
+    description = p_booking->>'description'::TEXT,
+    amount = (p_booking->>'amount')::NUMERIC,
+    category_id = (p_booking->>'category_id')::INTEGER,
+    -- account_id = (p_booking->>'account_id')::INTEGER
+    account_id=1
+  WHERE id = (p_booking->>'id')::INTEGER 
+  AND profile_id = _profile_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Booking not found or does not belong to the current user.';
+  END IF;
+
+  RETURN (p_booking->>'category_id')::INTEGER;
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
 
