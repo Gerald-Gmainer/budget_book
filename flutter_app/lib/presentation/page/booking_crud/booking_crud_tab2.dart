@@ -14,6 +14,8 @@ class BookingCrudTab2 extends StatelessWidget {
 
   const BookingCrudTab2({required this.model, required this.onUpload});
 
+  _onCategoryTap(CategoryModel category) {}
+
   _reload(BuildContext context) {
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
   }
@@ -44,8 +46,11 @@ class BookingCrudTab2 extends StatelessWidget {
         CrudOverview(model: model),
         const SizedBox(height: AppDimensions.verticalPadding),
         DescriptionInput(model: model),
-        const SizedBox(height: AppDimensions.verticalPadding * 3),
-        Expanded(child: CategoryList(model: model, onCategoryTap: onUpload, categories: categories)),
+        const SizedBox(height: AppDimensions.verticalPadding),
+        Expanded(child: CategoryList(categories: categories, model: model)),
+        const SizedBox(height: AppDimensions.verticalPadding * 2),
+        SaveButton(text: "save", onTap: onUpload),
+        const SizedBox(height: AppDimensions.verticalPadding),
       ],
     );
   }

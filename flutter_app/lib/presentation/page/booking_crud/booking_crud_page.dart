@@ -3,6 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/app_dimensions.dart';
+import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'booking_crud_tab1.dart';
@@ -28,7 +29,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent());
+    BlocProvider.of<CalculatorBloc>(context).add(InitCalculatorEvent(widget.model.amount));
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
     BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent());
@@ -69,10 +70,28 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     Navigator.of(context).pop();
   }
 
-  _onCategoryPressed(CategoryType categoryType) {
+  _onCategoryTypePressed(CategoryType categoryType) {
     setState(() {
       widget.model.categoryType = categoryType;
     });
+  }
+
+  _onDelete() {
+    ConfirmDialog.show(
+      context,
+      headerText: "Delete",
+      bodyText: "Do you want to delete this booking?",
+      onOK: _deleteBooking,
+    );
+  }
+
+  _deleteBooking() {
+    BlocProvider.of<BookingCrudBloc>(context).add(DeleteBookingCrudEvent(widget.model));
+  }
+
+  _onDeleteSuccess() {
+    BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
+    Navigator.of(context).pushNamedAndRemoveUntil(MainPage.route, (route) => false);
   }
 
   @override
@@ -89,8 +108,9 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
         appBar: AppBar(
           title: Text(_isCreating() ? "New" : "Edit"),
           actions: [
-            CategoryTypeButton(model: widget.model, categoryType: CategoryType.outcome, onPressed: _onCategoryPressed),
-            CategoryTypeButton(model: widget.model, categoryType: CategoryType.income, onPressed: _onCategoryPressed),
+            CategoryTypeButton(model: widget.model, categoryType: CategoryType.outcome, onPressed: _onCategoryTypePressed),
+            CategoryTypeButton(model: widget.model, categoryType: CategoryType.income, onPressed: _onCategoryTypePressed),
+            if (!_isCreating()) _buildDeleteButton(),
           ],
         ),
         resizeToAvoidBottomInset: false,
@@ -98,6 +118,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           listener: (context, state) {
             if (state is BookingCrudUploadedState) {
               _onUploadSuccess();
+            } else if (state is BookingCrudDeletedState) {
+              _onDeleteSuccess();
             }
           },
           builder: (context, state) {
@@ -127,6 +149,13 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDeleteButton() {
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: _onDelete,
     );
   }
 

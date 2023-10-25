@@ -30,7 +30,7 @@ class BookingCrudTab1 extends StatelessWidget {
           const Spacer(),
           Calculator(model: model),
           const SizedBox(height: AppDimensions.verticalPadding * 2),
-          SaveButton(text: "choose category", onTap: onCategoryTap),
+          SaveButton(text: "choose category", onTap: onCategoryTap, backgroundColor: AppColors.secondaryColor),
           const SizedBox(height: AppDimensions.verticalPadding),
         ],
       );

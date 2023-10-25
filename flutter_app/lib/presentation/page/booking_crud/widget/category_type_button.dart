@@ -19,11 +19,11 @@ class CategoryTypeButton extends StatelessWidget {
     return TextButton(
       onPressed: _onPressed,
       child: Container(
-        padding: const EdgeInsets.only(bottom: 4.0),
+        padding: const EdgeInsets.only(bottom: 2.0),
         decoration: _buildDecoration(model.categoryType == categoryType, categoryType.color),
         child: Text(
           categoryType.name.toUpperCase(),
-          style: TextStyle(color: categoryType.color),
+          style: TextStyle(color: categoryType.color, fontSize: 12),
         ),
       ),
     );

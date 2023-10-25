@@ -36,4 +36,8 @@ class BookingRepository {
   Future<List<String>> getSuggestions({bool forceReload = false}) async {
     return _suggestionCacheService.getData(forceReload: forceReload);
   }
+
+  Future<void> deleteBooking(int id) async {
+    await _client.deleteBooking(id);
+  }
 }

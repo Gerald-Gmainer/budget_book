@@ -10,3 +10,9 @@ class UploadBookingCrudEvent extends BookingCrudEvent {
 
   UploadBookingCrudEvent(this.model);
 }
+
+class DeleteBookingCrudEvent extends BookingCrudEvent {
+  final BookingModel model;
+
+  DeleteBookingCrudEvent(this.model);
+}

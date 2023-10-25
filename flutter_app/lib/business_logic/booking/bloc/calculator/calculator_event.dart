@@ -4,6 +4,9 @@ part of 'calculator_bloc.dart';
 abstract class CalculatorEvent {}
 
 class InitCalculatorEvent extends CalculatorEvent {
+  final double initValue;
+
+  InitCalculatorEvent(this.initValue);
 }
 
 class ClearCalculatorEvent extends CalculatorEvent {

@@ -4,6 +4,7 @@ export 'connectivity_singleton.dart';
 export 'snackbar.dart';
 export 'logger.dart';
 export 'validator.dart';
+export 'confirm_dialog.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 

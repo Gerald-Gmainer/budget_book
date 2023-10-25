@@ -28,6 +28,22 @@ CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users
   FOR EACH ROW EXECUTE PROCEDURE public.handle_new_user();
 
+CREATE OR REPLACE FUNCTION auth.get_profile_id()
+ RETURNS int
+ LANGUAGE sql
+ STABLE
+AS $function$
+  SELECT 
+    CASE
+      WHEN current_setting('request.jwt.claims', true) IS NOT NULL THEN
+        COALESCE(
+          nullif((nullif(current_setting('request.jwt.claims', true), '')::jsonb ->> 'user_metadata')::jsonb ->> 'profile_id', '')::int,
+          null
+        )
+      ELSE null
+    END
+$function$;
+
 ----------------------------------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------
 -- PUBLIC
@@ -267,6 +283,29 @@ BEGIN
   RETURN _new_booking_id;
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
+
+CREATE OR REPLACE FUNCTION delete_booking(p_id int)
+RETURNS void
+AS $$
+DECLARE
+  _profile_id int;
+BEGIN
+ IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in. Please log in';
+  END IF;
+
+  SELECT auth.get_profile_id() INTO _profile_id;
+  
+  DELETE FROM bookings
+  WHERE id = p_id
+  AND profile_id = _profile_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Booking not found';
+  END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
 
 CREATE OR REPLACE FUNCTION refresh_mat_view_suggestions()
 RETURNS TRIGGER AS $$

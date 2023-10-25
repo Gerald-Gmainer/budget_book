@@ -5,50 +5,58 @@ import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class CategoryList extends StatelessWidget {
+class CategoryList extends StatefulWidget {
   final BookingModel model;
   final List<CategoryModel> categories;
-  final VoidCallback onCategoryTap;
 
-  const CategoryList({required this.onCategoryTap, required this.categories, required this.model});
+  const CategoryList({required this.categories, required this.model});
 
+  @override
+  State<CategoryList> createState() => _CategoryListState();
+}
+
+class _CategoryListState extends State<CategoryList> {
   _onCategoryTap(BuildContext context, CategoryModel category) {
-    model.category = category;
-    onCategoryTap();
+    setState(() {
+      widget.model.category = category;
+    });
   }
 
   _createCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(categoryType: model.categoryType));
+    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: CategoryModel.empty(categoryType: widget.model.categoryType));
   }
 
   @override
   Widget build(BuildContext context) {
-    var trimmedList = [...categories];
-    trimmedList.removeWhere((category) => category.categoryType != model.categoryType);
+    var trimmedList = [...widget.categories];
+    trimmedList.removeWhere((category) => category.categoryType != widget.model.categoryType);
 
-    return Wrap(
-      runSpacing: CategoryIcon.padding,
-      spacing: CategoryIcon.padding,
-      children: [
-        for (int index = 0; index < trimmedList.length; index++)
+    return SingleChildScrollView(
+
+      child: Wrap(
+        runSpacing: CategoryIcon.padding,
+        spacing: CategoryIcon.padding,
+        children: [
+          for (int index = 0; index < trimmedList.length; index++)
+            CategoryIcon(
+              icon: IconConverter.getIconFromModel(trimmedList[index].iconData),
+              text: trimmedList[index].name,
+              color: ColorConverter.iconColorToColor(trimmedList[index].iconColor),
+              isSelected: widget.model.category == trimmedList[index],
+              onTap: () {
+                _onCategoryTap(context, trimmedList[index]);
+              },
+            ),
           CategoryIcon(
-            icon: IconConverter.getIconFromModel(trimmedList[index].iconData),
-            text: trimmedList[index].name,
-            color: ColorConverter.iconColorToColor(trimmedList[index].iconColor),
-            isSelected: model.category == trimmedList[index],
+            icon: CommunityMaterialIcons.plus,
+            color: AppColors.accentColor,
+            text: "New",
             onTap: () {
-              _onCategoryTap(context, trimmedList[index]);
+              _createCategory(context);
             },
           ),
-        CategoryIcon(
-          icon: CommunityMaterialIcons.plus,
-          color: AppColors.accentColor,
-          text: "New",
-          onTap: () {
-            _createCategory(context);
-          },
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -16,6 +16,7 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
   BookingCrudBloc(this.bookingRepo) : super(BookingCrudInitState()) {
     on<InitBookingCrudEvent>(_onInitBookingCrudEvent);
     on<UploadBookingCrudEvent>(_onUploadBookingCrudEvent);
+    on<DeleteBookingCrudEvent>(_onDeleteBookingCrudEvent);
   }
 
   _onInitBookingCrudEvent(InitBookingCrudEvent event, Emitter<BookingCrudState> emit) async {
@@ -34,6 +35,24 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
       } else {
         BudgetLogger.instance.e(e);
         emit(BookingCrudErrorState(e.toString()));
+      }
+    }
+  }
+
+  _onDeleteBookingCrudEvent(DeleteBookingCrudEvent event, Emitter<BookingCrudState> emit) async {
+    try {
+      emit(BookingCrudLoadingState());
+      if (event.model.id == null) {
+        throw "Cannot delete booking because ID is NULL";
+      }
+      await bookingRepo.deleteBooking(event.model.id!);
+      emit(BookingCrudDeletedState());
+    } catch (e) {
+      if (!ConnectivitySingleton.instance.isConnected()) {
+        emit(BookingCrudErrorState("TODO internet error message"));
+      } else {
+        BudgetLogger.instance.e(e);
+        emit(BookingCrudErrorState("An error happened. Please try again"));
       }
     }
   }

@@ -9,6 +9,8 @@ class BookingCrudLoadingState extends BookingCrudState {}
 
 class BookingCrudUploadedState extends BookingCrudState {}
 
+class BookingCrudDeletedState extends BookingCrudState {}
+
 class BookingCrudErrorState extends BookingCrudState {
   final String message;
 

@@ -6,11 +6,13 @@ class SaveButton extends StatelessWidget {
   final String text;
   final bool isLoading;
   final VoidCallback onTap;
+  final Color backgroundColor;
 
   const SaveButton({
     required this.text,
     required this.onTap,
     this.isLoading = false,
+    this.backgroundColor = AppColors.accentColor,
   });
 
   _onTap() {
@@ -24,7 +26,7 @@ class SaveButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: isLoading ? null : _onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.accentColor,
+          backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(100),
           ),

@@ -26,7 +26,7 @@ class CalculatorBloc extends Bloc<CalculatorEvent, CalculatorState> {
   }
 
   _onInitCalculatorEvent(InitCalculatorEvent event, Emitter<CalculatorState> emit) async {
-    _updateState(0, emit, history: []);
+    _updateState(event.initValue, emit, history: []);
   }
 
   _onClearCalculatorEvent(ClearCalculatorEvent event, Emitter<CalculatorState> emit) async {

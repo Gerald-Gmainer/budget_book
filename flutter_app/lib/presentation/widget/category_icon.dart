@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class CategoryIcon extends StatelessWidget {
-  static const double circleSize = 60;
-  static const double iconSize = 30;
+  static const double circleSize = 50;
+  static const double iconSize = 25;
   static const double padding = 8;
   final IconData icon;
   final Color color;

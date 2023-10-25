@@ -46,4 +46,11 @@ class BookingClient extends BaseClient {
     }
     return descriptions;
   }
+
+  Future<void> deleteBooking(int id) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    await supabase.rpc("delete_booking", params: {"p_id": id});
+    BudgetLogger.instance.d("deleteBooking took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
 }

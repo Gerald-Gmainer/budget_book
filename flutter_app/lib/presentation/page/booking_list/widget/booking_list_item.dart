@@ -9,9 +9,16 @@ class BookingListItem extends StatelessWidget {
 
   const BookingListItem({required this.booking});
 
+  _editBooking(BuildContext context) {
+    Navigator.of(context).pushNamed(BookingCrudPage.route, arguments: booking);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        _editBooking(context);
+      },
       leading: Icon(
         IconConverter.getIconFromModel(booking.category?.iconData),
         color: ColorConverter.iconColorToColor(booking.category?.iconColor),
