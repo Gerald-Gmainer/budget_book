@@ -108,12 +108,6 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trigger_delete_profile BEFORE DELETE ON profiles
   FOR EACH ROW EXECUTE FUNCTION delete_profile();
 
-CREATE OR REPLACE VIEW view_profiles AS
-  SELECT p.id, p.name, auth.email() as email, p.avatar_url
-  FROM profiles p
-  WHERE p.user_id = auth.uid();
-
-
 ----------------------------------------------------------------------------------------------------------------
 
 CREATE TABLE currencies (
@@ -155,6 +149,19 @@ CREATE OR REPLACE VIEW view_profile_settings AS
   FROM profile_settings p
   LEFT OUTER JOIN currencies c ON c.id = p.currency_id
   WHERE p.profile_id = (select pp.id from profiles pp where pp.user_id = auth.uid());
+
+----------------------------------------------------------------------------------------------------------------
+
+CREATE OR REPLACE VIEW view_profiles AS
+  SELECT p.id, p.name, auth.email() as email, p.avatar_url,
+    s.currency_id,
+    jsonb_build_object('id', c.id, 'name', c.name, 'decimal_precision', c.decimal_precision, 
+      'symbol', c.symbol, 'unit_position_front', c.unit_position_front) AS currency
+  FROM profiles p
+  LEFT OUTER JOIN profile_settings s on s.profile_id = p.id
+  LEFT OUTER JOIN currencies c ON c.id = s.currency_id
+  WHERE p.user_id = auth.uid();
+
 
 ----------------------------------------------------------------------------------------------------------------
 

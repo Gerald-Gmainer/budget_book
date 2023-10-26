@@ -9,11 +9,6 @@ class ProfileConverter {
       name: dataModel.name!,
       email: dataModel.email,
       avatarUrl: dataModel.avatarUrl,
-    );
-  }
-
-  ProfileSettingModel fromProfileSettingData(ProfileSettingDataModel dataModel) {
-    return ProfileSettingModel(
       currency: _convertCurrency(dataModel.currency),
     );
   }

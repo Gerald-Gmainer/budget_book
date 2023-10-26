@@ -70,12 +70,14 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
 
   _calculateBookModel(BudgetPeriod period) async {
     final currentPeriod = period;
-    // TODO check token before requests
-    // TODO multiple request
     // final accounts = [] as List<AccountModel>;
-    final bookingDataModels = await bookingRepo.getAllBookings();
-    final categoryDataModels = await bookingRepo.getAllCategories();
-    final iconCache = await bookingRepo.getIconCache();
+    await bookingRepo.checkToken();
+
+    final futures = <Future>[bookingRepo.getAllBookings(), bookingRepo.getAllCategories(), bookingRepo.getIconCache()];
+    final results = await Future.wait(futures);
+    final bookingDataModels = results[0];
+    final categoryDataModels = results[1];
+    final iconCache = results[2];
 
     final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
     final periodModels = _converter.convertBookings(currentPeriod, bookingDataModels, categories);

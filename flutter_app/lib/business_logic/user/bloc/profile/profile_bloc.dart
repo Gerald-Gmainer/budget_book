@@ -22,13 +22,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   _onLoadProfileEvent(LoadProfileEvent event, Emitter<ProfileState> emit) async {
     try {
       emit(ProfileLoadingState());
-      // final currencyDataModels = await userRepo.getCurrencies();
       final profileDataModel = await userRepo.getProfile();
-      final profileSettingDataModel = await userRepo.getProfileSetting();
-
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
-      emit(ProfileLoadedState(profile, profileSetting));
+      emit(ProfileLoadedState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(ProfileErrorState("TODO internet error message"));
@@ -40,7 +36,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   _onSetProfileEvent(SetProfileEvent event, Emitter<ProfileState> emit) async {
-    emit(ProfileLoadedState(event.profile, event.profileSetting));
+    emit(ProfileLoadedState(event.profile));
   }
 
   _onRemoveProfileEvent(RemoveProfileEvent event, Emitter<ProfileState> emit) async {

@@ -13,6 +13,10 @@ class BookingRepository {
     _suggestionCacheService = SuggestionCacheService(_client);
   }
 
+  Future<void> checkToken() async {
+    await _client.checkToken();
+  }
+
   Future<List<BookingDataModel>> getAllBookings() async {
     return await _client.getAllBookings();
   }

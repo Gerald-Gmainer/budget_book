@@ -9,9 +9,8 @@ class LoginLoadingState extends LoginState {}
 
 class LoginSuccessState extends LoginState {
   final ProfileModel profile;
-  final ProfileSettingModel profileSettingModel;
 
-  LoginSuccessState(this.profile, this.profileSettingModel);
+  LoginSuccessState(this.profile);
 }
 
 class LoginErrorState extends LoginState {

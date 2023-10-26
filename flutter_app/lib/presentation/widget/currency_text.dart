@@ -20,7 +20,7 @@ class CurrencyText extends StatelessWidget {
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoadedState) {
-          return _buildText(context, state.profileSetting.currency);
+          return _buildText(context, state.profile.currency);
         }
         return _buildDefaultText(context);
       },

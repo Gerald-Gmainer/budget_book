@@ -78,7 +78,7 @@ class AmountDisplayState extends State<AmountDisplay> with SingleTickerProviderS
       builder: (context, state) {
         String value = "";
         if (state is ProfileLoadedState) {
-          value = state.profileSetting.currency.symbol;
+          value = state.profile.currency.symbol;
         }
         return Text(value, style: TextStyle(fontSize: 24, color: AppColors.primaryTextColor));
       },

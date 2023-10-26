@@ -9,9 +9,8 @@ class ProfileLoadingState extends ProfileState {}
 
 class ProfileLoadedState extends ProfileState {
   final ProfileModel profile;
-  final ProfileSettingModel profileSetting;
 
-  ProfileLoadedState(this.profile, this.profileSetting);
+  ProfileLoadedState(this.profile);
 }
 
 class ProfileErrorState extends ProfileState {

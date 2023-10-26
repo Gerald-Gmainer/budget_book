@@ -7,7 +7,6 @@ export 'model/category_color_data_model.dart';
 export 'model/category_icon_data_model.dart';
 export 'model/icon_cache_model.dart';
 export 'model/profile_data_model.dart';
-export 'model/profile_setting_data_model.dart';
 
 export 'service/category_cache_service.dart';
 export 'service/icon_cache_service.dart';

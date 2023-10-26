@@ -29,16 +29,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       BudgetLogger.instance.d("login with google");
       final response = await userRepo.googleLogin();
 
-
       if (response) {
-        // final currencyDataModels = await userRepo.getCurrencies();
         final profileDataModel = await userRepo.getProfile();
-        final profileSettingDataModel = await userRepo.getProfileSetting();
-
         final profile = _profileConverter.fromProfileData(profileDataModel);
-        final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
-
-        emit(LoginSuccessState(profile, profileSetting));
+        emit(LoginSuccessState(profile));
       } else {
         emit(LoginErrorState("TODO error message"));
       }
@@ -57,15 +51,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with credentials ${event.email}");
       final response = await userRepo.credentialsLogin(event.email, event.password);
-      // final currencyDataModels = await userRepo.getCurrencies();
       final profileDataModel = await userRepo.getProfile();
-      final profileSettingDataModel = await userRepo.getProfileSetting();
-
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      final profileSetting = _profileConverter.fromProfileSettingData(profileSettingDataModel);
-
       if (response) {
-        emit(LoginSuccessState(profile, profileSetting));
+        emit(LoginSuccessState(profile));
       } else {
         emit(LoginErrorState("TODO error message"));
       }

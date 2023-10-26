@@ -35,8 +35,4 @@ class UserRepository {
   Future<ProfileDataModel> getProfile({bool forceReload = false}) async {
     return await _profileCacheService.getData(forceReload: forceReload);
   }
-
-  Future<ProfileSettingDataModel> getProfileSetting() async {
-    return await _profileClient.getProfileSetting();
-  }
 }
