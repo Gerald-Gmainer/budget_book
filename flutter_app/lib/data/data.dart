@@ -11,7 +11,7 @@ export 'model/profile_setting_data_model.dart';
 
 export 'service/category_cache_service.dart';
 export 'service/icon_cache_service.dart';
-export 'service/currency_service_service.dart';
+export 'service/currency_cache_service.dart';
 export 'service/suggestion_cache_service.dart';
 export 'service/profile_cache_service.dart';
 

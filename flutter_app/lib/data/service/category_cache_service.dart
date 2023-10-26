@@ -15,7 +15,7 @@ class CategoryCacheService extends BaseCacheService<List<CategoryDataModel>> {
   }
 
   @override
-  Duration? getCacheDuration() {
+  Duration getCacheDuration() {
     return const Duration(minutes: 5);
   }
 }

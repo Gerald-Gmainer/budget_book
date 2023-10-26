@@ -13,7 +13,7 @@ class SuggestionCacheService extends BaseCacheService<List<String>> {
   }
 
   @override
-  Duration? getCacheDuration() {
-    throw const Duration(minutes: 5);
+  Duration getCacheDuration() {
+    return const Duration(minutes: 5);
   }
 }

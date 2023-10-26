@@ -62,11 +62,16 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _upload() {
+    if (widget.model.category == null) {
+      showErrorSnackBar(context, "Please select a category", duration: Duration(seconds: 2));
+      return;
+    }
     BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
   }
 
   _onUploadSuccess() {
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
+    BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent(forceReload: true));
     Navigator.of(context).pop();
   }
 
@@ -92,6 +97,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   _onDeleteSuccess() {
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
     Navigator.of(context).pop();
+    BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent(forceReload: true));
   }
 
   @override

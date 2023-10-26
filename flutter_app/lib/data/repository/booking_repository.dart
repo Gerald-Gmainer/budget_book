@@ -22,7 +22,7 @@ class BookingRepository {
   }
 
   Future<IconCacheModel> getIconCache() async {
-    return await _iconCacheService.getIconCache();
+    return await _iconCacheService.getData();
   }
 
   Future<void> createBooking(BookingDataModel model) async {

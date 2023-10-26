@@ -14,7 +14,7 @@ class CurrencyCacheService extends BaseCacheService<List<CurrencyDataModel>> {
   }
 
   @override
-  Duration? getCacheDuration() {
-    return null;
+  Duration getCacheDuration() {
+    return Duration(days: 7);
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -14,13 +12,12 @@ class SuggestionBloc extends Bloc<SuggestionEvent, SuggestionState> {
 
   SuggestionBloc(this.repo, this.userRepo) : super(SuggestionInitState()) {
     on<LoadSuggestionEvent>(_onLoadSuggestionEvent);
-    on<ReloadSuggestionEvent>(_onReloadSuggestionEvent);
   }
 
   _onLoadSuggestionEvent(LoadSuggestionEvent event, Emitter<SuggestionState> emit) async {
     try {
       emit(SuggestionLoadingState());
-      final suggestions = await repo.getSuggestions(forceReload: true);
+      final suggestions = await repo.getSuggestions(forceReload: event.forceReload);
       emit(SuggestionLoadedState(suggestions));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
@@ -31,6 +28,4 @@ class SuggestionBloc extends Bloc<SuggestionEvent, SuggestionState> {
       }
     }
   }
-
-  _onReloadSuggestionEvent(ReloadSuggestionEvent event, Emitter<SuggestionState> emit) async {}
 }

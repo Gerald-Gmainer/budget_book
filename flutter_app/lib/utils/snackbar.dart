@@ -13,7 +13,7 @@ void showSnackBar(BuildContext? context, String message) {
   );
 }
 
-void showErrorSnackBar(BuildContext? context, String message) {
+void showErrorSnackBar(BuildContext? context, String message, {Duration? duration}) {
   if (context == null) {
     BudgetLogger.instance.e("showSnackBar: context is NULL");
     return;
@@ -22,6 +22,7 @@ void showErrorSnackBar(BuildContext? context, String message) {
     SnackBar(
       content: Text(message),
       backgroundColor: AppColors.errorColor,
+      duration: duration ?? Duration(seconds: 4),
     ),
   );
 }

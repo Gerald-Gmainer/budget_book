@@ -13,7 +13,7 @@ class ProfileCacheService extends BaseCacheService<ProfileDataModel> {
   }
 
   @override
-  Duration? getCacheDuration() {
+  Duration getCacheDuration() {
     return Duration(minutes: 5);
   }
 }

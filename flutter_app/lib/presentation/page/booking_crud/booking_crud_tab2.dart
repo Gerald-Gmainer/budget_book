@@ -14,8 +14,6 @@ class BookingCrudTab2 extends StatelessWidget {
 
   const BookingCrudTab2({required this.model, required this.onUpload});
 
-  _onCategoryTap(CategoryModel category) {}
-
   _reload(BuildContext context) {
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
   }

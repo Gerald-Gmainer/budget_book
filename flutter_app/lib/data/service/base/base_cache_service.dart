@@ -21,6 +21,7 @@ abstract class BaseCacheService<T> {
       final data = await fetchData();
 
       _cachedData = data;
+      _lastCacheTime = DateTime.now();
 
       _isFetchingData = false;
       if (!_dataFetchCompleter.isCompleted) {
@@ -39,12 +40,12 @@ abstract class BaseCacheService<T> {
   }
 
   bool _canUseCache() {
-    if (_cachedData != null || getCacheDuration() == null) {
+    if (_cachedData == null || _lastCacheTime == null) {
       return false;
     }
-    return _lastCacheTime != null && DateTime.now().difference(_lastCacheTime!) <= getCacheDuration()!;
+    return DateTime.now().difference(_lastCacheTime!) <= getCacheDuration()!;
   }
 
   Future<T> fetchData();
-  Duration? getCacheDuration();
+  Duration getCacheDuration();
 }
