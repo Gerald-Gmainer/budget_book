@@ -31,7 +31,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
         emit(SignUpErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(SignUpErrorState("TODO error message"));
+        emit(SignUpErrorState("Unable to sign up. Please try again"));
       }
     }
   }

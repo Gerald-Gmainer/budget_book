@@ -27,21 +27,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with google");
-      final response = await userRepo.googleLogin();
-
-      if (response) {
-        final profileDataModel = await userRepo.getProfile();
-        final profile = _profileConverter.fromProfileData(profileDataModel);
-        emit(LoginSuccessState(profile));
-      } else {
-        emit(LoginErrorState("TODO error message"));
-      }
+      await userRepo.googleLogin();
+      final profileDataModel = await userRepo.getProfile();
+      final profile = _profileConverter.fromProfileData(profileDataModel);
+      emit(LoginSuccessState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(LoginErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(LoginErrorState("TODO error message"));
+        emit(LoginErrorState("Unable to login. Please try again"));
       }
     }
   }
@@ -50,23 +45,18 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with credentials ${event.email}");
-      final response = await userRepo.credentialsLogin(event.email, event.password);
+      await userRepo.credentialsLogin(event.email, event.password);
       final profileDataModel = await userRepo.getProfile();
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      if (response) {
-        emit(LoginSuccessState(profile));
-      } else {
-        emit(LoginErrorState("TODO error message"));
-      }
+      emit(LoginSuccessState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(LoginErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-
-        String message = "TODO error message";
+        String message = "An expected error happened. Please try again";
         if (e.toString().contains("Invalid login credentials")) {
-          message = "Invalid login credentials";
+          message = "Incorrect email or password";
         }
         emit(LoginErrorState(message));
       }
@@ -83,7 +73,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // ignore that error
         emit(LoginInitState());
       } else {
-        String message = "TODO error message";
+        String message = "Could not logout. Please try again";
         emit(LoginErrorState(message));
       }
     }

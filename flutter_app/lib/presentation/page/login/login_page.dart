@@ -76,12 +76,16 @@ class _LoginPageState extends State<LoginPage> {
             }
           },
           builder: (context, state) {
-            return Center(
-              child: SingleChildScrollView(
-                child: Container(
-                  width: AppDimensions.formWidth,
-                  padding: AppDimensions.formPadding,
-                  child: _buildForm(state is LoginLoadingState),
+            return SingleChildScrollView(
+              child: Container(
+                width: AppDimensions.formWidth,
+                padding: AppDimensions.formPadding,
+                child: Column(
+                  children: [
+                    Image.asset('assets/logo.png', height: 100),
+                    const SizedBox(height: 20),
+                    _buildForm(state is LoginLoadingState),
+                  ],
                 ),
               ),
             );
@@ -95,9 +99,8 @@ class _LoginPageState extends State<LoginPage> {
     return Form(
       key: _formKey,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: AppDimensions.verticalPadding),
           const Text("Sign in with"),
           const SizedBox(height: AppDimensions.verticalPadding),
           _buildGoogleLogin(isLoading),
@@ -153,12 +156,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildPassword(bool isLoading) {
-    return FormInputText(
+    return FormInputPassword(
       controller: _passwordController,
       label: "Password",
       validator: ValidationBuilder().required().build(),
       isLoading: isLoading,
-      obscureText: true,
     );
   }
 

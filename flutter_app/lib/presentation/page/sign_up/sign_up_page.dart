@@ -19,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordConfirmController = TextEditingController();
+  AutovalidateMode? _autovalidateMode;
 
   @override
   initState() {
@@ -33,6 +34,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   _signUp() {
     if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.onUserInteraction;
+      });
       return;
     }
     BlocProvider.of<SignUpBloc>(context).add(SignUpNowEvent(_emailController.text, _passwordController.text));
@@ -130,25 +134,26 @@ class _SignUpPageState extends State<SignUpPage> {
     return FormInputText(
       controller: _emailController,
       label: "Email",
+      autovalidateMode: _autovalidateMode,
       validator: ValidationBuilder().email().build(),
     );
   }
 
   Widget _buildPassword() {
-    return FormInputText(
+    return FormInputPassword(
       controller: _passwordController,
       label: "Password",
+      autovalidateMode: _autovalidateMode,
       validator: ValidationBuilder().password().build(),
-      obscureText: true,
     );
   }
 
   Widget _buildConfirmPassword() {
-    return FormInputText(
+    return FormInputPassword(
       controller: _passwordConfirmController,
       label: "Confirm Password",
-      validator: ValidationBuilder().required().build(),
-      obscureText: true,
+      autovalidateMode: _autovalidateMode,
+      validator: ValidationBuilder().required().match(_passwordController).build(),
     );
   }
 

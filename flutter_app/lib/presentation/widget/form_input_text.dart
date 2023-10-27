@@ -5,16 +5,22 @@ class FormInputText extends StatelessWidget {
   final String label;
   final String? Function(String?) validator;
   final bool isLoading;
-  final bool obscureText;
+  final AutovalidateMode? autovalidateMode;
 
-  const FormInputText({required this.controller, required this.label, required this.validator, this.isLoading = false, this.obscureText = false});
+  const FormInputText({
+    required this.controller,
+    required this.label,
+    required this.validator,
+    this.isLoading = false,
+    this.autovalidateMode,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       readOnly: isLoading,
-      obscureText: obscureText,
+      autovalidateMode: autovalidateMode,
       decoration: InputDecoration(
         labelText: label,
       ),
