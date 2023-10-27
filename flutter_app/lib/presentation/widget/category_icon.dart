@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class CategoryIcon extends StatelessWidget {
-  static const double circleSize = 50;
-  static const double iconSize = 25;
-  static const double padding = 8;
+  static const double circleSize = 60;
+  static const double iconSize = 30;
+  static const double horizontalPadding = AppDimensions.horizontalPadding;
+  static const double verticalPadding = 8;
   final IconData icon;
   final Color color;
   final String? text;
@@ -24,11 +25,11 @@ class CategoryIcon extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: LayoutBuilder(builder: (context, constraints) {
-        double buttonWidth = constraints.maxWidth / 3 - 2 - padding;
+        double buttonWidth = constraints.maxWidth / 3 - 2 - horizontalPadding;
 
         return Container(
           width: buttonWidth,
-          padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding * 2),
+          padding: EdgeInsets.symmetric(vertical: verticalPadding),
           decoration: BoxDecoration(
             shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(12),

@@ -23,7 +23,7 @@ class RightDrawer extends StatelessWidget {
               leading: Icon(Icons.category),
               title: Text('Categories'),
               onTap: () {
-                // _goToPage(context);
+                _goToPage(context, CategoryListPage.route);
               },
             ),
             ListTile(

@@ -94,6 +94,12 @@ class MyApp extends StatelessWidget {
       // fontFamily: GoogleFonts.notoSans().fontFamily,
       // fontFamily: GoogleFonts.arimo().fontFamily,
       primaryColor: AppColors.accentColor,
+      tabBarTheme: TabBarTheme(
+        labelPadding: EdgeInsets.symmetric(vertical: 8),
+        indicator: BoxDecoration(
+          border: Border(bottom: BorderSide(color: AppColors.accentColor, width: 4.0)),
+        ),
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         selectedItemColor: AppColors.accentColor,
         unselectedItemColor: AppColors.secondaryTextColor,

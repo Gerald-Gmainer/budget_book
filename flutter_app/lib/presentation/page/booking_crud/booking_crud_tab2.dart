@@ -4,7 +4,7 @@ import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'widget/category_list.dart';
+import 'widget/category_list_input.dart';
 import 'widget/crud_overview.dart';
 import 'widget/description_input.dart';
 
@@ -45,7 +45,7 @@ class BookingCrudTab2 extends StatelessWidget {
         const SizedBox(height: AppDimensions.verticalPadding),
         DescriptionInput(model: model),
         const SizedBox(height: AppDimensions.verticalPadding),
-        Expanded(child: CategoryList(categories: categories, model: model)),
+        Expanded(child: CategoryListInput(categories: categories, model: model)),
         const SizedBox(height: AppDimensions.verticalPadding * 2),
         SaveButton(text: "save", onTap: onUpload),
         const SizedBox(height: AppDimensions.verticalPadding),
