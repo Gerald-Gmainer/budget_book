@@ -3,7 +3,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
 
-class CategoryIconInput extends StatelessWidget {
+class CategoryIconInput extends StatefulWidget {
   final IconDataModel iconModel;
   final Function(IconDataModel icon) onTap;
   final IconDataModel? selectedIcon;
@@ -16,16 +16,32 @@ class CategoryIconInput extends StatelessWidget {
     this.selectedIcon,
   });
 
+  @override
+  State<CategoryIconInput> createState() => _CategoryIconInputState();
+}
+
+class _CategoryIconInputState extends State<CategoryIconInput> {
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (widget.selectedIcon == widget.iconModel) {
+        if (!mounted) return;
+        Scrollable.ensureVisible(context);
+      }
+    });
+  }
+
   _onTap() {
-    onTap.call(iconModel);
+    widget.onTap.call(widget.iconModel);
   }
 
   @override
   Widget build(BuildContext context) {
     Color color = AppColors.secondaryColor;
-    bool showBorder = selectedIcon == iconModel;
-    if (selectedIcon == iconModel && selectedColor != null) {
-      color = ColorConverter.stringToColor(selectedColor!.code);
+    bool showBorder = widget.selectedIcon == widget.iconModel;
+    if (widget.selectedIcon == widget.iconModel && widget.selectedColor != null) {
+      color = ColorConverter.stringToColor(widget.selectedColor!.code);
     }
 
     return InkWell(
@@ -45,7 +61,7 @@ class CategoryIconInput extends StatelessWidget {
             color: color,
           ),
           child: Icon(
-            IconConverter.getIconFromModel(iconModel),
+            IconConverter.getIconFromModel(widget.iconModel),
             color: Colors.white,
             size: 24,
           ),

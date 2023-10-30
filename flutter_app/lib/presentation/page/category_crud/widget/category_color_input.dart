@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/utils/utils.dart';
 
-class CategoryColorInput extends StatelessWidget {
+class CategoryColorInput extends StatefulWidget {
   final IconColorModel colorModel;
   final Function(IconColorModel model) onTap;
   final IconColorModel? selectedColor;
@@ -10,19 +11,36 @@ class CategoryColorInput extends StatelessWidget {
   const CategoryColorInput({required this.colorModel, required this.onTap, required this.selectedColor});
 
   @override
+  State<CategoryColorInput> createState() => _CategoryColorInputState();
+}
+
+class _CategoryColorInputState extends State<CategoryColorInput> {
+  @override
+  initState() {
+    super.initState();
+    BudgetLogger.instance.d(widget.selectedColor?.code);
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      if (widget.selectedColor == widget.colorModel) {
+        if (!mounted) return;
+        Scrollable.ensureVisible(context);
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        onTap.call(colorModel);
+        widget.onTap.call(widget.colorModel);
       },
       child: Stack(
         alignment: Alignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: ColorConverter.stringToColor(colorModel.code),
+            backgroundColor: ColorConverter.stringToColor(widget.colorModel.code),
             radius: 20,
           ),
-          if (selectedColor == colorModel)
+          if (widget.selectedColor == widget.colorModel)
             Positioned.fill(
               child: Center(
                 child: Text(

@@ -31,6 +31,6 @@ class CategoryModel {
 
   @override
   String toString() {
-    return "CategoryModel id: $id / name: $name / icon: ${iconData?.name} / categoryType: $categoryType";
+    return "CategoryModel id: $id / name: $name / icon: ${iconData?.name} / color: ${iconColor?.code} / categoryType: $categoryType";
   }
 }

@@ -22,7 +22,7 @@ class CategoryCrudPage extends StatefulWidget {
 }
 
 class _CategoryCrudPageState extends State<CategoryCrudPage> {
-  final TextEditingController _nameController = TextEditingController();
+  late final TextEditingController _nameController;
   late CategoryType _selectedType;
   IconDataModel? _selectedIcon;
   IconColorModel? _selectedColor;
@@ -31,8 +31,17 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   void initState() {
     super.initState();
     BlocProvider.of<CategoryCrudBloc>(context).add(InitCategoryCrudEvent());
-    _selectedType = widget.model.categoryType;
+    _init();
     _load();
+  }
+
+  _init() {
+    setState(() {
+      _selectedType = widget.model.categoryType;
+      _nameController = TextEditingController(text: widget.model.name);
+      _selectedIcon = widget.model.iconData;
+      _selectedColor = widget.model.iconColor;
+    });
   }
 
   _load() {
@@ -60,7 +69,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     });
   }
 
-  _hideKeyboard () {
+  _hideKeyboard() {
     SystemChannels.textInput.invokeMethod('TextInput.hide');
   }
 

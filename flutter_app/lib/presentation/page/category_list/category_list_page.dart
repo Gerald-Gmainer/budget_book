@@ -23,7 +23,9 @@ class _CategoryListPageState extends State<CategoryListPage> {
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
   }
 
-  _onCategoryTap(CategoryModel category) {}
+  _onCategoryTap(CategoryModel category) {
+    Navigator.of(context).pushNamed(CategoryCrudPage.route, arguments: category);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,13 @@ class _CategoryListPageState extends State<CategoryListPage> {
       padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding * 2),
       child: Column(
         children: [
-          Center(child: CategoryList(categories: categories, categoryType: type, onCategoryTap: _onCategoryTap)),
+          Center(
+            child: CategoryList(
+              categories: categories,
+              categoryType: type,
+              onCategoryTap: _onCategoryTap,
+            ),
+          ),
         ],
       ),
     );
