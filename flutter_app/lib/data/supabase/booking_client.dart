@@ -31,13 +31,6 @@ class BookingClient extends BaseClient {
     BudgetLogger.instance.d("updateBooking took ${stopwatch.elapsed.inMilliseconds} ms");
   }
 
-  Future<void> createCategory(CategoryDataModel model) async {
-    await checkToken();
-    Stopwatch stopwatch = Stopwatch()..start();
-    await supabase.rpc("create_category", params: {"p_category": model.toJson()});
-    BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");
-  }
-
   Future<List<String>> getSuggestions() async {
     await checkToken();
     final profileId = getProfileId();
@@ -60,6 +53,22 @@ class BookingClient extends BaseClient {
     Stopwatch stopwatch = Stopwatch()..start();
     await supabase.rpc("delete_booking", params: {"p_id": id});
     BudgetLogger.instance.d("deleteBooking took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<void> createCategory(CategoryDataModel model) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    BudgetLogger.instance.d("create_category: ${model.toJson()}");
+    await supabase.rpc("create_category", params: {"p_category": model.toJson()});
+    BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<void> updateCategory(CategoryDataModel model) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    BudgetLogger.instance.d("update_category: ${model.toJson()}");
+    await supabase.rpc("update_category", params: {"p_category": model.toJson()});
+    BudgetLogger.instance.d("editCategory took ${stopwatch.elapsed.inMilliseconds} ms");
   }
 
   Future<void> deleteCategory(int id) async {

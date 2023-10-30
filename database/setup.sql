@@ -225,6 +225,57 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
+CREATE OR REPLACE FUNCTION update_category(p_category JSON) RETURNS INTEGER AS $$
+DECLARE
+  _profile_id INTEGER;
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in.';
+  END IF;
+
+  SELECT auth.get_profile_id() INTO _profile_id;
+  RAISE LOG 'update category for profile_id: %', _profile_id;
+
+  UPDATE categories
+  SET
+    name = p_category->>'name'::TEXT,
+    icon_id = p_category->>'icon_id'::INT,
+    color_id = p_category->>'color_id'::INT,
+    type = p_category->>'type'::category_type
+  WHERE id = (p_category->>'id')::INTEGER 
+  AND profile_id = _profile_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Category not found';
+  END IF;
+
+  RETURN (p_category->>'category_id')::INTEGER;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+CREATE OR REPLACE FUNCTION delete_category(p_id int)
+RETURNS void
+AS $$
+DECLARE
+  _profile_id int;
+BEGIN
+ IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'User is not logged in. Please log in';
+  END IF;
+
+  SELECT auth.get_profile_id() INTO _profile_id;
+  
+  DELETE FROM categories
+  WHERE id = p_id
+  AND profile_id = _profile_id;
+
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Category not found';
+  END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY definer;
+
+
 CREATE OR REPLACE VIEW view_categories AS
   SELECT c.id, c.name, c.icon_id, c.color_id, c.type
   FROM categories c
@@ -313,7 +364,7 @@ BEGIN
   AND profile_id = _profile_id;
 
   IF NOT FOUND THEN
-    RAISE EXCEPTION 'Booking not found or does not belong to the current user.';
+    RAISE EXCEPTION 'Booking not found';
   END IF;
 
   RETURN (p_booking->>'category_id')::INTEGER;

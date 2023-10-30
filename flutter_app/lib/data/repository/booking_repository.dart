@@ -37,16 +37,20 @@ class BookingRepository {
     await _client.updateBooking(model);
   }
 
-  Future<void> createCategory(CategoryDataModel model) async {
-    await _client.createCategory(model);
-  }
-
   Future<List<String>> getSuggestions({bool forceReload = false}) async {
     return _suggestionCacheService.getData(forceReload: forceReload);
   }
 
   Future<void> deleteBooking(int id) async {
     await _client.deleteBooking(id);
+  }
+
+  Future<void> createCategory(CategoryDataModel model) async {
+    await _client.createCategory(model);
+  }
+
+  Future<void> editCategory(CategoryDataModel model) async {
+    await _client.updateCategory(model);
   }
 
   Future<void> deleteCategory(int id) async {

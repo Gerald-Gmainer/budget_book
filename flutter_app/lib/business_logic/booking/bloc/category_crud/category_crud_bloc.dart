@@ -30,8 +30,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       if (event.model.id == null) {
         await repo.createCategory(model);
       } else {
-        BudgetLogger.instance.i("TODO edit category");
-        // repo.editCategory(event.model);
+        await repo.editCategory(model);
       }
       emit(CategoryCrudFinishedState());
     } catch (e) {
@@ -39,7 +38,8 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
         emit(CategoryCrudErrorState("TODO internet error message"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(CategoryCrudErrorState(e.toString()));
+        final message = "Could not ${event.model.id == null ? "create" : "edit"} the category. Please try again";
+        emit(CategoryCrudErrorState(message));
       }
     }
   }

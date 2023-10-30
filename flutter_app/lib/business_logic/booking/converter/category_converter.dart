@@ -47,7 +47,7 @@ class CategoryConverter {
     return CategoryDataModel(
       id: oldModel.id,
       name: oldModel.name,
-      iconId: oldModel.iconColor?.id,
+      iconId: oldModel.iconData?.id,
       colorId: oldModel.iconColor?.id,
       categoryType: oldModel.categoryType,
     );
