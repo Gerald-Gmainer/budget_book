@@ -9,6 +9,10 @@ class CategoryCrudLoadingState extends CategoryCrudState {}
 
 class CategoryCrudFinishedState extends CategoryCrudState {}
 
+class CategoryCrudDeletedState extends CategoryCrudState {
+
+}
+
 class CategoryCrudErrorState extends CategoryCrudState {
   final String message;
 

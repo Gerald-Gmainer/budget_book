@@ -23,9 +23,11 @@ class CategoryCrudPage extends StatefulWidget {
 
 class _CategoryCrudPageState extends State<CategoryCrudPage> {
   late final TextEditingController _nameController;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late CategoryType _selectedType;
   IconDataModel? _selectedIcon;
   IconColorModel? _selectedColor;
+  AutovalidateMode? _autovalidateMode;
 
   @override
   void initState() {
@@ -74,6 +76,16 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   _upload() {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.onUserInteraction;
+      });
+      return;
+    }
+    if (_selectedColor == null || _selectedIcon == null) {
+      showErrorSnackBar(context, "Select an icon and a color");
+      return;
+    }
     final model = CategoryModel(
       id: widget.model.id,
       name: _nameController.text,
@@ -94,11 +106,34 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
     showErrorSnackBar(context, message);
   }
 
+  _onDelete() {
+    ConfirmDialog.show(
+      context,
+      headerText: "Delete",
+      bodyText: "Do you want to delete this category?",
+      onOK: _deleteCategory,
+    );
+  }
+
+  _deleteCategory() {
+    BlocProvider.of<CategoryCrudBloc>(context).add(DeleteCategoryCrudEvent(widget.model));
+  }
+
+  _onDeleteSuccess() {
+    // BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
+    BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent(forceReload: true));
+    showSnackBar(context, "Category deleted");
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(_isCreating() ? "New Category" : "Edit Category"),
+        actions: [
+          if (!_isCreating()) _buildDeleteButton(),
+        ],
       ),
       body: BlocListener<CategoryCrudBloc, CategoryCrudState>(
         listener: (context, state) {
@@ -106,6 +141,8 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
             _onUploadSuccess();
           } else if (state is CategoryCrudErrorState) {
             _onUploadError(state.message);
+          } else if (state is CategoryCrudDeletedState) {
+            _onDeleteSuccess();
           }
         },
         child: BlocBuilder<CategoryIconBloc, CategoryIconState>(
@@ -124,31 +161,36 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   Widget _buildView(List<IconDataModel> categoryIcons, List<IconColorModel> categoryColors) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding, horizontal: AppDimensions.horizontalPadding),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            CategoryNameInput(controller: _nameController),
-            const SizedBox(height: AppDimensions.verticalPadding * 2),
-            CategoryTypeRow(onTypeChange: _onTypeChange, selectedType: _selectedType),
-            const SizedBox(height: AppDimensions.verticalPadding),
-            CategoryIconList(
-              categoryIcons: categoryIcons,
-              onTap: _onIconChange,
-              selectedIcon: _selectedIcon,
-              selectedColor: _selectedColor,
+    return SafeArea(
+      child: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding, horizontal: AppDimensions.horizontalPadding),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CategoryNameInput(controller: _nameController, autovalidateMode: _autovalidateMode),
+                const SizedBox(height: AppDimensions.verticalPadding * 2),
+                CategoryTypeRow(onTypeChange: _onTypeChange, selectedType: _selectedType),
+                const SizedBox(height: AppDimensions.verticalPadding),
+                CategoryIconList(
+                  categoryIcons: categoryIcons,
+                  onTap: _onIconChange,
+                  selectedIcon: _selectedIcon,
+                  selectedColor: _selectedColor,
+                ),
+                const SizedBox(height: AppDimensions.verticalPadding),
+                CategoryColorList(
+                  categoryColors: categoryColors,
+                  onTap: _onColorChange,
+                  selectedColor: _selectedColor,
+                ),
+                const SizedBox(height: AppDimensions.verticalPadding),
+                _buildSaveButton(),
+                const SizedBox(height: AppDimensions.verticalPadding),
+              ],
             ),
-            const SizedBox(height: AppDimensions.verticalPadding),
-            CategoryColorList(
-              categoryColors: categoryColors,
-              onTap: _onColorChange,
-              selectedColor: _selectedColor,
-            ),
-            const SizedBox(height: AppDimensions.verticalPadding),
-            _buildSaveButton(),
-            const SizedBox(height: AppDimensions.verticalPadding),
-          ],
+          ),
         ),
       ),
     );
@@ -164,6 +206,13 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
           isLoading: isLoading,
         );
       },
+    );
+  }
+
+  Widget _buildDeleteButton() {
+    return IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: _onDelete,
     );
   }
 

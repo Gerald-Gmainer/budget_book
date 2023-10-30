@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class CategoryNameInput extends StatelessWidget {
   final TextEditingController controller;
+  AutovalidateMode? autovalidateMode;
 
-  const CategoryNameInput({required this.controller});
+  CategoryNameInput({required this.controller, this.autovalidateMode});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +13,7 @@ class CategoryNameInput extends StatelessWidget {
       decoration: const InputDecoration(
         labelText: 'Category Name',
       ),
+      autovalidateMode: autovalidateMode,
       validator: (value) {
         if (value?.isNotEmpty == false) {
           return 'Please enter a name';

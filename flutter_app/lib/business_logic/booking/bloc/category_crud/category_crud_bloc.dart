@@ -16,6 +16,7 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
   CategoryCrudBloc(this.repo) : super(CategoryCrudInitState()) {
     on<InitCategoryCrudEvent>(_onInitCategoryCrudEvent);
     on<UploadCategoryCrudEvent>(_onUploadCategoryCrudEvent);
+    on<DeleteCategoryCrudEvent>(_onDeleteCategoryCrudEvent);
   }
 
   _onInitCategoryCrudEvent(InitCategoryCrudEvent event, Emitter<CategoryCrudState> emit) async {
@@ -26,10 +27,9 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
     try {
       emit(CategoryCrudLoadingState());
       final model = _converter.toDataModel(event.model);
-      if(event.model.id == null) {
+      if (event.model.id == null) {
         await repo.createCategory(model);
-      }
-      else {
+      } else {
         BudgetLogger.instance.i("TODO edit category");
         // repo.editCategory(event.model);
       }
@@ -40,6 +40,27 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       } else {
         BudgetLogger.instance.e(e);
         emit(CategoryCrudErrorState(e.toString()));
+      }
+    }
+  }
+
+  _onDeleteCategoryCrudEvent(DeleteCategoryCrudEvent event, Emitter<CategoryCrudState> emit) async {
+    try {
+      emit(CategoryCrudLoadingState());
+      if (event.model.id == null) {
+        throw "Cannot delete booking because ID is NULL";
+      }
+      await repo.deleteCategory(event.model.id!);
+      emit(CategoryCrudDeletedState());
+    } catch (e) {
+      if (!ConnectivitySingleton.instance.isConnected()) {
+        emit(CategoryCrudErrorState("TODO internet error message"));
+      } else if (e.toString().contains("violates foreign key constraint")) {
+        BudgetLogger.instance.e(e);
+        emit(CategoryCrudErrorState("Category is still used and cannot be deleted"));
+      } else {
+        BudgetLogger.instance.e(e);
+        emit(CategoryCrudErrorState("An error happened. Please try again"));
       }
     }
   }

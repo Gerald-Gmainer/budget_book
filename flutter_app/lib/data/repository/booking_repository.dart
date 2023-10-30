@@ -48,4 +48,8 @@ class BookingRepository {
   Future<void> deleteBooking(int id) async {
     await _client.deleteBooking(id);
   }
+
+  Future<void> deleteCategory(int id) async {
+    await _client.deleteCategory(id);
+  }
 }

@@ -10,3 +10,9 @@ class UploadCategoryCrudEvent extends CategoryCrudEvent {
 
   UploadCategoryCrudEvent(this.model);
 }
+
+class DeleteCategoryCrudEvent extends CategoryCrudEvent {
+  final CategoryModel model;
+
+  DeleteCategoryCrudEvent(this.model);
+}

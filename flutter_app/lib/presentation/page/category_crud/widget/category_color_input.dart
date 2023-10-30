@@ -18,7 +18,6 @@ class _CategoryColorInputState extends State<CategoryColorInput> {
   @override
   initState() {
     super.initState();
-    BudgetLogger.instance.d(widget.selectedColor?.code);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (widget.selectedColor == widget.colorModel) {
         if (!mounted) return;
