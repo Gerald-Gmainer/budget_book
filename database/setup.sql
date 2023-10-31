@@ -170,9 +170,9 @@ CREATE TABLE accounts (
   profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   name text NOT NULL,
   -- icon int references account_icons(id) NOT NULL,
-  init_balance_amount numeric(12, 3) DEFAULT 0,
-  init_balance_date timestamp  NOT NULL,
-  include_in_balance boolean DEFAULT TRUE
+  -- init_balance_amount numeric(12, 3) DEFAULT 0,
+  -- init_balance_date timestamp  NOT NULL,
+  -- include_in_balance boolean DEFAULT TRUE
 );
 CREATE INDEX accounts_profile_id_index ON accounts (profile_id);
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
@@ -238,10 +238,10 @@ BEGIN
 
   UPDATE categories
   SET
-    name = p_category->>'name'::TEXT,
-    icon_id = p_category->>'icon_id'::INT,
-    color_id = p_category->>'color_id'::INT,
-    type = p_category->>'type'::category_type
+    name = (p_category->>'name')::TEXT,
+    icon_id = (p_category->>'icon_id')::INTEGER,
+    color_id = (p_category->>'color_id')::INTEGER,
+    type = (p_category->>'type')::category_type
   WHERE id = (p_category->>'id')::INTEGER 
   AND profile_id = _profile_id;
 
@@ -249,7 +249,7 @@ BEGIN
     RAISE EXCEPTION 'Category not found';
   END IF;
 
-  RETURN (p_category->>'category_id')::INTEGER;
+  RETURN (p_category->>'id')::INTEGER;
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
 

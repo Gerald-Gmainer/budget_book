@@ -77,4 +77,12 @@ class BookingClient extends BaseClient {
     await supabase.rpc("delete_category", params: {"p_id": id});
     BudgetLogger.instance.d("deleteCategory took ${stopwatch.elapsed.inMilliseconds} ms");
   }
+
+  Future<List<AccountDataModel>> getAccounts() async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    var response = await supabase.from('view_accounts').select('id, name').order('name', ascending: true);
+    BudgetLogger.instance.d("view_accounts took ${stopwatch.elapsed.inMilliseconds} ms");
+    return List.from(response).map((item) => AccountDataModel.fromJson(item)).toList();
+  }
 }

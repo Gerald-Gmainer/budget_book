@@ -13,6 +13,7 @@ export 'service/icon_cache_service.dart';
 export 'service/currency_cache_service.dart';
 export 'service/suggestion_cache_service.dart';
 export 'service/profile_cache_service.dart';
+export 'service/account_cache_service.dart';
 
 export 'repository/user_repository.dart';
 export 'repository/booking_repository.dart';

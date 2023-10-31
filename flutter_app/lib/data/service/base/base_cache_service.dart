@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_app/utils/logger.dart';
+
 abstract class BaseCacheService<T> {
   T? _cachedData;
   DateTime? _lastCacheTime;
@@ -8,6 +10,7 @@ abstract class BaseCacheService<T> {
 
   Future<T> getData({bool forceReload = false}) async {
     if (!forceReload && _canUseCache()) {
+      BudgetLogger.instance.d("use cache for $T");
       return _cachedData!;
     }
 

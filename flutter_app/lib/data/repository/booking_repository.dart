@@ -6,11 +6,13 @@ class BookingRepository {
   late final CategoryCacheService _categoryCacheService;
   late final IconCacheService _iconCacheService;
   late final SuggestionCacheService _suggestionCacheService;
+  late final AccountCacheService _accountCacheService;
 
   BookingRepository() {
     _categoryCacheService = CategoryCacheService(_categoryClient);
     _iconCacheService = IconCacheService(_categoryClient);
     _suggestionCacheService = SuggestionCacheService(_client);
+    _accountCacheService = AccountCacheService(_client);
   }
 
   Future<void> checkToken() async {
@@ -55,5 +57,9 @@ class BookingRepository {
 
   Future<void> deleteCategory(int id) async {
     await _client.deleteCategory(id);
+  }
+
+  Future<List<AccountDataModel>> getAccounts({bool forceReload = false}) async {
+    return await _accountCacheService.getData(forceReload: forceReload);
   }
 }

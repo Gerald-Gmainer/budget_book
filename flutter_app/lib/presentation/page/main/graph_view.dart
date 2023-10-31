@@ -34,9 +34,18 @@ class _GraphViewState extends State<GraphView> {
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
   }
 
+  _onViewLoaded() {
+    BlocProvider.of<AccountBloc>(context).add(LoadAccountEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GraphViewBloc, GraphViewState>(
+    return BlocConsumer<GraphViewBloc, GraphViewState>(
+      listener: (context, state) {
+        if (state is GraphViewLoadedState) {
+          _onViewLoaded();
+        }
+      },
       builder: (context, state) {
         if (state is GraphViewErrorState) {
           return ErrorText(message: state.message, onReload: _reload);

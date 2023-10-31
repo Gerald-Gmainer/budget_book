@@ -12,8 +12,9 @@ part 'graph_view_state.dart';
 
 class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
   final BookingRepository bookingRepo;
-  final BookingPeriodConverter _converter = BookingPeriodConverter();
+  final BookingPeriodConverter _bookingPeriodConverter = BookingPeriodConverter();
   final CategoryConverter _categoryConverter = CategoryConverter();
+  final AccountConverter _accountConverter = AccountConverter();
   BudgetPeriod _currentBudgetPeriod = BudgetPeriod.month;
 
   GraphViewBloc(this.bookingRepo) : super(GraphViewInitState()) {
@@ -70,21 +71,22 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
 
   _calculateBookModel(BudgetPeriod period) async {
     final currentPeriod = period;
-    // final accounts = [] as List<AccountModel>;
     await bookingRepo.checkToken();
 
-    final futures = <Future>[bookingRepo.getAllBookings(), bookingRepo.getAllCategories(), bookingRepo.getIconCache()];
+    final futures = <Future>[bookingRepo.getAllBookings(), bookingRepo.getAllCategories(), bookingRepo.getIconCache(), bookingRepo.getAccounts()];
     final results = await Future.wait(futures);
     final bookingDataModels = results[0];
     final categoryDataModels = results[1];
     final iconCache = results[2];
+    final accountDataModels = results[3];
 
     final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
-    final periodModels = _converter.convertBookings(currentPeriod, bookingDataModels, categories);
+    final periodModels = _bookingPeriodConverter.convertBookings(currentPeriod, bookingDataModels, categories);
+    final accounts = _accountConverter.fromDataModels(accountDataModels);
     return BudgetBookModel(
       currentPeriod: currentPeriod,
       periodModels: periodModels,
-      accounts: [],
+      accounts: accounts,
       categories: categories,
     );
   }
