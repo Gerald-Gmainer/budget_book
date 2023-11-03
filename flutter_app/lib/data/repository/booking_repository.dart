@@ -1,8 +1,9 @@
 import 'package:flutter_app/data/data.dart';
 
 class BookingRepository {
-  final BookingClient _client = BookingClient();
+  final BookingClient _bookingClient = BookingClient();
   final CategoryClient _categoryClient = CategoryClient();
+  final AccountClient _accountClient = AccountClient();
   late final CategoryCacheService _categoryCacheService;
   late final IconCacheService _iconCacheService;
   late final SuggestionCacheService _suggestionCacheService;
@@ -10,17 +11,17 @@ class BookingRepository {
 
   BookingRepository() {
     _categoryCacheService = CategoryCacheService(_categoryClient);
-    _iconCacheService = IconCacheService(_categoryClient);
-    _suggestionCacheService = SuggestionCacheService(_client);
-    _accountCacheService = AccountCacheService(_client);
+    _iconCacheService = IconCacheService(_categoryClient, _accountClient);
+    _suggestionCacheService = SuggestionCacheService(_bookingClient);
+    _accountCacheService = AccountCacheService(_accountClient);
   }
 
   Future<void> checkToken() async {
-    await _client.checkToken();
+    await _bookingClient.checkToken();
   }
 
   Future<List<BookingDataModel>> getAllBookings() async {
-    return await _client.getAllBookings();
+    return await _bookingClient.getAllBookings();
   }
 
   Future<List<CategoryDataModel>> getAllCategories({bool forceReload = false}) async {
@@ -32,11 +33,11 @@ class BookingRepository {
   }
 
   Future<void> createBooking(BookingDataModel model) async {
-    await _client.createBooking(model);
+    await _bookingClient.createBooking(model);
   }
 
   Future<void> updateBooking(BookingDataModel model) async {
-    await _client.updateBooking(model);
+    await _bookingClient.updateBooking(model);
   }
 
   Future<List<String>> getSuggestions({bool forceReload = false}) async {
@@ -44,19 +45,19 @@ class BookingRepository {
   }
 
   Future<void> deleteBooking(int id) async {
-    await _client.deleteBooking(id);
+    await _bookingClient.deleteBooking(id);
   }
 
   Future<void> createCategory(CategoryDataModel model) async {
-    await _client.createCategory(model);
+    await _categoryClient.createCategory(model);
   }
 
   Future<void> editCategory(CategoryDataModel model) async {
-    await _client.updateCategory(model);
+    await _categoryClient.updateCategory(model);
   }
 
   Future<void> deleteCategory(int id) async {
-    await _client.deleteCategory(id);
+    await _categoryClient.deleteCategory(id);
   }
 
   Future<List<AccountDataModel>> getAccounts({bool forceReload = false}) async {

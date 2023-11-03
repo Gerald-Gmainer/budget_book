@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/presentation/presentation.dart';
-import 'package:flutter_app/utils/app_dimensions.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,6 +32,20 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
     BlocProvider.of<BookingCrudBloc>(context).add(InitBookingCrudEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent());
     BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent());
+    if (_isCreating()) {
+      _setDefaultAccount();
+    }
+  }
+
+  _setDefaultAccount() {
+    final state = BlocProvider.of<GraphViewBloc>(context).state;
+    if (state is GraphViewLoadedState) {
+      setState(() {
+        widget.model.account = state.bookModel.accounts[0];
+      });
+    } else {
+      BudgetLogger.instance.i("could not set default account");
+    }
   }
 
   @override

@@ -1,4 +1,19 @@
-
+DROP FUNCTION IF EXISTS insert_test_data_category;
+CREATE OR REPLACE FUNCTION insert_test_data_account(
+    _profile_name text,
+    _name text,
+    _icon_name text,
+    _icon_code text
+) RETURNS void AS $$
+BEGIN
+    WITH profile_data AS ( SELECT p.id AS profile_id FROM profiles p WHERE p.name = _profile_name)
+        INSERT INTO accounts (profile_id, name, icon_id, color_id)
+        SELECT pd.profile_id, _name,
+        (SELECT id FROM account_icons WHERE name = _icon_name),
+        (SELECT id FROM account_colors WHERE code = _icon_code) 
+FROM profile_data pd;
+END;
+$$ LANGUAGE plpgsql;
 
 DROP FUNCTION IF EXISTS insert_test_data_category;
 CREATE OR REPLACE FUNCTION insert_test_data_category(
@@ -40,7 +55,7 @@ $$ LANGUAGE plpgsql;
 
 
 DROP FUNCTION IF EXISTS insert_test_data_month;
-CREATE OR REPLACE FUNCTION insert_test_data_month(name_param text, month_param text) 
+CREATE OR REPLACE FUNCTION insert_test_data_month(name_param text, month_param text, account_name text) 
 RETURNS text AS $$
 DECLARE
     _profile_id int;
@@ -51,22 +66,22 @@ BEGIN
     SELECT p.id INTO _profile_id
     FROM profiles p WHERE p.name = name_param;
 
-    PERFORM insert_test_data_booking(_profile_id, month_param || '-10', 2400, 'work', 'cash', 'salary');
+    PERFORM insert_test_data_booking(_profile_id, month_param || '-10', 2400, 'work', account_name, 'salary');
     _inserted_rows := _inserted_rows + 1;
 
     IF random() < 0.5 THEN
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-14', 500, 'saving', 'cash', 'saved money');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-14', 500, 'saving', account_name, 'saved money');
         _inserted_rows := _inserted_rows + 1;
     END IF;
 
-    PERFORM insert_test_data_booking(_profile_id, month_param || '-10', 800, 'house', 'cash', 'montly rent');
+    PERFORM insert_test_data_booking(_profile_id, month_param || '-10', 800, 'house', account_name, 'montly rent');
     _inserted_rows := _inserted_rows + 1;
-    PERFORM insert_test_data_booking(_profile_id, month_param || '-11', 55.4, 'house', 'cash', 'heating costs');
+    PERFORM insert_test_data_booking(_profile_id, month_param || '-11', 55.4, 'house', account_name, 'heating costs');
     _inserted_rows := _inserted_rows + 1;
-    PERFORM insert_test_data_booking(_profile_id, month_param || '-12', 94.21, 'house', 'cash', 'power costs');
+    PERFORM insert_test_data_booking(_profile_id, month_param || '-12', 94.21, 'house', account_name, 'power costs');
     _inserted_rows := _inserted_rows + 1;
 
-    PERFORM insert_test_data_booking(_profile_id, month_param || '-15', 112.12, 'car', 'cash', '12345678901234567890');
+    PERFORM insert_test_data_booking(_profile_id, month_param || '-15', 112.12, 'car', account_name, '12345678901234567890');
     _inserted_rows := _inserted_rows + 1;
 
     FOR i IN 1..3 LOOP

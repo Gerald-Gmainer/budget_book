@@ -7,6 +7,8 @@ export 'model/category_color_data_model.dart';
 export 'model/category_icon_data_model.dart';
 export 'model/icon_cache_model.dart';
 export 'model/profile_data_model.dart';
+export 'model/account_icon_color_model.dart';
+export 'model/account_icon_data_model.dart';
 
 export 'service/category_cache_service.dart';
 export 'service/icon_cache_service.dart';
@@ -22,6 +24,7 @@ export 'supabase/user_client.dart';
 export 'supabase/booking_client.dart';
 export 'supabase/category_client.dart';
 export 'supabase/profile_client.dart';
+export 'supabase/account_client.dart';
 
 export 'utils/json_decoder.dart';
 export 'utils/json_encoder.dart';

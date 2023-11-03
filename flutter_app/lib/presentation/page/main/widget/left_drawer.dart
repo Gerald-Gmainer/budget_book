@@ -3,7 +3,7 @@ import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:provider/provider.dart';
 
-import 'account_select.dart';
+import 'account_filter.dart';
 import 'left_drawer_button.dart';
 
 class LeftDrawer extends StatefulWidget {
@@ -54,7 +54,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           children: [
             SizedBox(height: AppDimensions.verticalPadding),
             _buildLabel("Account"),
-            AccountSelect(),
+            AccountFilter(),
             SizedBox(height: AppDimensions.verticalPadding),
             _buildLabel("Period"),
             _buildPeriodButton(BudgetPeriod.day, "Day", false),

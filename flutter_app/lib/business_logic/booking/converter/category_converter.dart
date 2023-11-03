@@ -4,8 +4,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter_app/utils/utils.dart';
 
 class CategoryConverter {
-  List<CategoryModel> fromDataModels(List<CategoryDataModel> dataModels, List<CategoryIconDataModel> icons, List<CategoryColorDataModel> colors) {
-    return dataModels.map((dataModel) => fromDataModel(dataModel, icons, colors)).toList();
+  List<CategoryModel> fromDataModels(List<CategoryDataModel> dataModels, IconCacheModel iconCache) {
+    return dataModels.map((dataModel) => fromDataModel(dataModel, iconCache.categoryIcons, iconCache.categoryColors)).toList();
   }
 
   CategoryModel fromDataModel(CategoryDataModel dataModel, List<CategoryIconDataModel> icons, List<CategoryColorDataModel> colors) {

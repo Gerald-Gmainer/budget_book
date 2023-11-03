@@ -22,7 +22,7 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
       emit(CategoryLoadingState());
       final categoryDataModels = await repo.getAllCategories(forceReload: event.forceReload);
       final iconCache = await repo.getIconCache();
-      final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache.categoryIcons, iconCache.categoryColors);
+      final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache);
       emit(CategoryLoadedState(categories));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

@@ -165,17 +165,48 @@ CREATE OR REPLACE VIEW view_profiles AS
 
 ----------------------------------------------------------------------------------------------------------------
 
+CREATE TABLE account_icons (
+  id SERIAL PRIMARY KEY,
+  name text NOT NULL,
+  ui_order int
+);
+ALTER TABLE account_icons ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE account_colors (
+  id SERIAL PRIMARY KEY,
+  code text NOT NULL,
+  ui_order int
+);
+ALTER TABLE account_colors ENABLE ROW LEVEL SECURITY;
+
 CREATE TABLE accounts (
   id SERIAL PRIMARY KEY,
   profile_id int REFERENCES profiles(id) ON DELETE CASCADE,
   name text NOT NULL,
-  -- icon int references account_icons(id) NOT NULL,
+  icon_id int references account_icons(id) NOT NULL,
+  color_id int references account_colors(id) NOT NULL
   -- init_balance_amount numeric(12, 3) DEFAULT 0,
   -- init_balance_date timestamp  NOT NULL,
   -- include_in_balance boolean DEFAULT TRUE
 );
 CREATE INDEX accounts_profile_id_index ON accounts (profile_id);
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
+
+CREATE OR REPLACE VIEW view_accounts AS
+  SELECT a.id, a.name
+  FROM accounts a
+  WHERE a.profile_id = (select p.id from profiles p where p.user_id = auth.uid())
+  ORDER BY a.name;
+
+CREATE OR REPLACE VIEW view_account_icons AS
+  SELECT c.id, c.name
+  FROM account_icons c
+  ORDER BY c.ui_order;
+
+CREATE OR REPLACE VIEW view_account_colors AS
+  SELECT c.id, c.code
+  FROM account_colors c
+  ORDER BY c.ui_order;
 
 ----------------------------------------------------------------------------------------------------------------
 

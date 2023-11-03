@@ -3,13 +3,13 @@ import 'package:flutter_app/data/data.dart';
 import 'base/base_cache_service.dart';
 
 class AccountCacheService extends BaseCacheService<List<AccountDataModel>> {
-  final BookingClient bookingClient;
+  final AccountClient accountClient;
 
-  AccountCacheService(this.bookingClient);
+  AccountCacheService(this.accountClient);
 
   @override
   Future<List<AccountDataModel>> fetchData() {
-    return bookingClient.getAccounts();
+    return accountClient.getAccounts();
   }
 
   @override

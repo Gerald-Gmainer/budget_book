@@ -27,4 +27,27 @@ class CategoryClient extends BaseClient {
     BudgetLogger.instance.d("view_category_colors took ${stopwatch.elapsed.inMilliseconds} ms");
     return List.from(response).map((item) => CategoryColorDataModel.fromJson(item)).toList();
   }
+
+  Future<void> createCategory(CategoryDataModel model) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    BudgetLogger.instance.d("create_category: ${model.toJson()}");
+    await supabase.rpc("create_category", params: {"p_category": model.toJson()});
+    BudgetLogger.instance.d("createCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<void> updateCategory(CategoryDataModel model) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    BudgetLogger.instance.d("update_category: ${model.toJson()}");
+    await supabase.rpc("update_category", params: {"p_category": model.toJson()});
+    BudgetLogger.instance.d("editCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
+
+  Future<void> deleteCategory(int id) async {
+    await checkToken();
+    Stopwatch stopwatch = Stopwatch()..start();
+    await supabase.rpc("delete_category", params: {"p_id": id});
+    BudgetLogger.instance.d("deleteCategory took ${stopwatch.elapsed.inMilliseconds} ms");
+  }
 }

@@ -37,6 +37,21 @@ INSERT INTO category_icons (name, ui_order) VALUES
   ('ticket-account', 23),
   ('shopping-music', 24);
 
+INSERT INTO account_colors (code, ui_order) VALUES
+  ('#FF5733', 1),  -- Red
+  ('#33FF57', 2),  -- Green
+  ('#3366FF', 3),  -- Blue
+  ('#FFFF33', 4),  -- Yellow
+  ('#FF33FF', 5),  -- Pink
+  ('#FF6633', 6),  -- Orange
+  ('#9933FF', 7),  -- Purple
+  ('#33FFFF', 8),  -- Cyan
+  ('#99FF33', 9),  -- Lime Green
+  ('#FF9966', 10);  -- Peach
+
+INSERT INTO account_icons (name, ui_order) VALUES
+  ('cash-multiple', 1);
+
 INSERT INTO currencies (name, decimal_precision, symbol, unit_position_front, ui_order)
   VALUES ('Euro', 2, '€', false, 1);
 INSERT INTO currencies (name, decimal_precision, symbol, ui_order)
@@ -52,10 +67,7 @@ insert into profiles (user_id, name)
   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
-  select p.id, 'cash', 0, now(), true
-  from profiles p where p.name='Gerald Gmainer';     
-
+SELECT insert_test_data_account('Gerald Gmainer', 'cash', 'cash-multiple', '#33FF57');    
 
 SELECT insert_test_data_category('Gerald Gmainer', 'work', 'income'::category_type, 'book', '#FF5733');
 SELECT insert_test_data_category('Gerald Gmainer', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
@@ -67,16 +79,16 @@ SELECT insert_test_data_category('Gerald Gmainer', 'entertainment', 'outcome'::c
 SELECT insert_test_data_category('Gerald Gmainer', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
 SELECT insert_test_data_category('Gerald Gmainer', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
 
-SELECT insert_test_data_month('Gerald Gmainer', '2022-12');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-01');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-02');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-03');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-04');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-05');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-06');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-07');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-08');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-09');
+SELECT insert_test_data_month('Gerald Gmainer', '2022-12', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-01', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-02', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-03', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-04', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-05', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-06', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-07', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-08', 'cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-09', 'cash');
 
 
 
@@ -87,10 +99,7 @@ insert into profiles (user_id, name)
   from auth.users u where u.email='max_mustermann@mustermann.com';      
 -- PW: aaaaaaA1
 
-insert into accounts(profile_id, name, init_balance_amount, init_balance_date, include_in_balance)
-  select p.id, 'cash', 0, now(), true
-  from profiles p where p.name='Max Mustermann';     
-
+SELECT insert_test_data_account('Max Mustermann', 'cash', 'cash-multiple', '#33FF57');    
 
 SELECT insert_test_data_category('Max Mustermann', 'work', 'income'::category_type, 'book', '#FF5733');
 SELECT insert_test_data_category('Max Mustermann', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
@@ -102,13 +111,13 @@ SELECT insert_test_data_category('Max Mustermann', 'entertainment', 'outcome'::c
 SELECT insert_test_data_category('Max Mustermann', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
 SELECT insert_test_data_category('Max Mustermann', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
 
-SELECT insert_test_data_month('Max Mustermann', '2022-12');
-SELECT insert_test_data_month('Max Mustermann', '2023-01');
-SELECT insert_test_data_month('Max Mustermann', '2023-02');
-SELECT insert_test_data_month('Max Mustermann', '2023-03');
-SELECT insert_test_data_month('Max Mustermann', '2023-04');
-SELECT insert_test_data_month('Max Mustermann', '2023-05');
-SELECT insert_test_data_month('Max Mustermann', '2023-06');
-SELECT insert_test_data_month('Max Mustermann', '2023-07');
-SELECT insert_test_data_month('Max Mustermann', '2023-08');
-SELECT insert_test_data_month('Max Mustermann', '2023-09');
+SELECT insert_test_data_month('Max Mustermann', '2022-12', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-01', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-02', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-03', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-04', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-05', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-06', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-07', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-08', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-09', 'cash');
