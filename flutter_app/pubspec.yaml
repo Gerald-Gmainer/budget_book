@@ -1,5 +1,5 @@
 name: flutter_app
-description: A new Flutter project.
+description: Budget Book
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -64,6 +64,7 @@ dependencies:
   flutter_native_splash: ^2.2.16
   flutter_typeahead: ^3.2.7
   flutter_shake_animated: ^0.0.5
+  package_info_plus: ^4.2.0
 
 dev_dependencies:
 

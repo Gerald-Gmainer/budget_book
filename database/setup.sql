@@ -345,58 +345,50 @@ CREATE OR REPLACE VIEW view_bookings AS
   FROM bookings b
   WHERE b.profile_id = (select p.id from profiles p where p.user_id = auth.uid());
 
-CREATE OR REPLACE FUNCTION create_booking(p_booking JSON) RETURNS INTEGER AS $$
+
+CREATE OR REPLACE FUNCTION upsert_booking(p_booking JSON) RETURNS INTEGER AS $$
 DECLARE
   _new_booking_id INTEGER;
-  _profile_id int;
-BEGIN
-  IF auth.uid() IS NULL THEN
-    RAISE EXCEPTION 'User is not logged in. Please log in to create a booking.';
-  END IF;
-
-  SELECT auth.get_profile_id() INTO _profile_id;
-  RAISE LOG 'create booking for profile_id: %', _profile_id;
-
-  INSERT INTO bookings (profile_id, booking_date, description, amount, category_id, account_id)
-  SELECT
-    _profile_id,
-    (p_booking->>'booking_date')::DATE,
-    p_booking->>'description'::TEXT,
-    (p_booking->>'amount')::NUMERIC,
-    (p_booking->>'category_id')::INTEGER,
-    (p_booking->>'account_id')::INTEGER
-  RETURNING id INTO _new_booking_id;
-
-  RETURN _new_booking_id;
-END;
-$$ LANGUAGE plpgsql SECURITY definer;
-
-CREATE OR REPLACE FUNCTION update_booking(p_booking JSON) RETURNS INTEGER AS $$
-DECLARE
   _profile_id INTEGER;
+  _booking_id INTEGER;
 BEGIN
   IF auth.uid() IS NULL THEN
-    RAISE EXCEPTION 'User is not logged in. Please log in to update a booking.';
+    RAISE EXCEPTION 'User is not logged in';
   END IF;
 
   SELECT auth.get_profile_id() INTO _profile_id;
-  RAISE LOG 'update booking for profile_id: %', _profile_id;
+  RAISE LOG 'upsert_booking for profile_id: %', _profile_id;
 
-  UPDATE bookings
-  SET
-    booking_date = (p_booking->>'booking_date')::DATE,
-    description = p_booking->>'description'::TEXT,
-    amount = (p_booking->>'amount')::NUMERIC,
-    category_id = (p_booking->>'category_id')::INTEGER,
-    account_id = (p_booking->>'account_id')::INTEGER
-  WHERE id = (p_booking->>'id')::INTEGER 
-  AND profile_id = _profile_id;
+  IF p_booking->>'id' IS NULL THEN
+    INSERT INTO bookings (profile_id, booking_date, description, amount, category_id, account_id)
+    SELECT
+      _profile_id,
+      (p_booking->>'booking_date')::DATE,
+      p_booking->>'description'::TEXT,
+      (p_booking->>'amount')::NUMERIC,
+      (p_booking->>'category_id')::INTEGER,
+      (p_booking->>'account_id')::INTEGER
+    RETURNING id INTO _new_booking_id;
+    
+    RETURN _new_booking_id;
+  ELSE
+    _booking_id := (p_booking->>'id')::INTEGER;
+    
+    UPDATE bookings
+    SET
+      booking_date = (p_booking->>'booking_date')::DATE,
+      description = p_booking->>'description'::TEXT,
+      amount = (p_booking->>'amount')::NUMERIC,
+      category_id = (p_booking->>'category_id')::INTEGER,
+      account_id = (p_booking->>'account_id')::INTEGER
+    WHERE id = _booking_id AND profile_id = _profile_id;
+    
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'Booking not found';
+    END IF;
 
-  IF NOT FOUND THEN
-    RAISE EXCEPTION 'Booking not found';
+    RETURN _booking_id;
   END IF;
-
-  RETURN (p_booking->>'category_id')::INTEGER;
 END;
 $$ LANGUAGE plpgsql SECURITY definer;
 

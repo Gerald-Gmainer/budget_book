@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/business_logic/business_logic.dart';
-import 'package:flutter_app/presentation/presentation.dart';
+import 'package:flutter_app/presentation/page/settings/widget/my_profile_button.dart';
 import 'package:flutter_app/utils/utils.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:settings_ui/settings_ui.dart';
+
+import 'widget/app_version.dart';
+import 'widget/currency_button.dart';
+import 'widget/logout_button.dart';
+import 'widget/my_profile.dart';
 
 class SettingsPage extends StatefulWidget {
   static const String route = "SettingsPage";
@@ -13,11 +17,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  _logout() {
-    BlocProvider.of<LoginBloc>(context).add(LogoutEvent());
-    Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
-  }
-
   @override
   Widget build(BuildContext context) {
     final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
@@ -28,16 +27,57 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
-
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(onPressed: _logout, child: const Text("logout")),
-            ],
-          ),
+        return Padding(
+          padding: EdgeInsets.only(top: AppDimensions.verticalPadding),
+          child: _buildSettings(context),
         );
       }),
+    );
+  }
+
+  Widget _buildSettings(BuildContext context) {
+    return SettingsList(
+      darkTheme: _getTheme(context),
+      brightness: Brightness.dark,
+      // platform: DevicePlatform.iOS,
+      // contentPadding: EdgeInsets.zero,
+      sections: [
+        MyProfile(),
+        SettingsSection(
+          title: Text("General", style: TextStyle(fontWeight: FontWeight.bold)),
+          tiles: [
+            CurrencyButton(),
+          ],
+        ),
+        SettingsSection(
+          title: Text("Account", style: TextStyle(fontWeight: FontWeight.bold)),
+          tiles: const [
+            MyProfileButton(),
+            LogoutButton(),
+          ],
+        ),
+        SettingsSection(
+          title: Text("Other", style: TextStyle(fontWeight: FontWeight.bold)),
+          tiles: const [
+            AppVersion(),
+          ],
+        )
+      ],
+    );
+  }
+
+  SettingsThemeData _getTheme(BuildContext context) {
+    return SettingsThemeData(
+      settingsListBackground: AppColors.primaryColor,
+      // dividerColor: AppColors.errorColor,
+      leadingIconsColor: AppColors.accentColor,
+      // trailingTextColor: AppColors.errorColor,
+      // inactiveTitleColor: AppColors.errorColor,
+      settingsTileTextColor: AppColors.primaryTextColor,
+      tileDescriptionTextColor: AppColors.secondaryTextColor,
+      // tileHighlightColor: AppColors.errorColor,
+      titleTextColor: AppColors.primaryTextColor,
+      // inactiveSubtitleColor: AppColors.errorColor,
     );
   }
 }
