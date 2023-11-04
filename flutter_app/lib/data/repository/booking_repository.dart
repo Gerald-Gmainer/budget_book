@@ -32,12 +32,8 @@ class BookingRepository {
     return await _iconCacheService.getData();
   }
 
-  Future<void> createBooking(BookingDataModel model) async {
-    await _bookingClient.createBooking(model);
-  }
-
-  Future<void> updateBooking(BookingDataModel model) async {
-    await _bookingClient.updateBooking(model);
+  Future<void> upsertBooking(BookingDataModel model) async {
+    await _bookingClient.upsertBooking(model);
   }
 
   Future<List<String>> getSuggestions({bool forceReload = false}) async {

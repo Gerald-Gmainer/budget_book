@@ -22,7 +22,7 @@ DROP TABLE category_icons;
 DROP TABLE account_colors;
 DROP TABLE account_icons;
 
-DROP FUNCTION create_booking;
+DROP FUNCTION upsert_booking;
 DROP FUNCTION create_category;
 DROP FUNCTION get_default_currency;
 DROP FUNCTION delete_profile;

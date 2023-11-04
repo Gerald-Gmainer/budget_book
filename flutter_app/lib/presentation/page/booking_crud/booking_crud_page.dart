@@ -91,6 +91,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   _onCategoryTypePressed(CategoryType categoryType) {
     setState(() {
       widget.model.categoryType = categoryType;
+      widget.model.category = null;
     });
   }
 
