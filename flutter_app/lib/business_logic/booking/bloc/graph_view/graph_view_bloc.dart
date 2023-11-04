@@ -81,8 +81,8 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
     final accountDataModels = results[3];
 
     final categories = _categoryConverter.fromDataModels(categoryDataModels, iconCache);
-    final periodModels = _bookingPeriodConverter.convertBookings(currentPeriod, bookingDataModels, categories);
     final accounts = _accountConverter.fromDataModels(accountDataModels, iconCache);
+    final periodModels = _bookingPeriodConverter.convertBookings(currentPeriod, bookingDataModels, categories, accounts);
     return BudgetBookModel(
       currentPeriod: currentPeriod,
       periodModels: periodModels,

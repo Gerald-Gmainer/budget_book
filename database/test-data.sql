@@ -50,7 +50,9 @@ INSERT INTO account_colors (code, ui_order) VALUES
   ('#FF9966', 10);  -- Peach
 
 INSERT INTO account_icons (name, ui_order) VALUES
-  ('cash-multiple', 1);
+  ('cash-multiple', 1),
+  ('wallet-giftcard', 2);
+
 
 INSERT INTO currencies (name, decimal_precision, symbol, unit_position_front, ui_order)
   VALUES ('Euro', 2, '€', false, 1);
@@ -68,6 +70,7 @@ insert into profiles (user_id, name)
 -- PW: aaaaaaA1
 
 SELECT insert_test_data_account('Gerald Gmainer', 'cash', 'cash-multiple', '#33FF57');    
+SELECT insert_test_data_account('Gerald Gmainer', 'debit card', 'wallet-giftcard', '#FF6633');    
 
 SELECT insert_test_data_category('Gerald Gmainer', 'work', 'income'::category_type, 'book', '#FF5733');
 SELECT insert_test_data_category('Gerald Gmainer', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');

@@ -2,7 +2,7 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 
 class BookingConverter {
-  List<BookingModel> fromDataModels(List<BookingDataModel> dataModels, CategoryModel categoryModel) {
+  List<BookingModel> fromDataModels(List<BookingDataModel> dataModels, CategoryModel categoryModel, List<AccountModel> accounts) {
     return dataModels
         .map(
           (e) => BookingModel(
@@ -11,7 +11,7 @@ class BookingConverter {
             description: e.description,
             amount: e.amount ?? 0,
             category: categoryModel,
-            account: null,
+            account: findAccount(accounts, e.accountId),
             isDeleted: e.isDeleted ?? false,
             categoryType: categoryModel.categoryType,
           ),
@@ -21,6 +21,10 @@ class BookingConverter {
 
   CategoryModel findCategory(List<CategoryModel> categories, int categoryId) {
     return categories.firstWhere((e) => e.id == categoryId);
+  }
+
+  AccountModel? findAccount(List<AccountModel> accounts, int? accountId) {
+    return accounts.firstWhere((e) => e.id == accountId);
   }
 
   BookingDataModel toDataModel(BookingModel model) {

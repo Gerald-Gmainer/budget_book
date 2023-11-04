@@ -193,7 +193,7 @@ CREATE INDEX accounts_profile_id_index ON accounts (profile_id);
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;
 
 CREATE OR REPLACE VIEW view_accounts AS
-  SELECT a.id, a.name
+  SELECT a.id, a.name, a.icon_id, a.color_id
   FROM accounts a
   WHERE a.profile_id = (select p.id from profiles p where p.user_id = auth.uid())
   ORDER BY a.name;
@@ -364,8 +364,7 @@ BEGIN
     p_booking->>'description'::TEXT,
     (p_booking->>'amount')::NUMERIC,
     (p_booking->>'category_id')::INTEGER,
-    -- (p_booking->>'account_id')::INTEGER
-    1
+    (p_booking->>'account_id')::INTEGER
   RETURNING id INTO _new_booking_id;
 
   RETURN _new_booking_id;
@@ -389,8 +388,7 @@ BEGIN
     description = p_booking->>'description'::TEXT,
     amount = (p_booking->>'amount')::NUMERIC,
     category_id = (p_booking->>'category_id')::INTEGER,
-    -- account_id = (p_booking->>'account_id')::INTEGER
-    account_id=1
+    account_id = (p_booking->>'account_id')::INTEGER
   WHERE id = (p_booking->>'id')::INTEGER 
   AND profile_id = _profile_id;
 

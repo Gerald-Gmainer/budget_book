@@ -7,27 +7,40 @@ import 'package:flutter_app/utils/logger.dart';
 class BookingPeriodConverter {
   final BookingConverter _bookingConverter = BookingConverter();
 
-  List<BudgetPeriodModel> convertBookings(BudgetPeriod period, List<BookingDataModel> bookings, List<CategoryModel> categories) {
+  List<BudgetPeriodModel> convertBookings(
+    BudgetPeriod period,
+    List<BookingDataModel> bookings,
+    List<CategoryModel> categories,
+    List<AccountModel> accounts,
+  ) {
     switch (period) {
       case BudgetPeriod.day:
-        return _convertToDay(bookings, categories);
+        return _convertToDay(bookings, categories, accounts);
 
       case BudgetPeriod.month:
-        return _convertToMonth(bookings, categories);
+        return _convertToMonth(bookings, categories, accounts);
 
       case BudgetPeriod.year:
-        return _convertToYear(bookings, categories);
+        return _convertToYear(bookings, categories, accounts);
 
       case BudgetPeriod.all:
-        return _convertToAll(bookings, categories);
+        return _convertToAll(bookings, categories, accounts);
     }
   }
 
-  List<BudgetPeriodModel> _convertToDay(List<BookingDataModel> bookings, List<CategoryModel> categories) {
-    return _convertToAll(bookings, categories);
+  List<BudgetPeriodModel> _convertToDay(
+    List<BookingDataModel> bookings,
+    List<CategoryModel> categories,
+    List<AccountModel> accounts,
+  ) {
+    return _convertToAll(bookings, categories, accounts);
   }
 
-  List<BudgetPeriodModel> _convertToMonth(List<BookingDataModel> bookingDataModels, List<CategoryModel> categories) {
+  List<BudgetPeriodModel> _convertToMonth(
+    List<BookingDataModel> bookingDataModels,
+    List<CategoryModel> categories,
+    List<AccountModel> accounts,
+  ) {
     Map<int, Map<int, List<BookingDataModel>>> bookingsByCategory = {};
 
     for (var booking in bookingDataModels) {
@@ -86,7 +99,7 @@ class BookingPeriodConverter {
 
         bookingsByCategory[monthKey]?.forEach((categoryId, dataModels) {
           final category = _bookingConverter.findCategory(categories, categoryId);
-          final bookings = _bookingConverter.fromDataModels(dataModels, category);
+          final bookings = _bookingConverter.fromDataModels(dataModels, category, accounts);
           final amount = _calculateAmount(dataModels);
           groupModels.add(CategoryBookingGroupModel(category: category, bookings: bookings, amount: amount));
         });
@@ -153,11 +166,19 @@ class BookingPeriodConverter {
     return total;
   }
 
-  List<BudgetPeriodModel> _convertToYear(List<BookingDataModel> bookings, List<CategoryModel> categories) {
-    return _convertToAll(bookings, categories);
+  List<BudgetPeriodModel> _convertToYear(
+    List<BookingDataModel> bookings,
+    List<CategoryModel> categories,
+    List<AccountModel> accounts,
+  ) {
+    return _convertToAll(bookings, categories, accounts);
   }
 
-  List<BudgetPeriodModel> _convertToAll(List<BookingDataModel> bookings, List<CategoryModel> categories) {
+  List<BudgetPeriodModel> _convertToAll(
+    List<BookingDataModel> bookings,
+    List<CategoryModel> categories,
+    List<AccountModel> accounts,
+  ) {
     return [
       BudgetPeriodModel(
         periodFilter: BudgetPeriodFilter(

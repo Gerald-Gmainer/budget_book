@@ -88,7 +88,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (50 - 30) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'car', 'cash', 'gas');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'car', account_name, 'gas');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -96,10 +96,10 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (10 - 5) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'baby', 'cash', 'diaper');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'baby', account_name, 'diaper');
         _inserted_rows := _inserted_rows + 1;
         _random_amount := (random() * (12 - 6) + 50)::numeric;
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'baby', 'cash', 'cloth');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'baby', account_name, 'cloth');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -107,7 +107,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (50 - 40) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'entertainment', 'cash', 'cinema');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'entertainment', account_name, 'cinema');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -115,7 +115,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (30 - 20) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'gift', 'cash', 'birthday');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'gift', account_name, 'birthday');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -123,7 +123,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * 14 + 1)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'food', 'cash', 'food');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'food', account_name, 'food');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -131,7 +131,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (50 - 25) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'eating out', 'cash', 'restaurant');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'eating out', account_name, 'restaurant');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
@@ -139,7 +139,7 @@ BEGIN
         _day := floor(random() * 28) + 1;
         _random_amount := (random() * (5 - 2) + 50)::numeric;
         
-        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'other', 'cash', 'minor thing');
+        PERFORM insert_test_data_booking(_profile_id, month_param || '-' || _day, round(_random_amount, 2), 'other', account_name, 'minor thing');
         _inserted_rows := _inserted_rows + 1;
     END LOOP;
 
