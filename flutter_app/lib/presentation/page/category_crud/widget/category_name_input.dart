@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CategoryNameInput extends StatelessWidget {
@@ -10,17 +11,16 @@ class CategoryNameInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      decoration: const InputDecoration(
-        labelText: 'Category Name',
+      decoration: InputDecoration(
+        labelText: "category.name_label".tr(),
       ),
       autovalidateMode: autovalidateMode,
       validator: (value) {
         if (value?.isNotEmpty == false) {
-          return 'Please enter a name';
+          return "category.validation.required_name".tr();
         }
         return null;
       },
     );
   }
-
 }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart';
 
@@ -8,7 +9,7 @@ void showSnackBar(BuildContext? context, String message) {
   }
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: Text(message).tr(),
     ),
   );
 }
@@ -20,7 +21,7 @@ void showErrorSnackBar(BuildContext? context, String message, {Duration? duratio
   }
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: Text(message).tr(),
       backgroundColor: AppColors.errorColor,
       duration: duration ?? Duration(seconds: 4),
     ),

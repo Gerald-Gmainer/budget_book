@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,7 +12,7 @@ class MyProfileButton extends AbstractSettingsTile {
   @override
   Widget build(BuildContext context) {
     return SettingsTile.navigation(
-      title: Text("My Profile"),
+      title: Text("settings.my_profile".tr()),
       leading: Icon(FontAwesomeIcons.userGear, size: AppDimensions.settingIconSize),
       trailing: SettingChevron(),
       onPressed: (context) {},

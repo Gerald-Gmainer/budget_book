@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -53,19 +54,19 @@ class _LeftDrawerState extends State<LeftDrawer> {
           padding: EdgeInsets.zero,
           children: [
             SizedBox(height: AppDimensions.verticalPadding),
-            _buildLabel("Account"),
+            _buildLabel("main.drawer.account_label"),
             AccountFilter(),
             SizedBox(height: AppDimensions.verticalPadding),
-            _buildLabel("Period"),
-            _buildPeriodButton(BudgetPeriod.day, "Day", false),
-            _buildPeriodButton(BudgetPeriod.month, "Month", true),
-            _buildPeriodButton(BudgetPeriod.year, "Year", false),
-            _buildPeriodButton(BudgetPeriod.all, "All", false),
+            _buildLabel("main.drawer.period_label"),
+            _buildPeriodButton(BudgetPeriod.day, "period.day", false),
+            _buildPeriodButton(BudgetPeriod.month, "period.month", true),
+            _buildPeriodButton(BudgetPeriod.year, "period.year", false),
+            _buildPeriodButton(BudgetPeriod.all, "period.all", false),
             SizedBox(height: AppDimensions.verticalPadding),
-            _buildLabel("View"),
-            _buildChangeViewButton(Icons.pie_chart, 'Graph', true),
-            _buildChangeViewButton(Icons.calendar_today, 'Calendar', false),
-            _buildChangeViewButton(Icons.list, 'List', false),
+            _buildLabel("main.drawer.view_label"),
+            _buildChangeViewButton(Icons.pie_chart, 'view.graph', true),
+            _buildChangeViewButton(Icons.calendar_today, 'view.calendar', false),
+            _buildChangeViewButton(Icons.list, 'view.list', false),
           ],
         ),
       ),
@@ -75,7 +76,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
   Widget _buildLabel(String text) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding / 2, horizontal: AppDimensions.horizontalPadding / 2),
-      child: Text(text),
+      child: Text(text).tr(),
     );
   }
 
@@ -98,7 +99,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
             color: isSelected ? AppColors.accentColor : AppColors.secondaryTextColor,
             fontWeight: isSelected ? FontWeight.bold : null,
           ),
-        ),
+        ).tr(),
       ),
     );
   }
@@ -112,7 +113,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
           color: isSelected ? AppColors.accentColor : AppColors.secondaryTextColor,
           fontWeight: isSelected ? FontWeight.bold : null,
         ),
-      ),
+      ).tr(),
       onTap: () {
         // Handle item 2 tap
       },

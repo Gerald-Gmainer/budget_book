@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
@@ -17,7 +18,7 @@ Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await dotenv.load(fileName: ".env");
-
+  await EasyLocalization.ensureInitialized();
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? "",
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? "",
@@ -26,7 +27,12 @@ Future<void> main() async {
   runApp(
     ChangeNotifierProvider(
       create: (context) => ScaffoldProvider(),
-      child: MyApp(),
+      child: EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('de')],
+        path: 'assets/translations',
+        fallbackLocale: Locale('en'),
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -56,6 +62,7 @@ class MyApp extends StatelessWidget {
             BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
             BlocProvider<ProfileBloc>(create: (context) => profileBloc),
             BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
+            BlocProvider<LanguageBloc>(create: (context) => LanguageBloc(_userRepo)),
             // --
             BlocProvider<GraphViewBloc>(create: (context) => GraphViewBloc(_bookingRepo)),
             BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
@@ -72,14 +79,9 @@ class MyApp extends StatelessWidget {
             initialRoute: '/',
             navigatorKey: _navigatorKey,
             onGenerateRoute: _appRouter.onGenerateRoute,
-            localizationsDelegates: const [
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en'),
-            ],
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
           ),
         ),
       ),

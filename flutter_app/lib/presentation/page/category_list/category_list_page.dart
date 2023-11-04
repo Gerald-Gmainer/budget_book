@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/category_type.dart';
@@ -31,7 +32,7 @@ class _CategoryListPageState extends State<CategoryListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Categories"),
+        title: Text("category.list_title".tr()),
       ),
       body: BlocConsumer<CategoryListBloc, CategoryListState>(
         listener: (context, state) {

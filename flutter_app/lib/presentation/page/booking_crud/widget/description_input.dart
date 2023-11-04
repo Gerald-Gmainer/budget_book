@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -42,7 +42,7 @@ class DescriptionInput extends StatelessWidget {
         maxLength: 20,
         decoration: InputDecoration(
           prefixIcon: Icon(Icons.edit),
-          labelText: 'Note',
+          labelText: "booking.note".tr(),
         ),
       ),
       suggestionsCallback: (pattern) async {

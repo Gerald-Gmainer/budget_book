@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/enum/enum.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -15,18 +16,18 @@ class CategoryTypeRow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('Category Type', style: TextStyle(fontSize: 16)),
+        Text("category.type_label".tr(), style: TextStyle(fontSize: 16)),
         Row(
           children: <Widget>[
             CategoryTypeRadio(
-              text: "Outcome",
+              text: CategoryType.outcome.text.tr(),
               onTypeChange: onTypeChange,
               selectedType: selectedType,
               value: CategoryType.outcome,
             ),
             const SizedBox(width: AppDimensions.horizontalPadding),
             CategoryTypeRadio(
-              text: "Income",
+              text: CategoryType.income.text.tr(),
               onTypeChange: onTypeChange,
               selectedType: selectedType,
               value: CategoryType.income,

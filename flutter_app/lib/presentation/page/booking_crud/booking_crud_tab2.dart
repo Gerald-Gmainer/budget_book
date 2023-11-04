@@ -47,7 +47,7 @@ class BookingCrudTab2 extends StatelessWidget {
         const SizedBox(height: AppDimensions.verticalPadding),
         Expanded(child: CategoryListInput(categories: categories, model: model)),
         const SizedBox(height: AppDimensions.verticalPadding * 2),
-        SaveButton(text: "save", onTap: onUpload),
+        SaveButton(onTap: onUpload),
         const SizedBox(height: AppDimensions.verticalPadding),
       ],
     );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -14,7 +15,7 @@ class ProfileInfo extends StatelessWidget {
           final avatarUrl = state.profile.avatarUrl;
           return _buildInfo(name, email, avatarUrl != null ? _buildAvatar(avatarUrl) : _buildEmptyPicture());
         }
-        return _buildInfo("Name", "Email", _buildEmptyPicture());
+        return _buildInfo("Name", null, _buildEmptyPicture());
       },
     );
   }

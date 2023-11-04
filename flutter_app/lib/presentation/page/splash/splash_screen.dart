@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -14,6 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkLogin();
     });
+    BlocProvider.of<LanguageBloc>(context).add(LoadLanguageEvent(context));
   }
 
   _checkLogin() async {

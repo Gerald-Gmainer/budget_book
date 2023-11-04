@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -8,13 +9,13 @@ Future<AccountModel?> showAccountDialog(
   required AccountModel? selectedAccount,
   required String title,
   bool showEmpty = false,
-  String emptyName = "All Accounts",
+  String emptyName = "account.all_accounts",
 }) async {
   return await showDialog<AccountModel?>(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text(title),
+          title: Text(title).tr(),
           content: BlocBuilder<GraphViewBloc, GraphViewState>(
             builder: (blocContext, state) {
               List<AccountModel> accounts = [];
@@ -40,7 +41,7 @@ Widget _buildContent(
       children: <Widget>[
         if (showEmpty)
           ListTile(
-            title: Text(emptyName),
+            title: Text(emptyName).tr(),
             onTap: () {
               Navigator.pop(context, null);
             },

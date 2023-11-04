@@ -26,6 +26,7 @@ export 'booking/model/icon_data_model.dart';
 export 'user/bloc/login/login_bloc.dart';
 export 'user/bloc/sign_up/sign_up_bloc.dart';
 export 'user/bloc/profile/profile_bloc.dart';
+export 'user/bloc/language/language_bloc.dart';
 
 export 'user/converter/profile_converter.dart';
 

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
@@ -51,7 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
     final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Budget Book")),
+      appBar: AppBar(title: Text("sign_up.title".tr())),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
 
@@ -117,10 +118,10 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Success", style: Theme.of(context).textTheme.headline1),
+            Text("sign_up.success".tr(), style: Theme.of(context).textTheme.headline1),
             const SizedBox(height: AppDimensions.verticalPadding),
             Text(
-              "Check your inbox to verify your email address",
+              "sign_up.success_detail".tr(),
               style: Theme.of(context).textTheme.bodyText1,
               textAlign: TextAlign.center,
             ),
@@ -133,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildEmail() {
     return FormInputText(
       controller: _emailController,
-      label: "Email",
+      label: "login.email".tr(),
       autovalidateMode: _autovalidateMode,
       validator: ValidationBuilder().email().build(),
     );
@@ -142,7 +143,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildPassword() {
     return FormInputPassword(
       controller: _passwordController,
-      label: "Password",
+      label: "login.password".tr(),
       autovalidateMode: _autovalidateMode,
       validator: ValidationBuilder().password().build(),
     );
@@ -151,7 +152,7 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildConfirmPassword() {
     return FormInputPassword(
       controller: _passwordConfirmController,
-      label: "Confirm Password",
+      label: "login.confirm_password".tr(),
       autovalidateMode: _autovalidateMode,
       validator: ValidationBuilder().required().match(_passwordController).build(),
     );
@@ -161,7 +162,7 @@ class _SignUpPageState extends State<SignUpPage> {
     return SizedBox(
       width: double.infinity,
       child: FormButton(
-        text: "Sign Up",
+        text: "sign_up.sign_up_button".tr(),
         onPressed: _signUp,
       ),
     );

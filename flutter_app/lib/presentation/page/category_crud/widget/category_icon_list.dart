@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -24,7 +25,7 @@ class CategoryIconList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('Select an Icon', style: TextStyle(fontSize: 16)),
+        Text("category.select_icon_label".tr(), style: TextStyle(fontSize: 16)),
         Container(
           height: 250,
           padding: const EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding),

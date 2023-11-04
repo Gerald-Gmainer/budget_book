@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/presentation/page/main/widget/create_booking_button.dart';
@@ -39,8 +40,8 @@ class _MainPageState extends State<MainPage> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Budget Book", style: TextStyle(fontSize: 16, fontFamily: GoogleFonts.kaushanScript().fontFamily)),
-              Text("All Accounts", style: TextStyle(fontSize: 13, color: AppColors.thirdTextColor)),
+              Text('main.title', style: TextStyle(fontSize: 16, fontFamily: GoogleFonts.kaushanScript().fontFamily)).tr(),
+              Text("account.all_accounts", style: TextStyle(fontSize: 13, color: AppColors.thirdTextColor)).tr(),
             ],
           ),
           leading: LeftDrawerButton(),

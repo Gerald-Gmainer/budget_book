@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/presentation.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -21,21 +22,21 @@ class RightDrawer extends StatelessWidget {
             ProfileInfo(),
             ListTile(
               leading: Icon(Icons.category),
-              title: Text('Categories'),
+              title: Text("main.drawer.category_button").tr(),
               onTap: () {
                 _goToPage(context, CategoryListPage.route);
               },
             ),
             ListTile(
               leading: Icon(Icons.account_balance_wallet),
-              title: Text('Accounts'),
+              title: Text("main.drawer.account_button").tr(),
               onTap: () {
                 // _goToPage(context);
               },
             ),
             ListTile(
               leading: Icon(Icons.settings),
-              title: Text('Settings'),
+              title: Text("main.drawer.settings_button").tr(),
               onTap: () {
                 _goToPage(context, SettingsPage.route);
               },

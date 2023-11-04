@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
@@ -22,7 +23,7 @@ class CategoryTypeButton extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 2.0),
         decoration: _buildDecoration(model.categoryType == categoryType, categoryType.color),
         child: Text(
-          categoryType.name.toUpperCase(),
+          categoryType.text.tr().toUpperCase(),
           style: TextStyle(color: categoryType.color, fontSize: 12),
         ),
       ),

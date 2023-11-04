@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
 
@@ -9,7 +10,7 @@ class SaveButton extends StatelessWidget {
   final Color backgroundColor;
 
   const SaveButton({
-    required this.text,
+    this.text = "button.edit",
     required this.onTap,
     this.isLoading = false,
     this.backgroundColor = AppColors.accentColor,
@@ -46,7 +47,7 @@ class SaveButton extends StatelessWidget {
                   : const SizedBox.shrink(),
             ),
             const SizedBox(width: 8), // Add some spacing
-            Text(text, style: const TextStyle(fontSize: 16)),
+            Text(text, style: const TextStyle(fontSize: 16)).tr(),
             SizedBox(width: loadingSize),
           ],
         ),

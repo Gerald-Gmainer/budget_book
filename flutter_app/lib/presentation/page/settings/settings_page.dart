@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/presentation/page/settings/widget/my_profile_button.dart';
 import 'package:flutter_app/utils/utils.dart';
@@ -6,6 +7,7 @@ import 'package:settings_ui/settings_ui.dart';
 
 import 'widget/app_version.dart';
 import 'widget/currency_button.dart';
+import 'widget/language_button.dart';
 import 'widget/logout_button.dart';
 import 'widget/my_profile.dart';
 
@@ -23,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text("settings.title".tr()),
       ),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
@@ -44,20 +46,21 @@ class _SettingsPageState extends State<SettingsPage> {
       sections: [
         MyProfile(),
         SettingsSection(
-          title: Text("General", style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text("settings.general_label".tr(), style: TextStyle(fontWeight: FontWeight.bold)),
           tiles: [
             CurrencyButton(),
+            LanguageButton(),
           ],
         ),
         SettingsSection(
-          title: Text("Account", style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text("settings.account_label".tr(), style: TextStyle(fontWeight: FontWeight.bold)),
           tiles: const [
             MyProfileButton(),
             LogoutButton(),
           ],
         ),
         SettingsSection(
-          title: Text("Other", style: TextStyle(fontWeight: FontWeight.bold)),
+          title: Text("settings.other_label".tr(), style: TextStyle(fontWeight: FontWeight.bold)),
           tiles: const [
             AppVersion(),
           ],

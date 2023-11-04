@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
@@ -83,7 +84,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
       return;
     }
     if (_selectedColor == null || _selectedIcon == null) {
-      showErrorSnackBar(context, "Select an icon and a color");
+      showErrorSnackBar(context, "category.validation.required_icon_color");
       return;
     }
     final model = CategoryModel(
@@ -97,7 +98,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   _onUploadSuccess() {
-    showSnackBar(context, "success");
+    showSnackBar(context, _isCreating() ? "category.create_success" : "category.edit_success");
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent(forceReload: true));
     Navigator.of(context).pop();
   }
@@ -109,8 +110,8 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   _onDelete() {
     ConfirmDialog.show(
       context,
-      headerText: "Delete",
-      bodyText: "Do you want to delete this category?",
+      headerText: "category.dialog.delete_title",
+      bodyText: "category.dialog.delete_body",
       onOK: _deleteCategory,
     );
   }
@@ -120,9 +121,8 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   }
 
   _onDeleteSuccess() {
-    // BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
     BlocProvider.of<CategoryListBloc>(context).add(LoadCategoryListEvent(forceReload: true));
-    showSnackBar(context, "Category deleted");
+    showSnackBar(context, "category.delete_success");
     Navigator.of(context).pop();
   }
 
@@ -130,7 +130,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isCreating() ? "New Category" : "Edit Category"),
+        title: Text(_isCreating() ? "category.new_title" : "category.edit_title").tr(),
         actions: [
           if (!_isCreating()) _buildDeleteButton(),
         ],
@@ -201,7 +201,7 @@ class _CategoryCrudPageState extends State<CategoryCrudPage> {
       builder: (context, state) {
         final isLoading = state is CategoryCrudLoadingState;
         return SaveButton(
-          text: _isCreating() ? "Add" : "Edit",
+          text: _isCreating() ? "button.create" : "button.edit",
           onTap: _upload,
           isLoading: isLoading,
         );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 
@@ -15,7 +16,7 @@ class CategoryColorList extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Text('Select a Color', style: TextStyle(fontSize: 16)),
+        Text("category.select_color_label".tr(), style: TextStyle(fontSize: 16)),
         SizedBox(
           height: 60, // Adjust the height as needed
           child: ListView.builder(

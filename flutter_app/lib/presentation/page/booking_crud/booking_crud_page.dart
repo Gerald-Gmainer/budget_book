@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/enum/enum.dart';
@@ -76,13 +77,14 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
   _upload() {
     if (widget.model.category == null) {
-      showErrorSnackBar(context, "Please select a category", duration: Duration(seconds: 2));
+      showErrorSnackBar(context, "booking.validation.required_category", duration: Duration(seconds: 2));
       return;
     }
     BlocProvider.of<BookingCrudBloc>(context).add(UploadBookingCrudEvent(widget.model));
   }
 
   _onUploadSuccess() {
+    showSnackBar(context, _isCreating() ? "booking.create_success" : "booking.edit_success");
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
     BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent(forceReload: true));
     Navigator.of(context).pop();
@@ -98,8 +100,8 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   _onDelete() {
     ConfirmDialog.show(
       context,
-      headerText: "Delete",
-      bodyText: "Do you want to delete this booking?",
+      headerText: "booking.dialog.delete_title",
+      bodyText: "booking.dialog.delete_body",
       onOK: _deleteBooking,
     );
   }
@@ -109,6 +111,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
   }
 
   _onDeleteSuccess() {
+    showSnackBar(context, "booking.delete_success");
     BlocProvider.of<GraphViewBloc>(context).add(RefreshGraphViewEvent());
     Navigator.of(context).pop();
     BlocProvider.of<SuggestionBloc>(context).add(LoadSuggestionEvent(forceReload: true));
@@ -126,7 +129,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_isCreating() ? "New" : "Edit"),
+          title: Text(_isCreating() ? "booking.new_title" : "booking.edit_title").tr(),
           actions: [
             CategoryTypeButton(model: widget.model, categoryType: CategoryType.outcome, onPressed: _onCategoryTypePressed),
             CategoryTypeButton(model: widget.model, categoryType: CategoryType.income, onPressed: _onCategoryTypePressed),

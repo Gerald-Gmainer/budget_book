@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
     final scaffoldProvider = Provider.of<ScaffoldProvider>(context, listen: false);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Budget Book")),
+      appBar: AppBar(title: Text("login.title".tr())),
       body: Builder(builder: (ctx) {
         scaffoldProvider.setScaffoldContext((ctx));
 
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const Text("Sign in with"),
+          Text("login.sign_with_label".tr()),
           const SizedBox(height: AppDimensions.verticalPadding),
           _buildGoogleLogin(isLoading),
           const SizedBox(height: AppDimensions.verticalPadding),
@@ -138,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         Expanded(
           child: Container(margin: const EdgeInsets.only(right: 8), child: const Divider(color: Colors.white)),
         ),
-        const Text("or continue with"),
+        Text("login.or_continue_with_label".tr()),
         Expanded(
           child: Container(margin: const EdgeInsets.only(left: 8), child: const Divider(color: Colors.white)),
         ),
@@ -149,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildEmail(bool isLoading) {
     return FormInputText(
       controller: _emailController,
-      label: "Password",
+      label: "login.email".tr(),
       validator: ValidationBuilder().email().build(),
       isLoading: isLoading,
     );
@@ -158,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildPassword(bool isLoading) {
     return FormInputPassword(
       controller: _passwordController,
-      label: "Password",
+      label: "login.password".tr(),
       validator: ValidationBuilder().required().build(),
       isLoading: isLoading,
     );
@@ -168,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: double.infinity,
       child: FormButton(
-        text: "Login",
+        text: "login.login_button".tr(),
         onPressed: _credentialsLogin,
         isLoading: isLoading,
       ),
@@ -181,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         TextButton(
           onPressed: isLoading ? null : _forgotPassword,
-          child: const Text("Forgot your password?"),
+          child: Text("login.forgot_password_label".tr()),
         ),
       ],
     );
@@ -190,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildSignUp(bool isLoading) {
     return TextButton(
       onPressed: isLoading ? null : _signUp,
-      child: const Text("Don't have an account yet? Sign up"),
+      child: Text("login.dont_have_account_label".tr()),
     );
   }
 }

@@ -14,7 +14,7 @@ class AccountSelectInput extends StatefulWidget {
 
 class _AccountSelectInputState extends State<AccountSelectInput> {
   _onTap(List<AccountModel> accounts) async {
-    AccountModel? selectedAccount = await showAccountDialog(context, selectedAccount: widget.model.account, title: "Select an Account");
+    AccountModel? selectedAccount = await showAccountDialog(context, selectedAccount: widget.model.account, title: "booking.select_account");
 
     if (selectedAccount != null) {
       setState(() {
