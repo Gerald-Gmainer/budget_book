@@ -5,7 +5,6 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/root/supabase_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +18,10 @@ import 'package:google_fonts/google_fonts.dart';
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await dotenv.load(fileName: ".env");
   await EasyLocalization.ensureInitialized();
+  // await dotenv.load(fileName: kReleaseMode ? ".env.prod" : ".env.dev");
+  await dotenv.load(fileName: ".env.prod");
+  // await dotenv.load(fileName: ".env.dev");
   await Supabase.initialize(
     url: dotenv.env['SUPABASE_URL'] ?? "",
     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? "",
