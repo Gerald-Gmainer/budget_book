@@ -44,11 +44,17 @@
   "category.create_success": "Category created",
   "category.edit_success": "Category edited",
   "category.delete_success": "Category deleted",
+  "category.error.create": "Could not create the category. Please try again",
+  "category.error.edit": "Could not edit the category. Please try again",
+  "category.error.foreign_key": "Category is still used and cannot be deleted",
 
   "currency.name": "Currency",
 
   "dialog.ok": "OK",
   "dialog.cancel": "Cancel",
+
+  "error.internet": "Unable to connect to the Internet",
+  "error.default": "An error occurred. Please try again",
 
   "language.name": "Language",
   "language.dialog.title": "Select a Language",
@@ -64,6 +70,8 @@
   "login.password": "Password",
   "login.confirm_password": "Confirm Password",
   "login.login_button": "Login",
+  "login.error.incorrect_credentials": "Incorrect email or password",
+  "login.error.logout": "Could not logout. Please try again",
 
   "period.day": "Day",
   "period.month": "Month",

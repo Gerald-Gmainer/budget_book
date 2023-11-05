@@ -26,10 +26,10 @@ class CategoryListBloc extends Bloc<CategoryListEvent, CategoryListState> {
       emit(CategoryLoadedState(categories));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(CategoryErrorState("TODO internet error message"));
+        emit(CategoryErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(CategoryErrorState(e.toString()));
+        emit(CategoryErrorState("error.default"));
       }
     }
   }

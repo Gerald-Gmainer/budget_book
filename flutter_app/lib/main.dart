@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
+import 'package:flutter_app/presentation/root/supabase_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'presentation/presentation.dart';
+import 'presentation/root/internet_connectivity.dart';
 import 'utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -53,25 +55,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final profileBloc = ProfileBloc(_userRepo);
 
-    return SupabaseContainer(
-      navigatorKey: _navigatorKey,
-      profileBloc: profileBloc,
-      child: InternetConnectivity(
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
-            BlocProvider<ProfileBloc>(create: (context) => profileBloc),
-            BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
-            BlocProvider<LanguageBloc>(create: (context) => LanguageBloc(_userRepo)),
-            // --
-            BlocProvider<GraphViewBloc>(create: (context) => GraphViewBloc(_bookingRepo)),
-            BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
-            BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
-            BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),
-            BlocProvider<CategoryIconBloc>(create: (context) => CategoryIconBloc(_bookingRepo)),
-            BlocProvider<CategoryCrudBloc>(create: (context) => CategoryCrudBloc(_bookingRepo)),
-            BlocProvider<SuggestionBloc>(create: (context) => SuggestionBloc(_bookingRepo, _userRepo)),
-          ],
+    return InternetConnectivity(
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
+          BlocProvider<ProfileBloc>(create: (context) => profileBloc),
+          BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
+          BlocProvider<LanguageBloc>(create: (context) => LanguageBloc(_userRepo)),
+          // --
+          BlocProvider<GraphViewBloc>(create: (context) => GraphViewBloc(_bookingRepo)),
+          BlocProvider<BookingCrudBloc>(create: (context) => BookingCrudBloc(_bookingRepo)),
+          BlocProvider<CalculatorBloc>(create: (context) => CalculatorBloc()),
+          BlocProvider<CategoryListBloc>(create: (context) => CategoryListBloc(_bookingRepo)),
+          BlocProvider<CategoryIconBloc>(create: (context) => CategoryIconBloc(_bookingRepo)),
+          BlocProvider<CategoryCrudBloc>(create: (context) => CategoryCrudBloc(_bookingRepo)),
+          BlocProvider<SuggestionBloc>(create: (context) => SuggestionBloc(_bookingRepo, _userRepo)),
+        ],
+        child: SupabaseContainer(
+          navigatorKey: _navigatorKey,
           child: MaterialApp(
             title: 'Budget book',
             theme: _createTheme(context),

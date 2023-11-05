@@ -28,10 +28,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       emit(SignUpSuccessState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(SignUpErrorState("TODO internet error message"));
+        emit(SignUpErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(SignUpErrorState("Unable to sign up. Please try again"));
+        emit(SignUpErrorState("error.default"));
       }
     }
   }

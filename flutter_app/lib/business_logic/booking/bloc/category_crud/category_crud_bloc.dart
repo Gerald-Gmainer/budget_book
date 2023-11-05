@@ -35,11 +35,10 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       emit(CategoryCrudFinishedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(CategoryCrudErrorState("TODO internet error message"));
+        emit(CategoryCrudErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        final message = "Could not ${event.model.id == null ? "create" : "edit"} the category. Please try again";
-        emit(CategoryCrudErrorState(message));
+        emit(CategoryCrudErrorState(event.model.id == null ? "category.error.create" : "category.error.edit"));
       }
     }
   }
@@ -54,13 +53,13 @@ class CategoryCrudBloc extends Bloc<CategoryCrudEvent, CategoryCrudState> {
       emit(CategoryCrudDeletedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(CategoryCrudErrorState("TODO internet error message"));
+        emit(CategoryCrudErrorState("error.internet"));
       } else if (e.toString().contains("violates foreign key constraint")) {
         BudgetLogger.instance.e(e);
-        emit(CategoryCrudErrorState("Category is still used and cannot be deleted"));
+        emit(CategoryCrudErrorState("category.error.foreign_key"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(CategoryCrudErrorState("An error happened. Please try again"));
+        emit(CategoryCrudErrorState("error.default"));
       }
     }
   }

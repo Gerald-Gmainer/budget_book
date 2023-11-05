@@ -26,10 +26,10 @@ class CategoryIconBloc extends Bloc<CategoryIconEvent, CategoryIconState> {
       emit(CategoryIconLoadedState(icons, colors));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(CategoryIconErrorState("TODO internet error message"));
+        emit(CategoryIconErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(CategoryIconErrorState(e.toString()));
+        emit(CategoryIconErrorState("error.default"));
       }
     }
   }

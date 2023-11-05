@@ -31,10 +31,10 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
       emit(BookingCrudUploadedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(BookingCrudErrorState("TODO internet error message"));
+        emit(BookingCrudErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(BookingCrudErrorState(e.toString()));
+        emit(BookingCrudErrorState("error.default"));
       }
     }
   }
@@ -49,10 +49,10 @@ class BookingCrudBloc extends Bloc<BookingCrudEvent, BookingCrudState> {
       emit(BookingCrudDeletedState());
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(BookingCrudErrorState("TODO internet error message"));
+        emit(BookingCrudErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(BookingCrudErrorState("An error happened. Please try again"));
+        emit(BookingCrudErrorState("error.default"));
       }
     }
   }

@@ -12,4 +12,9 @@ class ProfileModel {
     this.avatarUrl,
     required this.currency,
   });
+
+  @override
+  String toString() {
+    return "ProfileModel name: $name / email: $email";
+  }
 }

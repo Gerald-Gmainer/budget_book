@@ -21,10 +21,10 @@ class SuggestionBloc extends Bloc<SuggestionEvent, SuggestionState> {
       emit(SuggestionLoadedState(suggestions));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(SuggestionErrorState("TODO internet error message"));
+        emit(SuggestionErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(SuggestionErrorState(e.toString()));
+        emit(SuggestionErrorState("error.default"));
       }
     }
   }

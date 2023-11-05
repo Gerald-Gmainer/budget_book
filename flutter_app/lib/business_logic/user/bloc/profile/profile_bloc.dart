@@ -20,26 +20,30 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   _onLoadProfileEvent(LoadProfileEvent event, Emitter<ProfileState> emit) async {
+    BudgetLogger.instance.i("LoadProfileEvent");
     try {
       emit(ProfileLoadingState());
       final profileDataModel = await userRepo.getProfile();
       final profile = _profileConverter.fromProfileData(profileDataModel);
+      BudgetLogger.instance.i(profile);
       emit(ProfileLoadedState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(ProfileErrorState("TODO internet error message"));
+        emit(ProfileErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(ProfileErrorState("TODO error message"));
+        emit(ProfileErrorState("error.default"));
       }
     }
   }
 
   _onSetProfileEvent(SetProfileEvent event, Emitter<ProfileState> emit) async {
+    BudgetLogger.instance.d("SetProfileEvent");
     emit(ProfileLoadedState(event.profile));
   }
 
   _onRemoveProfileEvent(RemoveProfileEvent event, Emitter<ProfileState> emit) async {
+    BudgetLogger.instance.d("RemoveProfileEvent");
     emit(ProfileInitState());
   }
 }

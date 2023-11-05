@@ -14,10 +14,9 @@ import 'package:provider/provider.dart' as prov;
 
 class SupabaseContainer extends StatefulWidget {
   final GlobalKey<NavigatorState> navigatorKey;
-  final ProfileBloc profileBloc;
   final Widget child;
 
-  const SupabaseContainer({required this.child, required this.navigatorKey, required this.profileBloc});
+  const SupabaseContainer({required this.child, required this.navigatorKey});
 
   @override
   State<SupabaseContainer> createState() => _SupabaseContainerState();
@@ -68,13 +67,13 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
   _onAuthenticated(Session session) {
     if (mounted) {
       BudgetLogger.instance.d("onAuthenticated: ${session.user.id}");
-      widget.profileBloc.add(LoadProfileEvent());
+      BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
     }
   }
 
   _onTokenRefreshed(Session session) {
     BudgetLogger.instance.d("onTokenRefreshed: ${session.user.id}");
-    widget.profileBloc.add(LoadProfileEvent());
+    BlocProvider.of<ProfileBloc>(context).add(LoadProfileEvent());
   }
 
   _onPasswordRecovery(Session session) {

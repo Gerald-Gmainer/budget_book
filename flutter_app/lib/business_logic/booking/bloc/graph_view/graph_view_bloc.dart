@@ -30,10 +30,10 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
       emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(GraphViewErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(GraphViewErrorState(e.toString()));
+        emit(GraphViewErrorState("error.default"));
       }
     }
   }
@@ -46,10 +46,10 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
       emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(GraphViewErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(GraphViewErrorState(e.toString()));
+        emit(GraphViewErrorState("error.default"));
       }
     }
   }
@@ -61,10 +61,10 @@ class GraphViewBloc extends Bloc<GraphViewEvent, GraphViewState> {
       emit(GraphViewLoadedState(bookModel));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(GraphViewErrorState("TODO internet error message"));
+        emit(GraphViewErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(GraphViewErrorState(e.toString()));
+        emit(GraphViewErrorState("error.default"));
       }
     }
   }

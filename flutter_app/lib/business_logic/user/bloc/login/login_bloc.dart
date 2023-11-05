@@ -33,10 +33,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginSuccessState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(LoginErrorState("TODO internet error message"));
+        emit(LoginErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        emit(LoginErrorState("Unable to login. Please try again"));
+        emit(LoginErrorState("error.default"));
       }
     }
   }
@@ -51,14 +51,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginSuccessState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
-        emit(LoginErrorState("TODO internet error message"));
+        emit(LoginErrorState("error.internet"));
       } else {
         BudgetLogger.instance.e(e);
-        String message = "An expected error happened. Please try again";
         if (e.toString().contains("Invalid login credentials")) {
-          message = "Incorrect email or password";
+          emit(LoginErrorState("login.error.incorrect_credentials"));
         }
-        emit(LoginErrorState(message));
+        else {
+          emit(LoginErrorState("error.default"));
+        }
       }
     }
   }
@@ -73,8 +74,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         // ignore that error
         emit(LoginInitState());
       } else {
-        String message = "Could not logout. Please try again";
-        emit(LoginErrorState(message));
+        emit(LoginErrorState("login.error.logout"));
       }
     }
   }
