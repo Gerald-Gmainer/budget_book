@@ -54,7 +54,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
         break;
 
       default:
-        BudgetLogger.instance.d("unhandled AuthChangeEvent: $event");
+        BudgetLogger.instance.i("unhandled AuthChangeEvent: $event");
     }
   }
 
@@ -85,9 +85,11 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
     BudgetLogger.instance.e(message);
     String text = message;
     if (message == "Confirmation Token not found") {
-      text = "token not found";
+      text = "login.error.token_not_found";
     } else if (message.contains("signature is invalid")) {
-      text = "Signature Invalid";
+      text = "login.error.signature_invalid";
+    } else {
+      text = "login.error.default";
     }
     _showErrorMessage(text);
   }
@@ -134,7 +136,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
           return;
         }
         BudgetLogger.instance.d("_recoverSessionFromDeeplink success!");
-        _showMessage("Sign Up success!");
+        _showMessage("sign_up.success");
         widget.navigatorKey.currentState?.pushNamedAndRemoveUntil(MainPage.route, (route) => false, arguments: false);
       }
     } on Exception catch (e) {

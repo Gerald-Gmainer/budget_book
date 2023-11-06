@@ -1,4 +1,5 @@
 export 'dialog/account_select_dialog.dart';
+export 'dialog/confirm_dialog.dart';
 
 export 'page/splash/splash_screen.dart';
 export 'page/login/login_page.dart';

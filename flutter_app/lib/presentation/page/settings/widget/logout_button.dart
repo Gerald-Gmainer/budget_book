@@ -12,6 +12,17 @@ class LogoutButton extends AbstractSettingsTile {
   const LogoutButton({Key? key}) : super(key: key);
 
   Future<void> _onLogout(BuildContext context) async {
+    ConfirmDialog.show(
+      context,
+      headerText: "logout.dialog.title",
+      bodyText: "logout.dialog.body",
+      onOK: () {
+        _logout(context);
+      },
+    );
+  }
+
+  _logout(BuildContext context) {
     BlocProvider.of<LoginBloc>(context).add(LogoutEvent());
     Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.route, (route) => false);
   }

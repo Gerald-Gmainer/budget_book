@@ -21,15 +21,15 @@ class ConfirmDialog {
             TextButton(
               child: Text(cancelText).tr(),
               onPressed: () {
-                onCancel?.call();
                 Navigator.of(context).pop();
+                onCancel?.call();
               },
             ),
             TextButton(
               child: Text(okText).tr(),
               onPressed: () {
-                onOK.call();
                 Navigator.of(context).pop();
+                onOK.call();
               },
             ),
           ],

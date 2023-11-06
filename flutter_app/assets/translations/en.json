@@ -72,6 +72,11 @@
   "login.login_button": "Login",
   "login.error.incorrect_credentials": "Incorrect email or password",
   "login.error.logout": "Could not logout. Please try again",
+  "login.error.token_not_found": "token not found",
+  "login.error.signature_invalid": "Signature Invalid",
+  "login.error.default": "Could not login. Please try again",
+  "logout.dialog.title": "Logout",
+  "logout.dialog.body": "Do you want to logout?",
 
   "period.day": "Day",
   "period.month": "Month",
@@ -90,7 +95,7 @@
 
   "sign_up.title": "Sign Up",
   "sign_up.sign_up_button": "Sign up",
-  "sign_up.success": "Success",
+  "sign_up.success": "Sign up success",
   "sign_up.success_detail": "Check your inbox to verify your email address",
 
   "view.graph": "Graph",
