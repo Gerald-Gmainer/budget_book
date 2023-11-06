@@ -10,9 +10,10 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepository userRepo;
+  final BookingRepository bookingRepo;
   final ProfileConverter _profileConverter = ProfileConverter();
 
-  LoginBloc(this.userRepo) : super(LoginInitState()) {
+  LoginBloc(this.userRepo, this.bookingRepo) : super(LoginInitState()) {
     on<InitLoginEvent>(_onInitLoginEvent);
     on<GoogleLoginEvent>(_onGoogleLoginEvent);
     on<CredentialsLoginEvent>(_onCredentialsLoginEvent);
@@ -28,9 +29,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginLoadingState());
       BudgetLogger.instance.d("login with google");
       await userRepo.googleLogin();
-      final profileDataModel = await userRepo.getProfile();
-      final profile = _profileConverter.fromProfileData(profileDataModel);
-      emit(LoginSuccessState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {
         emit(LoginErrorState("error.internet"));
@@ -67,6 +65,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   _onLogoutEvent(LogoutEvent event, Emitter<LoginState> emit) async {
     try {
       await userRepo.logout();
+      userRepo.clearCache();
+      bookingRepo.clearCache();
       emit(LoginInitState());
     } catch (e) {
       BudgetLogger.instance.e(e);

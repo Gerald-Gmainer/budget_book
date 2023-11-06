@@ -41,6 +41,22 @@ class BookingPeriodConverter {
     List<CategoryModel> categories,
     List<AccountModel> accounts,
   ) {
+    if(bookingDataModels.isEmpty) {
+      final periodFilter = BudgetPeriodFilter(
+        period: BudgetPeriod.month,
+        dateTime: DateTime.now(),
+        dateTimeFrom: null,
+        dateTimeTo: null,
+      );
+      return [BudgetPeriodModel(
+        periodFilter: periodFilter,
+        income: 0,
+        outcome: 0,
+        balance: 0,
+        categoryBookingGroupModels: [],
+      )];
+    }
+
     Map<int, Map<int, List<BookingDataModel>>> bookingsByCategory = {};
 
     for (var booking in bookingDataModels) {

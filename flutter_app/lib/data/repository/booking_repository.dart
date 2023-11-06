@@ -59,4 +59,11 @@ class BookingRepository {
   Future<List<AccountDataModel>> getAccounts({bool forceReload = false}) async {
     return await _accountCacheService.getData(forceReload: forceReload);
   }
+
+  clearCache() {
+    _categoryCacheService.clear();
+    _iconCacheService.clear();
+    _suggestionCacheService.clear();
+    _accountCacheService.clear();
+  }
 }

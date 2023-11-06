@@ -40,7 +40,7 @@ class _BookingCrudPageState extends State<BookingCrudPage> {
 
   _setDefaultAccount() {
     final state = BlocProvider.of<GraphViewBloc>(context).state;
-    if (state is GraphViewLoadedState) {
+    if (state is GraphViewLoadedState && state.bookModel.accounts.isNotEmpty) {
       setState(() {
         widget.model.account = state.bookModel.accounts[0];
       });

@@ -18,6 +18,7 @@ class BookingClient extends BaseClient {
   Future<void> upsertBooking(BookingDataModel model) async {
     await checkToken();
     Stopwatch stopwatch = Stopwatch()..start();
+    BudgetLogger.instance.d("upsert booking ${model.toJson()}");
     await supabase.rpc("upsert_booking", params: {"p_booking": model.toJson()});
     BudgetLogger.instance.d("upsert_booking took ${stopwatch.elapsed.inMilliseconds} ms");
   }

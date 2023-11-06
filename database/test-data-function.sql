@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS insert_test_data_category;
+DROP FUNCTION IF EXISTS insert_test_data_account;
 CREATE OR REPLACE FUNCTION insert_test_data_account(
     _profile_name text,
     _name text,

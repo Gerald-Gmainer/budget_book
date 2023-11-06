@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
     return InternetConnectivity(
       child: MultiBlocProvider(
         providers: [
-          BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo)),
+          BlocProvider<LoginBloc>(create: (context) => LoginBloc(_userRepo, _bookingRepo)),
           BlocProvider<ProfileBloc>(create: (context) => profileBloc),
           BlocProvider<SignUpBloc>(create: (context) => SignUpBloc(_userRepo)),
           BlocProvider<LanguageBloc>(create: (context) => LanguageBloc(_userRepo)),

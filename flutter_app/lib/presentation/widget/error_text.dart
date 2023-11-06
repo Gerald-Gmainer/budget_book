@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
 
@@ -16,7 +17,7 @@ class ErrorText extends StatelessWidget {
           alignment: Alignment.center,
           padding: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
           child: Text(
-            message,
+            message.tr(),
             style: const TextStyle(fontSize: 16),
             textAlign: TextAlign.center,
           ),

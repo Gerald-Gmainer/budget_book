@@ -127,6 +127,7 @@ class _SupabaseContainerState extends State<SupabaseContainer> with SupabaseDeep
       if (deepLinkType == 'recovery') {
         _onPasswordRecovery(response.session);
       } else {
+        await supabase.auth.refreshSession();
         _onAuthenticated(response.session);
         if (!mounted) {
           BudgetLogger.instance.d("_recoverSessionFromDeeplink not mounted anymore");

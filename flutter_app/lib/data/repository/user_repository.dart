@@ -35,4 +35,9 @@ class UserRepository {
   Future<ProfileDataModel> getProfile({bool forceReload = false}) async {
     return await _profileCacheService.getData(forceReload: forceReload);
   }
+
+  clearCache() {
+    _currencyCache.clear();
+    _profileCacheService.clear();
+  }
 }

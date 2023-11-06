@@ -49,6 +49,12 @@ abstract class BaseCacheService<T> {
     return DateTime.now().difference(_lastCacheTime!) <= getCacheDuration()!;
   }
 
+  clear() {
+    _cachedData = null;
+    _lastCacheTime = null;
+    _isFetchingData = false;
+  }
+
   Future<T> fetchData();
   Duration getCacheDuration();
 }

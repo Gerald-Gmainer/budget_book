@@ -20,12 +20,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   }
 
   _onLoadProfileEvent(LoadProfileEvent event, Emitter<ProfileState> emit) async {
-    BudgetLogger.instance.i("LoadProfileEvent");
     try {
       emit(ProfileLoadingState());
+      BudgetLogger.instance.d("LoadProfileEvent");
       final profileDataModel = await userRepo.getProfile();
       final profile = _profileConverter.fromProfileData(profileDataModel);
-      BudgetLogger.instance.i(profile);
       emit(ProfileLoadedState(profile));
     } catch (e) {
       if (!ConnectivitySingleton.instance.isConnected()) {

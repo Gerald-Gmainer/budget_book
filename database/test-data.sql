@@ -69,18 +69,7 @@ insert into profiles (user_id, name)
   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
 
-SELECT insert_test_data_account('Gerald Gmainer', 'cash', 'cash-multiple', '#33FF57');    
 SELECT insert_test_data_account('Gerald Gmainer', 'debit card', 'wallet-giftcard', '#FF6633');    
-
-SELECT insert_test_data_category('Gerald Gmainer', 'work', 'income'::category_type, 'book', '#FF5733');
-SELECT insert_test_data_category('Gerald Gmainer', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
-SELECT insert_test_data_category('Gerald Gmainer', 'house', 'outcome'::category_type, 'home', '#3366FF');
-SELECT insert_test_data_category('Gerald Gmainer', 'car', 'outcome'::category_type, 'car', '#FFFF33');
-SELECT insert_test_data_category('Gerald Gmainer', 'food', 'outcome'::category_type, 'food', '#FF33FF');
-SELECT insert_test_data_category('Gerald Gmainer', 'baby', 'outcome'::category_type, 'school', '#FF6633');
-SELECT insert_test_data_category('Gerald Gmainer', 'entertainment', 'outcome'::category_type, 'music', '#9933FF');
-SELECT insert_test_data_category('Gerald Gmainer', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
-SELECT insert_test_data_category('Gerald Gmainer', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
 
 SELECT insert_test_data_month('Gerald Gmainer', '2022-12', 'cash');
 SELECT insert_test_data_month('Gerald Gmainer', '2023-01', 'cash');
@@ -103,16 +92,6 @@ insert into profiles (user_id, name)
 -- PW: aaaaaaA1
 
 SELECT insert_test_data_account('Max Mustermann', 'cash', 'cash-multiple', '#33FF57');    
-
-SELECT insert_test_data_category('Max Mustermann', 'work', 'income'::category_type, 'book', '#FF5733');
-SELECT insert_test_data_category('Max Mustermann', 'saving', 'income'::category_type, 'wallet-giftcard', '#33FF57');
-SELECT insert_test_data_category('Max Mustermann', 'house', 'outcome'::category_type, 'home', '#3366FF');
-SELECT insert_test_data_category('Max Mustermann', 'car', 'outcome'::category_type, 'car', '#FFFF33');
-SELECT insert_test_data_category('Max Mustermann', 'food', 'outcome'::category_type, 'food', '#FF33FF');
-SELECT insert_test_data_category('Max Mustermann', 'baby', 'outcome'::category_type, 'school', '#FF6633');
-SELECT insert_test_data_category('Max Mustermann', 'entertainment', 'outcome'::category_type, 'music', '#9933FF');
-SELECT insert_test_data_category('Max Mustermann', 'eating out', 'outcome'::category_type, 'food', '#FF9966');
-SELECT insert_test_data_category('Max Mustermann', 'other', 'outcome'::category_type, 'umbrella-outline', '#99FF33');
 
 SELECT insert_test_data_month('Max Mustermann', '2022-12', 'cash');
 SELECT insert_test_data_month('Max Mustermann', '2023-01', 'cash');

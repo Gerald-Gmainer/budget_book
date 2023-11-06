@@ -56,14 +56,58 @@ CREATE TABLE profiles (
 );
 ALTER TABLE profiles ENABLE ROW LEVEL SECURITY;
 
+CREATE OR REPLACE FUNCTION setup_profile_data(_profile_id int) 
+RETURNS void AS $$
+BEGIN
+  INSERT INTO public.accounts (profile_id, name, icon_id, color_id)
+  SELECT _profile_id, 'Cash',
+    (SELECT id FROM public.account_icons WHERE name = 'cash-multiple'),
+    (SELECT id FROM public.account_colors WHERE code = '#33FF57');
+
+  INSERT INTO public.categories (profile_id, name, type, icon_id, color_id)
+  SELECT _profile_id, 'work', 'income'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'book'),
+    (SELECT id FROM public.category_colors WHERE code = '#FF5733')
+  UNION ALL
+  SELECT _profile_id, 'house', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'home'),
+    (SELECT id FROM public.category_colors WHERE code = '#3366FF')
+  UNION ALL
+  SELECT _profile_id, 'car', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'car'),
+    (SELECT id FROM public.category_colors WHERE code = '#FFFF33')
+  UNION ALL
+  SELECT  _profile_id, 'food', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'food'),
+    (SELECT id FROM public.category_colors WHERE code = '#FF33FF')
+  UNION ALL
+  SELECT _profile_id, 'baby', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'school'),
+    (SELECT id FROM public.category_colors WHERE code = '#FF6633')
+  UNION ALL
+  SELECT _profile_id, 'entertainment', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'music'),
+    (SELECT id FROM public.category_colors WHERE code = '#9933FF')
+  UNION ALL
+  SELECT _profile_id, 'eating out', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'food'),
+    (SELECT id FROM public.category_colors WHERE code = '#FF9966')
+  UNION ALL
+  SELECT _profile_id, 'other', 'outcome'::public.category_type,
+    (SELECT id FROM public.category_icons WHERE name = 'umbrella-outline'),
+    (SELECT id FROM public.category_colors WHERE code = '#99FF33');
+
+END;
+$$ LANGUAGE plpgsql;
+
 CREATE OR REPLACE FUNCTION setup_profile()
 RETURNS TRIGGER AS $$
 DECLARE
   _profile_id INT;
 BEGIN
   _profile_id := NEW.id;
-  RAISE LOG 'create profile_setting%', _profile_id;
-  INSERT INTO profile_settings(profile_id) VALUES (_profile_id);  
+  RAISE LOG 'create profile_setting with ID %', _profile_id;
+  INSERT INTO public.profile_settings(profile_id) VALUES (_profile_id);  
 
   RAISE LOG 'update auth.users raw_user_meta_data, set profile_id: %', _profile_id;
   UPDATE auth.users
@@ -82,17 +126,20 @@ BEGIN
       RAISE EXCEPTION 'Error creating bookings partition for profile %: %', _profile_id, SQLERRM;
   END;
 
-  EXECUTE 'CREATE MATERIALIZED VIEW mat_view_suggestions_' || _profile_id || ' AS
+  EXECUTE 'CREATE MATERIALIZED VIEW public.mat_view_suggestions_' || _profile_id || ' AS
     SELECT DISTINCT ON (b.description)
-          b.id, b.description, (select c.type from categories c where c.id = b.category_id) as category_type
-    FROM bookings b
+          b.id, b.description, (select c.type from public.categories c where c.id = b.category_id) as category_type
+    FROM public.bookings b
     WHERE b.profile_id = ' || _profile_id || ' AND b.description IS NOT NULL';
 
-  EXECUTE 'CREATE UNIQUE INDEX idx_suggestion_id_' || _profile_id || ' ON mat_view_suggestions_' || _profile_id || ' (id)';
+  EXECUTE 'CREATE UNIQUE INDEX idx_suggestion_id_' || _profile_id || ' ON public.mat_view_suggestions_' || _profile_id || ' (id)';
+
+  PERFORM public.setup_profile_data(_profile_id);
 
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
 CREATE TRIGGER trigger_setup_profile AFTER INSERT ON profiles
   FOR EACH ROW EXECUTE FUNCTION setup_profile();
 
@@ -131,7 +178,7 @@ CREATE OR REPLACE VIEW view_currencies AS
 CREATE OR REPLACE FUNCTION get_default_currency()
 RETURNS int AS
 $$
-  SELECT id FROM currencies WHERE name = 'Euro';
+  SELECT id FROM public.currencies WHERE name = 'Euro';
 $$
 LANGUAGE SQL;
 
@@ -456,19 +503,11 @@ CREATE TRIGGER trigger_refresh_mat_view_suggestions AFTER INSERT OR UPDATE OR DE
 
 
 -- functions
--- create_account
 
--- edit_profile
 -- edit_account
--- edit_category
--- edit_booking
 -- edit_profile_setting
 
 -- delete_account
--- delete_category
--- delete_booking
-
-
 
 
 -- CREATE TABLE balances (
