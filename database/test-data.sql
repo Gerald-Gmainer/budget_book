@@ -1,15 +1,16 @@
--- For the category_colors table
-INSERT INTO category_colors (code, ui_order) VALUES
-  ('#FF5733', 1),  -- Red
-  ('#33FF57', 2),  -- Green
-  ('#3366FF', 3),  -- Blue
-  ('#FFFF33', 4),  -- Yellow
-  ('#FF33FF', 5),  -- Pink
-  ('#FF6633', 6),  -- Orange
-  ('#9933FF', 7),  -- Purple
-  ('#33FFFF', 8),  -- Cyan
-  ('#99FF33', 9),  -- Lime Green
-  ('#FF9966', 10);  -- Peach
+INSERT INTO category_colors (code, name, ui_order) VALUES
+  ('#FF5733', 'red', 1), 
+  ('#33FF57', 'green', 2), 
+  ('#3366FF', 'blue', 3),  
+  ('#c2c226', 'yellow', 4), 
+  ('#FF33FF', 'pink', 5), 
+  ('#FF6633', 'orange', 6),  
+  ('#9933FF', 'purple', 7),  
+  ('#33FFFF', 'cyan', 8), 
+  ('#6cb622', 'lime_green', 9), 
+  ('#FF9966', 'peach', 10),  
+  ('#3399CC', 'teal', 11),  
+  ('#808080', 'gray', 12); 
 
 INSERT INTO category_icons (name, ui_order) VALUES
   ('account', 1),
@@ -35,24 +36,44 @@ INSERT INTO category_icons (name, ui_order) VALUES
   ('wallet-membership', 21),
   ('umbrella-outline', 22),
   ('ticket-account', 23),
-  ('shopping-music', 24);
+  ('shopping-music', 24),
+  ('dots', 25),
+  ('briefcase', 26),
+  ('camera', 27),
+  ('guitar', 28),
+  ('medical-bag', 29),
+  ('t-shirt-crew-outline', 30),
+  ('food-apple', 31),
+  ('palette', 32),
+  ('watch', 33),
+  ('train-car', 34),
+  ('basketball', 35);
 
-INSERT INTO account_colors (code, ui_order) VALUES
-  ('#FF5733', 1),  -- Red
-  ('#33FF57', 2),  -- Green
-  ('#3366FF', 3),  -- Blue
-  ('#FFFF33', 4),  -- Yellow
-  ('#FF33FF', 5),  -- Pink
-  ('#FF6633', 6),  -- Orange
-  ('#9933FF', 7),  -- Purple
-  ('#33FFFF', 8),  -- Cyan
-  ('#99FF33', 9),  -- Lime Green
-  ('#FF9966', 10);  -- Peach
+INSERT INTO account_colors (code, name, ui_order) VALUES
+  ('#FF5733', 'red', 1), 
+  ('#33FF57', 'green', 2), 
+  ('#3366FF', 'blue', 3),  
+  ('#c2c226', 'yellow', 4), 
+  ('#FF33FF', 'pink', 5), 
+  ('#FF6633', 'orange', 6),  
+  ('#9933FF', 'purple', 7),  
+  ('#33FFFF', 'cyan', 8), 
+  ('#6cb622', 'lime_green', 9), 
+  ('#FF9966', 'peach', 10),  
+  ('#3399CC', 'teal', 11),  
+  ('#808080', 'gray', 12); 
 
 INSERT INTO account_icons (name, ui_order) VALUES
   ('cash-multiple', 1),
-  ('wallet-giftcard', 2);
-
+  ('wallet-giftcard', 2),
+  ('credit-card-outline', 3),
+  ('bank', 4),
+  ('coin', 5),
+  ('credit-card-plus', 6),
+  ('wallet', 7),
+  ('shopping', 8),
+  ('credit-card-clock', 9),
+  ('atm', 10);
 
 INSERT INTO currencies (name, decimal_precision, symbol, unit_position_front, ui_order)
   VALUES ('Euro', 2, '€', false, 1);
@@ -83,6 +104,7 @@ SELECT insert_test_data_month('Gerald Gmainer', '2023-08', 'cash');
 SELECT insert_test_data_month('Gerald Gmainer', '2023-09', 'cash');
 
 
+SELECT insert_test_data_month('Username', '2023-09', 'Cash');
 
 ----------------------------------------------------------------------------------------------------------------
 

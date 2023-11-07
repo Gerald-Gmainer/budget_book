@@ -13,8 +13,8 @@
   "button.create": "Add",
   "button.edit": "Save",
 
-  "booking.new_title": "New Category",
-  "booking.edit_title": "Edit Category",
+  "booking.new_title": "New",
+  "booking.edit_title": "Edit",
   "booking.choose_category_button": "Choose Category",
   "booking.select_account": "Select an Account",
   "booking.outcome_type": "Outcome",

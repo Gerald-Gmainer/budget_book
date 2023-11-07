@@ -62,40 +62,40 @@ BEGIN
   INSERT INTO public.accounts (profile_id, name, icon_id, color_id)
   SELECT _profile_id, 'Cash',
     (SELECT id FROM public.account_icons WHERE name = 'cash-multiple'),
-    (SELECT id FROM public.account_colors WHERE code = '#33FF57');
+    (SELECT id FROM public.account_colors WHERE name = 'green');
 
   INSERT INTO public.categories (profile_id, name, type, icon_id, color_id)
   SELECT _profile_id, 'work', 'income'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'book'),
-    (SELECT id FROM public.category_colors WHERE code = '#FF5733')
+    (SELECT id FROM public.category_colors WHERE name = 'red')
   UNION ALL
   SELECT _profile_id, 'house', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'home'),
-    (SELECT id FROM public.category_colors WHERE code = '#3366FF')
+    (SELECT id FROM public.category_colors WHERE name = 'blue')
   UNION ALL
   SELECT _profile_id, 'car', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'car'),
-    (SELECT id FROM public.category_colors WHERE code = '#FFFF33')
+    (SELECT id FROM public.category_colors WHERE name = 'yellow')
   UNION ALL
   SELECT  _profile_id, 'food', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'food'),
-    (SELECT id FROM public.category_colors WHERE code = '#FF33FF')
+    (SELECT id FROM public.category_colors WHERE name = 'pink')
   UNION ALL
   SELECT _profile_id, 'baby', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'school'),
-    (SELECT id FROM public.category_colors WHERE code = '#FF6633')
+    (SELECT id FROM public.category_colors WHERE name = 'orange')
   UNION ALL
   SELECT _profile_id, 'entertainment', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'music'),
-    (SELECT id FROM public.category_colors WHERE code = '#9933FF')
+    (SELECT id FROM public.category_colors WHERE name = 'purple')
   UNION ALL
   SELECT _profile_id, 'eating out', 'outcome'::public.category_type,
     (SELECT id FROM public.category_icons WHERE name = 'food'),
-    (SELECT id FROM public.category_colors WHERE code = '#FF9966')
+    (SELECT id FROM public.category_colors WHERE name = 'peach')
   UNION ALL
   SELECT _profile_id, 'other', 'outcome'::public.category_type,
-    (SELECT id FROM public.category_icons WHERE name = 'umbrella-outline'),
-    (SELECT id FROM public.category_colors WHERE code = '#99FF33');
+    (SELECT id FROM public.category_icons WHERE name = 'dots'),
+    (SELECT id FROM public.category_colors WHERE name = 'gray');
 
 END;
 $$ LANGUAGE plpgsql;
@@ -189,14 +189,6 @@ CREATE TABLE profile_settings (
 );
 ALTER TABLE profile_settings ENABLE ROW LEVEL SECURITY;
 
-CREATE OR REPLACE VIEW view_profile_settings AS
-  SELECT p.id, p.currency_id,
-    jsonb_build_object('id', c.id, 'name', c.name, 'decimal_precision', c.decimal_precision, 
-      'symbol', c.symbol, 'unit_position_front', c.unit_position_front) AS currency
-  FROM profile_settings p
-  LEFT OUTER JOIN currencies c ON c.id = p.currency_id
-  WHERE p.profile_id = (select pp.id from profiles pp where pp.user_id = auth.uid());
-
 ----------------------------------------------------------------------------------------------------------------
 
 CREATE OR REPLACE VIEW view_profiles AS
@@ -222,6 +214,7 @@ ALTER TABLE account_icons ENABLE ROW LEVEL SECURITY;
 CREATE TABLE account_colors (
   id SERIAL PRIMARY KEY,
   code text NOT NULL,
+  name text,
   ui_order int
 );
 ALTER TABLE account_colors ENABLE ROW LEVEL SECURITY;
@@ -267,6 +260,7 @@ ALTER TABLE category_icons ENABLE ROW LEVEL SECURITY;
 CREATE TABLE category_colors (
   id SERIAL PRIMARY KEY,
   code text NOT NULL,
+  name text,
   ui_order int
 );
 ALTER TABLE accounts ENABLE ROW LEVEL SECURITY;

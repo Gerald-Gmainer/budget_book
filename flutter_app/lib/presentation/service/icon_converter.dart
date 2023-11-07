@@ -29,6 +29,17 @@ class IconConverter {
     'umbrella-outline': CommunityMaterialIcons.umbrella_outline,
     'ticket-account': CommunityMaterialIcons.ticket_account,
     'shopping-music': CommunityMaterialIcons.shopping_music,
+    'dots': CommunityMaterialIcons.dots_hexagon,
+    'briefcase': CommunityMaterialIcons.briefcase,
+    'camera': CommunityMaterialIcons.camera,
+    'guitar': CommunityMaterialIcons.guitar_acoustic,
+    'medical-bag': CommunityMaterialIcons.medical_bag,
+    't-shirt-crew-outline': CommunityMaterialIcons.tshirt_crew_outline,
+    'food-apple': CommunityMaterialIcons.food_apple,
+    'palette': CommunityMaterialIcons.palette,
+    'watch': CommunityMaterialIcons.watch,
+    'train-car': CommunityMaterialIcons.train_car,
+    'basketball': CommunityMaterialIcons.basketball,
   };
 
   static IconData getIconFromModel(IconDataModel? icon) {
@@ -36,6 +47,10 @@ class IconConverter {
   }
 
   static IconData getIconFromString(String? iconName) {
-    return _iconDataMap[iconName] ?? CommunityMaterialIcons.help;
+    if (_iconDataMap[iconName] == null) {
+      BudgetLogger.instance.i("icon not found for $iconName");
+      return CommunityMaterialIcons.help;
+    }
+    return _iconDataMap[iconName]!;
   }
 }
