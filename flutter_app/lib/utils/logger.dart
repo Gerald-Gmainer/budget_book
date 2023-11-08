@@ -47,7 +47,7 @@ class MyLogger extends Logger {
             printEmojis: true,
             errorMethodCount: 12,
             stackTraceBeginIndex: 1,
-            noBoxingByDefault: kReleaseMode,
+            // noBoxingByDefault: kReleaseMode,
             methodCount: 2,
           ),
         );
