@@ -45,4 +45,5 @@
            android:resource="@drawable/launch_background"
            />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

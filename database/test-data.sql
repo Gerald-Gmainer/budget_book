@@ -85,43 +85,45 @@ INSERT INTO currencies (name, decimal_precision, symbol, ui_order)
 
 ----------------------------------------------------------------------------------------------------------------
 
-insert into profiles (user_id, name)
-  select u.id, 'Gerald Gmainer' 
-  from auth.users u where u.email='gerald_gmainer@designium.jp';      
+-- insert into profiles (user_id, name)
+--   select u.id, 'Gerald Gmainer' 
+--   from auth.users u where u.email='gerald_gmainer@designium.jp';      
 -- PW: aaaaaaA1
+
+update profiles set name='Gerald Gmainer'
+  where user_id = (select u.id from auth.users u where u.email='gerald_gmainer@designium.jp');
 
 SELECT insert_test_data_account('Gerald Gmainer', 'debit card', 'wallet-giftcard', '#FF6633');    
 
-SELECT insert_test_data_month('Gerald Gmainer', '2022-12', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-01', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-02', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-03', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-04', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-05', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-06', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-07', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-08', 'cash');
-SELECT insert_test_data_month('Gerald Gmainer', '2023-09', 'cash');
-
-
-SELECT insert_test_data_month('Username', '2023-09', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2022-12', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-01', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-02', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-03', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-04', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-05', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-06', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-07', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-08', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-09', 'Cash');
+SELECT insert_test_data_month('Gerald Gmainer', '2023-10', 'Cash');
 
 ----------------------------------------------------------------------------------------------------------------
 
-insert into profiles (user_id, name)
-  select u.id, 'Max Mustermann' 
-  from auth.users u where u.email='max_mustermann@mustermann.com';      
+-- insert into profiles (user_id, name)
+--   select u.id, 'Max Mustermann' 
+--   from auth.users u where u.email='max_mustermann@mustermann.com';      
 -- PW: aaaaaaA1
+update profiles set name='Max Mustermann'
+  where user_id = (select u.id from auth.users u where u.email='max_mustermann@mustermann.com');
 
-SELECT insert_test_data_account('Max Mustermann', 'cash', 'cash-multiple', '#33FF57');    
-
-SELECT insert_test_data_month('Max Mustermann', '2022-12', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-01', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-02', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-03', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-04', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-05', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-06', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-07', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-08', 'cash');
-SELECT insert_test_data_month('Max Mustermann', '2023-09', 'cash');
+SELECT insert_test_data_month('Max Mustermann', '2022-12', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-01', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-02', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-03', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-04', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-05', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-06', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-07', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-08', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-09', 'Cash');
+SELECT insert_test_data_month('Max Mustermann', '2023-10', 'Cash');
