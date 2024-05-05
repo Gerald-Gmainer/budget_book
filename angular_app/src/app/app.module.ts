@@ -1,30 +1,39 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HttpClientModule } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
-import { AppRoutingModule } from './core/app-routing.module';
-import { AppComponent } from './core/app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 
-import { SupabaseService } from './shared/service';
-
-import { DashboardComponent } from './features/dashboard/';
-import { LoginComponent } from './features/login/';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SupabaseService } from '@core/supabase/services/supabase.service';
+import { SharedModule } from '@shared/shared.module';
+import { reducer as profileReducer } from '@core/profile/store/profile.reducer';
+import { ProfileEffects } from '@core/profile/store/profile.effects';
+import { CoreModule } from '@core/core.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    LoginComponent
-  ],
+  declarations: [AppComponent],
   imports: [
-    FormsModule,
-    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    HttpClientModule,
+    CoreModule,
+
+    BrowserAnimationsModule,
+    SharedModule,
+    StoreModule.forRoot({ profile: profileReducer }),
+    EffectsModule.forRoot([ProfileEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: false,
+    }),
   ],
-  providers: [SupabaseService],
-  bootstrap: [AppComponent]
+  providers: [SupabaseService, provideAnimationsAsync()],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
