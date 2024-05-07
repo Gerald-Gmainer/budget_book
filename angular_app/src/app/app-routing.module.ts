@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ROUTES } from '@constants/routes';
 import { AuthGuard } from '@core/guards/auth.guard';
-import { MainLayoutComponent } from '@core/layouts/main-layout.component';
-import { UnauthorizedLayoutComponent } from '@core/layouts/unauthorized-layout.component';
+import { MainLayoutComponent } from '@core/layouts/main/main-layout.component';
+import { UnauthorizedLayoutComponent } from '@core/layouts/unauthorized/unauthorized-layout.component';
 
 const routes: Routes = [
   {

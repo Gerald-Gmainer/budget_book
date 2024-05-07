@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { iconSubset } from '@core/icons/icon-subset';
+import { IconSetService } from '@coreui/icons-angular';
 
 @Component({
   selector: 'app-root',
@@ -7,15 +10,22 @@ import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angula
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  // constructor(private router: Router) {
-  //   this.router.events.subscribe((event) => {
-  //     if (event instanceof NavigationStart) {
-  //       console.log('Navigation started:', event.url);
-  //     } else if (event instanceof NavigationEnd) {
-  //       console.log('Navigation ended:', event.url);
-  //     } else if (event instanceof NavigationError) {
-  //       console.error('Navigation error:', event.error);
-  //     }
-  //   });
-  // }
+  title = 'CoreUI Angular Admin Template';
+
+  constructor(
+    private router: Router,
+    private titleService: Title,
+    private iconSetService: IconSetService
+  ) {
+    this.titleService.setTitle(this.title);
+    this.iconSetService.icons = { ...iconSubset };
+  }
+
+  ngOnInit(): void {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+        return;
+      }
+    });
+  }
 }

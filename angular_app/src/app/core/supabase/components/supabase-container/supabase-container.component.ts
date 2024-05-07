@@ -29,6 +29,7 @@ export class SupabaseContainerComponent implements OnInit, OnDestroy {
     const currentUrl = this.router.url;
 
     if (currentUrl.includes('auth')) {
+      console.log("logout")
       await this.authService.logout();
     }
     if (this.sub === undefined) {
