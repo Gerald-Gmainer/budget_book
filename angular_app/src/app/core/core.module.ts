@@ -8,6 +8,7 @@ import { SupabaseContainerComponent } from './supabase/components/supabase-conta
 import {
   AvatarComponent,
   BadgeComponent,
+  BreadcrumbModule,
   BreadcrumbRouterComponent,
   ContainerComponent,
   DropdownComponent,
@@ -65,6 +66,7 @@ import { IconDirective } from '@coreui/icons-angular';
     RouterLink,
     RouterLinkActive,
     NgTemplateOutlet,
+    BreadcrumbModule,
     BreadcrumbRouterComponent,
     ThemeDirective,
     DropdownComponent,

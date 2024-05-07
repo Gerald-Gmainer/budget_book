@@ -30,7 +30,7 @@ export class MainSidebarComponent {
     },
     {
       name: 'Graph',
-      url: 'graph',
+      url: ROUTES.reportGraph,
       iconComponent: { name: 'cil-chart-pie' }
     },
     {

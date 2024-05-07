@@ -42,9 +42,9 @@ import { ROUTES } from '@constants/routes';
           <ng-container *ngTemplateOutlet="userDropdown" />
         </c-header-nav>
       </c-container>
-      <c-container [fluid]="true" class="px-4">
+      <!-- <c-container [fluid]="true" class="px-4">
         <c-breadcrumb-router />
-      </c-container>
+      </c-container> -->
     </ng-container>
 
     <ng-template #userDropdown>

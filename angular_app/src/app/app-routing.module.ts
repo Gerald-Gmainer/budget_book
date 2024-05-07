@@ -10,14 +10,17 @@ const routes: Routes = [
     path: '',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
-    children: [{ path: ROUTES.dashboard, loadChildren: () => import('./features/dashboard/dashboard.module').then((m) => m.DashboardModule) }],
+    children: [
+      { path: ROUTES.dashboard, loadChildren: () => import('./features/dashboard/dashboard.module').then((m) => m.DashboardModule) },
+      { path: ROUTES.reportGraph, loadChildren: () => import('./features/report-graph/report-graph.module').then((m) => m.ReportGraphModule) },
+    ],
   },
   {
     path: 'auth',
     component: UnauthorizedLayoutComponent,
     children: [{ path: 'login', loadChildren: () => import('./features/login/login.module').then((m) => m.LoginModule) }],
   },
-  // { path: '**', redirectTo: ROUTES.dashboard },
+  { path: '**', redirectTo: ROUTES.dashboard },
 ];
 
 @NgModule({
