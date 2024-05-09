@@ -35,7 +35,8 @@ import { AuthService } from '@core/auth/services/auth.service';
 
       <!--app-body-->
       <div class="body flex-grow-1">
-        <c-container breakpoint="lg" class="h-auto px-4">
+        <!-- <c-container breakpoint="lg" class="h-auto px-4"> -->
+        <c-container class="h-auto px-4" fluid>
           <ng-container *ngIf="!(profileLoading$ | async)">
             <router-outlet></router-outlet>
           </ng-container>

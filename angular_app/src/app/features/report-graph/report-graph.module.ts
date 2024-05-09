@@ -8,7 +8,26 @@ import { ReportGraphEffects } from './store/report-graph.effects';
 import { reducer } from './store/report-graph.reducer';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ReportGraphComponent } from './containers/report-graph/report-graph.component';
-import { CardHeaderComponent, CardFooterComponent, CardBodyComponent, CardComponent, ColComponent, RowComponent } from '@coreui/angular';
+import {
+  CardHeaderComponent,
+  CardFooterComponent,
+  CardBodyComponent,
+  CardComponent,
+  ColComponent,
+  RowComponent,
+  ContainerComponent,
+  DropdownComponent,
+  DropdownDividerDirective,
+  DropdownHeaderDirective,
+  DropdownItemDirective,
+  DropdownMenuDirective,
+  DropdownToggleDirective,
+  ButtonDirective,
+  ButtonGroupComponent,
+  ButtonToolbarComponent,
+} from '@coreui/angular';
+import { ChartjsComponent } from '@coreui/angular-chartjs';
+import { IconDirective } from '@coreui/icons-angular';
 
 const routes: Routes = [{ path: '', component: ReportGraphComponent }];
 
@@ -23,6 +42,18 @@ const routes: Routes = [{ path: '', component: ReportGraphComponent }];
     CardFooterComponent,
     CardBodyComponent,
     CardComponent,
+    ChartjsComponent,
+    ContainerComponent,
+    ButtonDirective,
+    ButtonGroupComponent,
+    ButtonToolbarComponent,
+    DropdownComponent,
+    DropdownDividerDirective,
+    DropdownHeaderDirective,
+    DropdownItemDirective,
+    DropdownMenuDirective,
+    DropdownToggleDirective,
+    IconDirective,
     //
     RouterModule.forChild(routes),
     StoreModule.forFeature('report-graph', reducer),

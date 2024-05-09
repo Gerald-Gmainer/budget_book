@@ -20,7 +20,7 @@ const routes: Routes = [
     component: UnauthorizedLayoutComponent,
     children: [{ path: 'login', loadChildren: () => import('./features/login/login.module').then((m) => m.LoginModule) }],
   },
-  { path: '**', redirectTo: ROUTES.dashboard },
+  // { path: '**', redirectTo: ROUTES.dashboard },
 ];
 
 @NgModule({

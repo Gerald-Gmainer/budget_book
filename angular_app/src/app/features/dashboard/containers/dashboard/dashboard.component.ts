@@ -78,70 +78,80 @@ export interface IChartProps {
       </c-col>
     </c-row>
 
-    <c-card class="my-4">
-      <c-card-body>
-        <c-row>
-          <c-col sm="5">
-            <h4 class="card-title mb-0" id="traffic">Income / Outcome</h4>
-            <div class="small text-body-secondary">January - December 2023</div>
-          </c-col>
-          <c-col class="d-none d-md-block" sm="7">
-            <button cButton class="float-end" color="primary">
-              <svg cIcon name="cilCloudDownload"></svg>
-            </button>
-            <form [formGroup]="trafficRadioGroup">
-              <c-button-group class="float-end me-3" role="group">
-                <input class="btn-check" formControlName="trafficRadio" type="radio" value="Day" />
-                <label (click)="setTrafficPeriod('Day')" cButton cFormCheckLabel color="secondary" variant="outline"> Day </label>
-                <input class="btn-check" formControlName="trafficRadio" type="radio" value="Month" />
-                <label (click)="setTrafficPeriod('Month')" cButton cFormCheckLabel color="secondary" variant="outline"> Month </label>
-                <input class="btn-check" formControlName="trafficRadio" type="radio" value="Year" />
-                <label (click)="setTrafficPeriod('Year')" cButton cFormCheckLabel color="secondary" variant="outline"> Year </label>
-              </c-button-group>
-            </form>
-          </c-col>
-        </c-row>
-        <c-chart
-          [data]="mainChart.data"
-          [height]="300"
-          [ngStyle]="{ 'marginTop.px': 40 }"
-          [options]="mainChart.options"
-          [type]="mainChart.type"
-          (chartRef)="handleChartRef($event)"
-        >
-          Main chart
-        </c-chart>
-      </c-card-body>
-      <c-card-footer>
-        <c-row class="text-center mb-2" [xl]="5" [lg]="4" [sm]="2" [xs]="1" [gutter]="4">
-          <c-col>
-            <div class="text-body-secondary">Fixed Costs</div>
-            <strong>29.703 Users (40%)</strong>
-            <c-progress class="mt-2" thin color="success" value="40" />
-          </c-col>
-          <c-col>
-            <div class="text-body-secondary">Food Costs</div>
-            <div class="fw-semibold text-truncate">24.093 Users (20%)</div>
-            <c-progress class="mt-2" thin color="info" value="20" />
-          </c-col>
-          <c-col>
-            <div class="text-body-secondary">Variable Costs</div>
-            <div class="fw-semibold text-truncate">78.706 Views (60%)</div>
-            <c-progress class="mt-2" thin color="warning" value="60" />
-          </c-col>
-          <c-col>
-            <div class="text-body-secondary">Other costs</div>
-            <div class="fw-semibold text-truncate">22.123 Users (80%)</div>
-            <c-progress class="mt-2" thin color="danger" value="80" />
-          </c-col>
-          <c-col class="d-none d-xl-block">
-            <div class="text-body-secondary">Bounce Rate</div>
-            <div class="fw-semibold text-truncate">Average Rate (40.15%)</div>
-            <c-progress class="mt-2" thin value="40" />
-          </c-col>
-        </c-row>
-      </c-card-footer>
-    </c-card>
+    <c-row class="g-4">
+      <c-col sm="12" xl="8">
+        <c-card class="my-4">
+          <c-card-body>
+            <c-row>
+              <c-col sm="5">
+                <h4 class="card-title mb-0" id="traffic">Income / Outcome</h4>
+                <div class="small text-body-secondary">January - December 2023</div>
+              </c-col>
+              <c-col class="d-none d-md-block" sm="7">
+                <button cButton class="float-end" color="primary">
+                  <svg cIcon name="cilCloudDownload"></svg>
+                </button>
+                <form [formGroup]="trafficRadioGroup">
+                  <c-button-group class="float-end me-3" role="group">
+                    <input class="btn-check" formControlName="trafficRadio" type="radio" value="Day" />
+                    <label (click)="setTrafficPeriod('Day')" cButton cFormCheckLabel color="secondary" variant="outline"> Day </label>
+                    <input class="btn-check" formControlName="trafficRadio" type="radio" value="Month" />
+                    <label (click)="setTrafficPeriod('Month')" cButton cFormCheckLabel color="secondary" variant="outline"> Month </label>
+                    <input class="btn-check" formControlName="trafficRadio" type="radio" value="Year" />
+                    <label (click)="setTrafficPeriod('Year')" cButton cFormCheckLabel color="secondary" variant="outline"> Year </label>
+                  </c-button-group>
+                </form>
+              </c-col>
+            </c-row>
+            <c-chart
+              [data]="mainChart.data"
+              [height]="300"
+              [ngStyle]="{ 'marginTop.px': 40 }"
+              [options]="mainChart.options"
+              [type]="mainChart.type"
+              (chartRef)="handleChartRef($event)"
+            >
+              Main chart
+            </c-chart>
+          </c-card-body>
+          <c-card-footer>
+            <c-row class="text-center mb-2" [xl]="5" [lg]="4" [sm]="2" [xs]="1" [gutter]="4">
+              <c-col>
+                <div class="text-body-secondary">Fixed Costs</div>
+                <strong>29.703 Users (40%)</strong>
+                <c-progress class="mt-2" thin color="success" value="40" />
+              </c-col>
+              <c-col>
+                <div class="text-body-secondary">Food Costs</div>
+                <div class="fw-semibold text-truncate">24.093 Users (20%)</div>
+                <c-progress class="mt-2" thin color="info" value="20" />
+              </c-col>
+              <c-col>
+                <div class="text-body-secondary">Variable Costs</div>
+                <div class="fw-semibold text-truncate">78.706 Views (60%)</div>
+                <c-progress class="mt-2" thin color="warning" value="60" />
+              </c-col>
+              <c-col>
+                <div class="text-body-secondary">Other costs</div>
+                <div class="fw-semibold text-truncate">22.123 Users (80%)</div>
+                <c-progress class="mt-2" thin color="danger" value="80" />
+              </c-col>
+              <c-col class="d-none d-xl-block">
+                <div class="text-body-secondary">Bounce Rate</div>
+                <div class="fw-semibold text-truncate">Average Rate (40.15%)</div>
+                <c-progress class="mt-2" thin value="40" />
+              </c-col>
+            </c-row>
+          </c-card-footer>
+        </c-card>
+      </c-col>
+
+      <c-col sm="12" xl="4">
+        <c-card class="my-4">
+          <c-card-body> <p>Last Bookings</p> </c-card-body>
+        </c-card>
+      </c-col>
+    </c-row>
   `,
   styleUrl: './dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.Default,

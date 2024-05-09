@@ -5,6 +5,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import "variables";
 @import "@coreui/coreui/scss/coreui";
 @import "@coreui/chartjs/scss/coreui-chartjs";
+
+@import "containers";
 @import "scrollbar";
 @import "theme";
 

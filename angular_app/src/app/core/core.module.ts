@@ -56,7 +56,6 @@ import { IconDirective } from '@coreui/icons-angular';
     SidebarTogglerDirective,
     ShadowOnScrollDirective,
     ContainerComponent,
-    ContainerComponent,
     HeaderTogglerDirective,
     SidebarToggleDirective,
     IconDirective,
