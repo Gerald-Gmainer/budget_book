@@ -5,15 +5,15 @@ import 'package:flutter_app/business_logic/business_logic.dart';
 import 'package:flutter_app/data/data.dart';
 import 'package:flutter_app/presentation/root/supabase_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:keep_screen_on/keep_screen_on.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 import 'presentation/presentation.dart';
 import 'presentation/root/internet_connectivity.dart';
 import 'utils/utils.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key? key}) : super(key: key) {
     if (!kReleaseMode) {
-      KeepScreenOn.turnOn();
+      // KeepScreenOn.turnOn();
     }
   }
 
@@ -109,11 +109,11 @@ class MyApp extends StatelessWidget {
         unselectedItemColor: AppColors.secondaryTextColor,
       ),
       textTheme: const TextTheme(
-        headline1: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.accentColor),
-        headline2: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: AppColors.secondaryTextColor),
-        headline3: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
-        bodyText1: TextStyle(fontSize: 16, color: AppColors.primaryTextColor, fontWeight: FontWeight.normal),
-        bodyText2: TextStyle(fontSize: 15, color: AppColors.secondaryTextColor, fontWeight: FontWeight.normal),
+        headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppColors.accentColor),
+        headlineMedium: TextStyle(fontSize: 16, fontStyle: FontStyle.italic, fontWeight: FontWeight.bold, color: AppColors.secondaryTextColor),
+        headlineSmall: TextStyle(fontSize: 16, fontStyle: FontStyle.italic),
+        // bodyText1: TextStyle(fontSize: 16, color: AppColors.primaryTextColor, fontWeight: FontWeight.normal),
+        // bodyText2: TextStyle(fontSize: 15, color: AppColors.secondaryTextColor, fontWeight: FontWeight.normal),
       ),
       cardTheme: CardTheme(color: AppColors.cardColor),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(backgroundColor: AppColors.accentColor, foregroundColor: AppColors.primaryTextColor),

@@ -118,11 +118,11 @@ class _SignUpPageState extends State<SignUpPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("sign_up.success".tr(), style: Theme.of(context).textTheme.headline1),
+            Text("sign_up.success".tr(), style: Theme.of(context).textTheme.bodyMedium),
             const SizedBox(height: AppDimensions.verticalPadding),
             Text(
               "sign_up.success_detail".tr(),
-              style: Theme.of(context).textTheme.bodyText1,
+              style: Theme.of(context).textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
           ],

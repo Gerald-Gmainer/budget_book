@@ -85,7 +85,7 @@ class _LeftDrawerState extends State<LeftDrawer> {
       padding: EdgeInsets.symmetric(vertical: AppDimensions.verticalPadding / 2, horizontal: AppDimensions.horizontalPadding),
       child: OutlinedButton(
         style: OutlinedButton.styleFrom(
-          primary: AppColors.accentColor,
+          // primary: AppColors.accentColor,
           side: BorderSide(
             color: isSelected ? AppColors.accentColor : AppColors.secondaryColor,
             width: 1,

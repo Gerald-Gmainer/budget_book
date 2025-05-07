@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/utils/utils.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:settings_ui/settings_ui.dart';
 
 class AppVersion extends AbstractSettingsTile {
@@ -32,9 +31,9 @@ class _AppVersionValueState extends State<AppVersionValue> {
   }
 
   Future<void> _initPackageInfo() async {
-    final info = await PackageInfo.fromPlatform();
+    // final info = await PackageInfo.fromPlatform();
     setState(() {
-      _version = 'Version ${info.version}(${info.buildNumber})';
+      // _version = 'Version ${info.version}(${info.buildNumber})';
     });
   }
 

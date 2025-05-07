@@ -1,12 +1,14 @@
+import com.android.build.gradle.BaseExtension
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 buildscript {
     ext.kotlin_version = '1.9.0'
     repositories {
         google()
         mavenCentral()
     }
-
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.2'
+        classpath 'com.android.tools.build:gradle:8.3.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -18,14 +20,34 @@ allprojects {
     }
 }
 
+subprojects {
+    afterEvaluate { project ->
+        def androidExt = project.extensions.findByType(BaseExtension)
+        if (androidExt != null) {
+            if (androidExt.namespace == null || androidExt.namespace.trim().isEmpty()) {
+                androidExt.namespace = project.group.toString()
+            }
+            androidExt.compileSdkVersion = 33
+            androidExt.compileOptions {
+                sourceCompatibility JavaVersion.VERSION_11
+                targetCompatibility JavaVersion.VERSION_11
+            }
+        }
+        project.tasks.withType(KotlinCompile).configureEach {
+            kotlinOptions {
+                jvmTarget = '11'
+            }
+        }
+    }
+}
+
 rootProject.buildDir = '../build'
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
     project.evaluationDependsOn(':app')
 }
 
-tasks.register("clean", Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }

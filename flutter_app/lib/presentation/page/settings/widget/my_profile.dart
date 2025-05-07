@@ -9,8 +9,8 @@ class MyProfile extends AbstractSettingsSection {
 
   @override
   Widget build(BuildContext context) {
-    final headerStyle = Theme.of(context).textTheme.bodyText1;
-    final descStyle = Theme.of(context).textTheme.bodyText2?.copyWith(fontSize: 14);
+    final headerStyle = Theme.of(context).textTheme.bodyMedium;
+    final descStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 14);
     return BlocBuilder<ProfileBloc, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoadedState) {
